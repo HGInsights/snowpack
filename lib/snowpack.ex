@@ -1,7 +1,8 @@
 defmodule Snowpack do
-  @moduledoc """
-  Documentation for `Snowpack`.
-  """
+  @moduledoc "README.md"
+             |> File.read!()
+             |> String.split("<!-- MDOC !-->")
+             |> Enum.fetch!(1)
 
   @doc """
   Hello world.
@@ -12,6 +13,7 @@ defmodule Snowpack do
       :world
 
   """
+  @spec hello :: atom()
   def hello do
     :world
   end
