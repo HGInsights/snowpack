@@ -1,28 +1,83 @@
 defmodule Snowpack.MixProject do
   use Mix.Project
 
+  @name "Snowpack"
+  @version "0.1.0"
+  @source_url "https://github.com/HGInsights/snowpack"
+
   def project do
     [
       app: :snowpack,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      elixirc_paths: elixirc_paths(Mix.env()),
+      name: @name,
+      description: "Snowflake driver for Elixir",
+      source_url: @source_url,
+      package: package(),
+      docs: docs(),
+      deps: deps(),
+      preferred_cli_env: preferred_cli_env(),
+      dialyzer: dialyzer(),
+      aliases: aliases()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:ssl, :public_key],
+      env: [
+        json_library: Jason
+      ]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
+  defp package() do
+    [
+      licenses: ["Apache-2.0"],
+      links: %{"GitHub" => @source_url}
+    ]
+  end
+
+  defp docs do
+    [
+      source_ref: "v#{@version}",
+      source_url: @source_url,
+      main: @name,
+      extras: ["CHANGELOG.md"],
+      groups_for_extras: [
+        CHANGELOG: "CHANGELOG.md"
+      ]
+    ]
+  end
+
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:db_connection, "~> 2.0"},
+      {:decimal, "~> 1.6 or ~> 2.0"},
+      {:jason, "~> 1.0", optional: true},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false}
+    ]
+  end
+
+  defp preferred_cli_env, do: [qc: :test, credo: :test, dialyzer: :test]
+
+  defp dialyzer do
+    [
+      plt_add_apps: [:ex_unit, :mix],
+      ignore_warnings: "dialyzer.ignore-warnings"
+    ]
+  end
+
+  defp aliases do
+    [
+      qc: ["format", "credo --strict", "test"]
     ]
   end
 end
