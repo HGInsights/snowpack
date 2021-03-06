@@ -29,7 +29,7 @@ defmodule Snowpack.MixProject do
 
   def application do
     [
-      extra_applications: [:ssl, :public_key],
+      extra_applications: [:logger, :odbc, :gproc, :ssl, :public_key],
       env: [
         json_library: Jason
       ]
@@ -57,8 +57,9 @@ defmodule Snowpack.MixProject do
 
   defp deps do
     [
-      {:db_connection, "~> 2.0"},
+      {:db_connection, "~> 2.2"},
       {:decimal, "~> 1.6 or ~> 2.0"},
+      {:gproc, "~> 0.8.0"},
       {:jason, "~> 1.0", optional: true},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
