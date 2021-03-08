@@ -319,7 +319,7 @@ defmodule Snowpack do
   def prepare_execute(conn, name, statement, params \\ [], opts \\ [])
       when is_iodata(name) and is_iodata(statement) do
     query = %Snowpack.Query{name: name, statement: statement}
-    DBConnection.prepare_execute(conn, query, params, opts) |> IO.inspect(label: :prepare_execute)
+    DBConnection.prepare_execute(conn, query, params, opts)
   end
 
   @doc """

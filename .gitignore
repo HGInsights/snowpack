@@ -22,6 +22,8 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 snowpack-*.tar
 
+# Local configs
+.env.*.local
 
 # Temporary files for e.g. tests
 /tmp

@@ -61,6 +61,7 @@ defmodule Snowpack.MixProject do
       {:decimal, "~> 1.6 or ~> 2.0"},
       {:gproc, "~> 0.8.0"},
       {:jason, "~> 1.0", optional: true},
+      {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false}
