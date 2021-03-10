@@ -10,15 +10,15 @@ defmodule Snowpack.Error do
 
   defexception [:message, :odbc_code, constraint_violations: []]
 
+  @not_allowed_in_transaction_messages [226, 574]
+
   @type t :: %__MODULE__{
           message: binary(),
           odbc_code: atom() | binary(),
           constraint_violations: Keyword.t()
         }
 
-  @not_allowed_in_transaction_messages [226, 574]
-
-  @doc false
+  @spec exception(Keyword.t()) :: t()
   def exception({odbc_code, native_code, reason} = message) do
     %__MODULE__{
       message:
@@ -31,6 +31,7 @@ defmodule Snowpack.Error do
     }
   end
 
+  @spec exception(binary()) :: t()
   def exception(message) do
     %__MODULE__{
       message: to_string(message)

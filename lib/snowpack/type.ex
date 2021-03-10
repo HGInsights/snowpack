@@ -1,12 +1,12 @@
 defmodule Snowpack.Type do
-  require Logger
-
   @moduledoc """
   Type conversions.
 
   Note the :odbc return types for decoding can be found here:
   http://erlang.org/doc/apps/odbc/databases.html#data-types-
   """
+
+  require Logger
 
   @typedoc "Input param."
   @type param ::
@@ -159,12 +159,6 @@ defmodule Snowpack.Type do
     }
   end
 
-  defp to_encoded_string(data) do
-    data
-    |> to_string()
-    |> :unicode.characters_to_binary(:unicode, :latin1)
-  end
-
   @doc """
   Transforms `:odbc` return values to Elixir representations.
   """
@@ -218,6 +212,12 @@ defmodule Snowpack.Type do
 
   def decode(value, _) do
     value
+  end
+
+  defp to_encoded_string(data) do
+    data
+    |> to_string()
+    |> :unicode.characters_to_binary(:unicode, :latin1)
   end
 
   defp calculate_decimal_scale(dec) do

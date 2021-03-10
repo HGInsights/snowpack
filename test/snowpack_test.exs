@@ -9,6 +9,7 @@ defmodule SnowpackTest do
   @okta_opts TestHelper.okta_opts()
 
   describe "connect" do
+    @tag disabled: true
     test "connect using ODBC.ini" do
       {:ok, conn} = Snowpack.start_link(@odbc_ini_opts)
 
@@ -23,6 +24,7 @@ defmodule SnowpackTest do
                Snowpack.query(conn, "SELECT 1")
     end
 
+    @tag disabled: true
     test "connect using Okta Authenticator" do
       {:ok, conn} = Snowpack.start_link(@okta_opts)
 

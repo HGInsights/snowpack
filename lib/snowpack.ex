@@ -112,9 +112,6 @@ defmodule Snowpack do
     |> query_result()
   end
 
-  defp query_result({:ok, _query, result}), do: {:ok, result}
-  defp query_result({:error, _} = error), do: error
-
   @doc """
   Runs a query.
 
@@ -275,17 +272,6 @@ defmodule Snowpack do
     DBConnection.child_spec(Snowpack.Protocol, opts)
   end
 
-  @doc """
-  Returns the configured JSON library.
-
-  To customize the JSON library, include the following in your `config/config.exs`:
-
-      config :snowpack, json_library: SomeJSONModule
-
-  Defaults to `Jason`.
-  """
-  @spec json_library() :: module()
-  def json_library() do
-    Application.fetch_env!(:snowpack, :json_library)
-  end
+  defp query_result({:ok, _query, result}), do: {:ok, result}
+  defp query_result({:error, _} = error), do: error
 end

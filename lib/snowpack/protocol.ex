@@ -37,7 +37,6 @@ defmodule Snowpack.Protocol do
   @type result :: Result.t()
   @type status :: :idle | :error
 
-  @doc false
   @spec connect(opts) :: {:ok, state} | {:error, Exception.t()}
   def connect(opts) do
     conn_opts = Keyword.fetch!(opts, :connection)
@@ -57,20 +56,17 @@ defmodule Snowpack.Protocol do
      }}
   end
 
-  @doc false
   @spec disconnect(err :: String.t() | Exception.t(), state) :: :ok
   def disconnect(_err, %{pid: pid} = _state) do
     :ok = ODBC.disconnect(pid)
   end
 
-  @doc false
   @spec reconnect(opts, state) :: {:ok, state}
   def reconnect(new_opts, state) do
     disconnect("Reconnecting", state)
     connect(new_opts)
   end
 
-  @doc false
   @spec checkout(state) ::
           {:ok, state}
           | {:disconnect, Exception.t(), state}
@@ -78,7 +74,6 @@ defmodule Snowpack.Protocol do
     {:ok, state}
   end
 
-  @doc false
   @spec checkin(state) ::
           {:ok, state}
           | {:disconnect, Exception.t(), state}
@@ -86,7 +81,6 @@ defmodule Snowpack.Protocol do
     {:ok, state}
   end
 
-  @doc false
   @spec handle_prepare(query, opts, state) ::
           {:ok, query, state}
           | {:error | :disconnect, Exception.t(), state}
@@ -94,7 +88,6 @@ defmodule Snowpack.Protocol do
     {:ok, query, state}
   end
 
-  @doc false
   @spec handle_execute(query, params, opts, state) ::
           {:ok, query(), result(), state}
           | {:error | :disconnect, Exception.t(), state}
@@ -103,7 +96,6 @@ defmodule Snowpack.Protocol do
     execute_return(status, query, message, new_state, opts)
   end
 
-  @doc false
   @spec handle_close(query, opts, state) :: {:ok, result, state}
   def handle_close(_query, _opts, state) do
     {:ok, %Result{}, state}
@@ -125,6 +117,56 @@ defmodule Snowpack.Protocol do
   @spec handle_status(opts, state) :: {DBConnection.status(), state}
   def handle_status(_, %{snowflake: {status, _}} = s), do: {status, s}
   def handle_status(_, %{snowflake: status} = s), do: {status, s}
+
+  # NOT IMPLEMENTED
+  @spec handle_begin(opts, state) ::
+          {:ok, result, state}
+          | {status, state}
+          | {:disconnect, Exception.t(), state}
+  def handle_begin(_opts, _state) do
+    throw("not implemeted")
+  end
+
+  @spec handle_commit(opts, state) ::
+          {:ok, result, state}
+          | {status, state}
+          | {:disconnect, Exception.t(), state}
+  def handle_commit(_opts, _state) do
+    throw("not implemeted")
+  end
+
+  @spec handle_rollback(opts, state) ::
+          {:ok, result(), state}
+          | {status, state}
+          | {:disconnect, Exception.t(), state}
+  def handle_rollback(_opts, _state) do
+    throw("not implemeted")
+  end
+
+  @spec handle_declare(any, any, any, any) :: none
+  def handle_declare(_query, _params, _opts, _state) do
+    throw("not implemeted")
+  end
+
+  @spec handle_first(any, any, any, any) :: none
+  def handle_first(_query, _cursor, _opts, _state) do
+    throw("not implemeted")
+  end
+
+  @spec handle_next(any, any, any, any) :: none
+  def handle_next(_query, _cursor, _opts, _state) do
+    throw("not implemeted")
+  end
+
+  @spec handle_deallocate(any, any, any, any) :: none
+  def handle_deallocate(_query, _cursor, _opts, _state) do
+    throw("not implemeted")
+  end
+
+  @spec handle_fetch(any, any, any, any) :: none
+  def handle_fetch(_query, _cursor, _opts, _state) do
+    throw("not implemeted")
+  end
 
   defp do_query(query, params, opts, state) do
     case ODBC.query(state.pid, query.statement, params, opts) do
@@ -164,53 +206,5 @@ defmodule Snowpack.Protocol do
       :ok -> {status, query, message, state}
       _ -> {status, message, state}
     end
-  end
-
-  # NOT IMPLEMENTED
-  @doc false
-  @spec handle_begin(opts, state) ::
-          {:ok, result, state}
-          | {status, state}
-          | {:disconnect, Exception.t(), state}
-  def handle_begin(_opts, _state) do
-    throw("not implemeted")
-  end
-
-  @doc false
-  @spec handle_commit(opts, state) ::
-          {:ok, result, state}
-          | {status, state}
-          | {:disconnect, Exception.t(), state}
-  def handle_commit(_opts, _state) do
-    throw("not implemeted")
-  end
-
-  @doc false
-  @spec handle_rollback(opts, state) ::
-          {:ok, result(), state}
-          | {status, state}
-          | {:disconnect, Exception.t(), state}
-  def handle_rollback(_opts, _state) do
-    throw("not implemeted")
-  end
-
-  def handle_declare(_query, _params, _opts, _state) do
-    throw("not implemeted")
-  end
-
-  def handle_first(_query, _cursor, _opts, _state) do
-    throw("not implemeted")
-  end
-
-  def handle_next(_query, _cursor, _opts, _state) do
-    throw("not implemeted")
-  end
-
-  def handle_deallocate(_query, _cursor, _opts, _state) do
-    throw("not implemeted")
-  end
-
-  def handle_fetch(_query, _cursor, _opts, _state) do
-    throw("not implemeted")
   end
 end

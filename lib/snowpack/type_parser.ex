@@ -5,12 +5,14 @@ defmodule Snowpack.TypeParser do
 
   alias Snowpack.TypeCache
 
+  @spec parse_rows(pid(), binary, any, any) :: list
   def parse_rows(pid, statement, queried_columns, rows)
       when is_binary(statement) do
     statement = String.split(statement)
     parse_rows(pid, statement, queried_columns, rows)
   end
 
+  @spec parse_rows(pid(), list(), any, any) :: list
   def parse_rows(pid, statement, queried_columns, rows)
       when is_list(statement) do
     case statement do
@@ -40,8 +42,7 @@ defmodule Snowpack.TypeParser do
         parse(table_columns, queried_columns, rows)
 
       [] ->
-        rows
-        |> Enum.map(&Tuple.to_list/1)
+        Enum.map(rows, &Tuple.to_list/1)
 
       table_list ->
         table_list

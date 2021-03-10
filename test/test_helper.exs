@@ -1,5 +1,6 @@
 defmodule TestHelper do
-  def odbc_ini_opts() do
+  @spec odbc_ini_opts :: keyword()
+  def odbc_ini_opts do
     [
       connection: [
         dsn: System.fetch_env!("SNOWPACK_DSN_NAME"),
@@ -14,7 +15,8 @@ defmodule TestHelper do
     ]
   end
 
-  def okta_opts() do
+  @spec okta_opts :: keyword()
+  def okta_opts do
     [
       connection: [
         driver: System.fetch_env!("SNOWPACK_DRIVER"),
@@ -27,13 +29,14 @@ defmodule TestHelper do
     ]
   end
 
-  def key_pair_opts() do
+  @spec key_pair_opts :: keyword()
+  def key_pair_opts do
     [
       connection: [
         driver: System.fetch_env!("SNOWPACK_DRIVER"),
         server: System.fetch_env!("SNOWPACK_SERVER"),
         role: System.fetch_env!("SNOWPACK_KEYPAIR_ROLE"),
-        # warehouse: System.fetch_env!("SNOWPACK_KEYPAIR_WAREHOUSE"),
+        warehouse: System.fetch_env!("SNOWPACK_KEYPAIR_WAREHOUSE"),
         # database: System.fetch_env!("SNOWPACK_KEYPAIR_DATABASE"),
         # schema: System.fetch_env!("SNOWPACK_KEYPAIR_SCHEMA"),
         uid: System.fetch_env!("SNOWPACK_KEYPAIR_UID"),
@@ -45,5 +48,9 @@ defmodule TestHelper do
   end
 end
 
+Code.put_compiler_option(:warnings_as_errors, true)
+
 ExUnit.start()
+ExUnit.configure(exclude: [disabled: true])
+
 Vapor.load!([%Vapor.Provider.Dotenv{}])

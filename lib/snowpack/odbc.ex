@@ -9,10 +9,11 @@ defmodule Snowpack.ODBC do
   accessed directly.
   """
 
-  require Logger
   use GenServer
 
   alias Snowpack.Error
+
+  require Logger
 
   @timeout :timer.seconds(60)
 
@@ -44,7 +45,7 @@ defmodule Snowpack.ODBC do
   @spec query(pid(), iodata(), Keyword.t(), Keyword.t()) ::
           {:selected, [binary()], [tuple()]}
           | {:updated, non_neg_integer()}
-          | {:error, Exception.t()}
+          | {:error, Error.t()}
   def query(pid, statement, params, opts) do
     if Process.alive?(pid) do
       statement = IO.iodata_to_binary(statement)
@@ -55,18 +56,21 @@ defmodule Snowpack.ODBC do
         Keyword.get(opts, :timeout, @timeout)
       )
     else
-      {:error, %Snowpack.Error{message: :no_connection}}
+      {:error, %Error{message: :no_connection}}
     end
   end
 
   @doc """
   Describes the given table.
   """
+  @spec describe(pid(), iodata()) ::
+          {:selected, [binary()], [tuple()]}
+          | {:error, Error.t()}
   def describe(pid, table) do
     if Process.alive?(pid) do
       GenServer.call(pid, {:describe, table})
     else
-      {:error, %Snowpack.Error{message: :no_connection}}
+      {:error, %Error{message: :no_connection}}
     end
   end
 
@@ -82,19 +86,16 @@ defmodule Snowpack.ODBC do
 
   ## GenServer callbacks
 
-  @doc false
   @spec init(keyword) :: {:ok, any}
   def init(opts) do
     send(self(), {:start, opts})
     {:ok, %{backoff: :backoff.init(2, 60), state: :not_connected}}
   end
 
-  @doc false
   def handle_call({:query, _query}, _from, %{state: :not_connected} = state) do
     {:reply, {:error, :not_connected}, state}
   end
 
-  @doc false
   def handle_call(
         {:query, %{statement: statement, params: params}},
         _from,
@@ -112,7 +113,7 @@ defmodule Snowpack.ODBC do
     end
   end
 
-  @doc false
+  @spec handle_call(request :: term(), term(), state :: term()) :: term()
   def handle_call({:describe, table}, _from, %{pid: pid} = state) do
     case :odbc.describe_table(pid, to_charlist(table)) do
       {:error, reason} ->
@@ -126,13 +127,14 @@ defmodule Snowpack.ODBC do
     end
   end
 
-  @doc false
+  @spec terminate(term(), state :: term()) :: term()
   def terminate(_reason, %{state: :not_connected} = _state), do: :ok
 
   def terminate(_reason, %{pid: pid} = _state) do
     :odbc.disconnect(pid)
   end
 
+  @spec handle_info(msg :: :timeout | term(), state :: term()) :: term()
   def handle_info({:start, opts}, %{backoff: backoff} = _state) do
     connect_opts =
       opts

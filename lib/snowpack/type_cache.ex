@@ -5,14 +5,13 @@ defmodule Snowpack.TypeCache do
 
   @spec fetch_table_columns(pid :: pid(), table :: binary()) :: {:ok, map()}
   def fetch_table_columns(pid, table) do
-    {table, columns} = get(table) |> IO.inspect(label: :get)
+    {table, columns} = get(table)
 
     if columns do
       columns
     else
       get_and_store_table_columns(pid, table)
     end
-    |> IO.inspect(label: :fetch_table_columns)
   end
 
   defp get_and_store_table_columns(pid, table) do

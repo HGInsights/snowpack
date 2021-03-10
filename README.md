@@ -102,22 +102,6 @@ Notes:
 
 1. Datetime fields are represented as `NaiveDateTime`, however a UTC `DateTime` can be used for encoding as well
 
-## JSON support
-
-Snowpack comes with JSON support via the [Jason](https://github.com/michalmuskala/jason) library.
-
-To use it, add `:jason` to your dependencies:
-
-```elixir
-{:jason, "~> 1.0"}
-```
-
-You can customize it to use another library via the `:json_library` configuration:
-
-```elixir
-config :snowpack, :json_library, SomeJSONModule
-```
-
 <!-- MDOC !-->
 
 ## Contributing
@@ -129,6 +113,14 @@ git clone git@github.com:HGInsights/snowpack.git
 cd snowpack
 mix deps.get
 mix test
+```
+
+Working with [Earthly](https://earthly.dev/) for CI
+
+```
+brew install earthly
+earthly +static-code-analysis
+earthly +test
 ```
 
 ## License

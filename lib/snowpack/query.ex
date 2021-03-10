@@ -7,18 +7,18 @@ defmodule Snowpack.Query do
     * `statement` - SQL statement to run using `:odbc`.
   """
 
-  @type t :: %__MODULE__{
-          name: iodata,
-          statement: iodata,
-          columns: [String.t()] | nil
-        }
-
   defstruct type: nil,
             ref: nil,
             num_params: nil,
             name: nil,
             statement: nil,
             columns: nil
+
+  @type t :: %__MODULE__{
+          name: iodata,
+          statement: iodata,
+          columns: [String.t()] | nil
+        }
 
   defimpl DBConnection.Query do
     alias Snowpack.{Query, Result, Type}
@@ -48,7 +48,7 @@ defmodule Snowpack.Query do
         result,
         :rows,
         Enum.map(rows, fn row ->
-          row |> Enum.map(&Type.decode(&1, opts))
+          Enum.map(row, &Type.decode(&1, opts))
         end)
       )
     end
