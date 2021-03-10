@@ -46,10 +46,7 @@ Snowpack.query(pid, "SELECT * FROM data")
 {:ok,
  %Snowpack.Result{
    columns: ["id", "title"],
-   connection_id: 11204,
-   last_insert_id: nil,
    num_rows: 3,
-   num_warnings: 0,
    rows: [[1, "Data 1"], [2, "Data 2"], [3, "Data 3"]]
  }}
 ```
