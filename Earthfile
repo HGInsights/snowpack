@@ -12,10 +12,10 @@ static-code-analysis:
   COPY dialyzer.ignore-warnings .
 
   RUN mkdir -p priv/plts
-  # RUN mix dialyzer --plt
+  RUN mix dialyzer --plt
   RUN mix format --check-formatted
   RUN mix deps.unlock --check-unused
-  # RUN mix credo --strict
+  RUN mix credo --strict
   # RUN mix dialyzer --no-check
 
   SAVE ARTIFACT _build /_build
@@ -41,19 +41,18 @@ test:
   # Run unit tests
   RUN --secret SNOWPACK_SERVER=+secrets/SNOWPACK_SERVER \
     # --secret SNOWPACK_PRIV_KEY_FILE=+secrets/SNOWPACK_PRIV_KEY_FILE \
-    mix test
+    mix test --exclude ciskip
 
   SAVE ARTIFACT _build /_build
 
 setup-base:
   ARG ELIXIR=1.11.3
   ARG OTP=23.2.7
-  FROM hexpm/elixir-amd64:$ELIXIR-erlang-$OTP-alpine-3.13.2
+  FROM hexpm/elixir-amd64:$ELIXIR-erlang-$OTP-ubuntu-xenial-20201014
 
-  RUN apk add --no-progress --no-cache --update \
-    git build-base bash unixodbc unixodbc-dev perl grep libc6-compat
-
-  RUN ln -s /lib/libc.musl-x86_64.so.1 /lib/ld-linux-x86-64.so.2
+  RUN apt-get install -y \
+    unixodbc \
+    wget
 
   ARG SNOWFLAKE_VERSION=2.22.5
 
@@ -61,14 +60,7 @@ setup-base:
     && tar -xvf /tmp/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -C /opt/
 
   RUN /opt/snowflake_odbc/unixodbc_setup.sh
-
-  # RUN ls /opt/snowflake_odbc/lib
-
-  # RUN ldd /opt/snowflake_odbc/lib/libSnowflake.so
-
-  RUN perl -i -pe 's|/usr/lib64/libodbcinst.so|/usr/lib/libodbcinst.so.2|;' /opt/snowflake_odbc/lib/simba.snowflake.ini
-
-  # RUN cat /opt/snowflake_odbc/lib/simba.snowflake.ini
+  RUN perl -i -pe 's|/usr/lib64/libodbcinst.so|/usr/lib/x86_64-linux-gnu/libodbcinst.so.2|;' /opt/snowflake_odbc/lib/simba.snowflake.ini
 
   RUN echo -e '\n\
   [Snowpack]\n\

@@ -9,23 +9,23 @@ defmodule SnowpackTest do
   @okta_opts TestHelper.okta_opts()
 
   describe "connect" do
-    @tag disabled: true
-    test "connect using ODBC.ini" do
+    @tag ciskip: true
+    test "using ODBC.ini" do
       {:ok, conn} = Snowpack.start_link(@odbc_ini_opts)
 
       assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} =
                Snowpack.query(conn, "SELECT 1")
     end
 
-    test "connect using SNOWFLAKE_JWT key pair" do
+    test "using SNOWFLAKE_JWT key pair" do
       {:ok, conn} = Snowpack.start_link(@key_pair_opts)
 
       assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} =
                Snowpack.query(conn, "SELECT 1")
     end
 
-    @tag disabled: true
-    test "connect using Okta Authenticator" do
+    @tag ciskip: true
+    test "using Okta Authenticator" do
       {:ok, conn} = Snowpack.start_link(@okta_opts)
 
       assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} =
