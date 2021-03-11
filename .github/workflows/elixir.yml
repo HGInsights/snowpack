@@ -45,8 +45,8 @@ jobs:
           earthly --ci \
             --build-arg ELIXIR=${{ matrix.elixir }} \
             --build-arg OTP=${{ matrix.otp }} \
-            --secret SNOWPACK_SERVER=${{ secrets.SNOWPACK_SERVER }} \
-            --secret SNOWPACK_PRIV_KEY=${{ secrets.SNOWPACK_PRIV_KEY }} \
+            --secret SNOWPACK_SERVER="${{ secrets.SNOWPACK_SERVER }}" \
+            --secret SNOWPACK_PRIV_KEY="${{ secrets.SNOWPACK_PRIV_KEY }}" \
             +all
 
   semantic_release:
