@@ -119,8 +119,10 @@ Working with [Earthly](https://earthly.dev/) for CI
 
 ```
 brew install earthly
+
 earthly +static-code-analysis
-earthly +test
+
+earthly --secret SNOWPACK_SERVER="my-account.snowflakecomputing.com" --secret-file SNOWPACK_PRIV_KEY=./rsa_key.p8 +test
 ```
 
 ## License

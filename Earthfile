@@ -1,6 +1,6 @@
 all:
   BUILD +static-code-analysis
-  BUILD +all-test
+  BUILD +test
 
 static-code-analysis:
   FROM +setup-deps
@@ -22,8 +22,7 @@ static-code-analysis:
   SAVE ARTIFACT priv/plts /priv/plts
 
 all-test:
-  BUILD --build-arg ELIXIR=1.11.3 --build-arg OTP=21.3.8.18 +test
-  BUILD --build-arg ELIXIR=1.11.3 --build-arg OTP=23.2.7 +test
+  BUILD --build-arg ELIXIR=1.11.3 --build-arg OTP=23.2.5 +test
 
 test:
   FROM +setup-deps
@@ -31,21 +30,20 @@ test:
   COPY --dir lib test ./
   COPY README.md .
   COPY .env.test .
-  COPY rsa_key.p8 /tmp/
 
   ENV SNOWPACK_DRIVER=/opt/snowflake_odbc/lib/libSnowflake.so
   ENV SNOWPACK_PRIV_KEY_FILE=/tmp/rsa_key.p8
 
   # Run unit tests
   RUN --secret SNOWPACK_SERVER=+secrets/SNOWPACK_SERVER \
-    # --secret SNOWPACK_PRIV_KEY_FILE=+secrets/SNOWPACK_PRIV_KEY_FILE \
+    --mount=type=secret,target=${SNOWPACK_PRIV_KEY_FILE},id=+secrets/SNOWPACK_PRIV_KEY \
     mix test --exclude ciskip
 
   SAVE ARTIFACT _build /_build
 
 setup-base:
   ARG ELIXIR=1.11.3
-  ARG OTP=23.2.7
+  ARG OTP=23.2.5
   FROM hexpm/elixir-amd64:$ELIXIR-erlang-$OTP-ubuntu-xenial-20201014
 
   RUN apt-get install -y \
@@ -54,8 +52,8 @@ setup-base:
 
   ARG SNOWFLAKE_VERSION=2.22.5
 
-  RUN wget https://sfc-repo.snowflakecomputing.com/odbc/linux/${SNOWFLAKE_VERSION}/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -P /tmp \
-    && tar -xvf /tmp/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -C /opt/
+  RUN wget -nv https://sfc-repo.snowflakecomputing.com/odbc/linux/${SNOWFLAKE_VERSION}/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -P /tmp \
+    && tar -xf /tmp/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -C /opt/
 
   RUN /opt/snowflake_odbc/unixodbc_setup.sh
   RUN perl -i -pe 's|/usr/lib64/libodbcinst.so|/usr/lib/x86_64-linux-gnu/libodbcinst.so.2|;' /opt/snowflake_odbc/lib/simba.snowflake.ini
