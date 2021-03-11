@@ -137,7 +137,11 @@ jobs:
           key: ${{ runner.os }}-${{ env.otp-version }}-${{ env.elixir-version }}-${{ hashFiles('mix.lock') }}
 
       - name: Generate Docs
-        run: mix docs
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+          mix docs
 
       - name: Deploy Docs
         uses: peaceiris/actions-gh-pages@v3
