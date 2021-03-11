@@ -29,10 +29,7 @@ defmodule Snowpack.MixProject do
 
   def application do
     [
-      extra_applications: [:ssl, :public_key],
-      env: [
-        json_library: Jason
-      ]
+      extra_applications: [:logger, :odbc]
     ]
   end
 
@@ -57,9 +54,10 @@ defmodule Snowpack.MixProject do
 
   defp deps do
     [
-      {:db_connection, "~> 2.0"},
+      {:db_connection, "~> 2.2"},
       {:decimal, "~> 1.6 or ~> 2.0"},
-      {:jason, "~> 1.0", optional: true},
+      {:backoff, "~> 1.1"},
+      {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false}
