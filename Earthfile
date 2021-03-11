@@ -12,7 +12,7 @@ static-code-analysis:
   COPY dialyzer.ignore-warnings .
 
   RUN mkdir -p priv/plts
-  RUN mix dialyzer --plt
+  # RUN mix dialyzer --plt
   RUN mix format --check-formatted
   RUN mix deps.unlock --check-unused
   RUN mix credo --strict
