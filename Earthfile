@@ -36,8 +36,6 @@ test:
   ENV SNOWPACK_DRIVER=/opt/snowflake_odbc/lib/libSnowflake.so
   ENV SNOWPACK_PRIV_KEY_FILE=/tmp/rsa_key.p8
 
-  RUN ls -la /opt/snowflake_odbc/lib
-
   # Run unit tests
   RUN --secret SNOWPACK_SERVER=+secrets/SNOWPACK_SERVER \
     # --secret SNOWPACK_PRIV_KEY_FILE=+secrets/SNOWPACK_PRIV_KEY_FILE \
@@ -70,10 +68,6 @@ setup-base:
   PORT=443\n\
   SSL=on'\
   >> /etc/odbc.ini
-
-  # RUN cat /etc/odbc.ini
-  # RUN cat /etc/odbcinst.ini
-  # RUN ls /usr/lib
 
   ENV ELIXIR_ASSERT_TIMEOUT=10000
   WORKDIR /src
