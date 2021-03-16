@@ -134,8 +134,27 @@ defmodule Snowpack.TypeParser do
     Decimal.from_float(float)
   end
 
+  defp parse({:SQL_TYPE_DATE, data}) when is_binary(data),
+    do: DateTimeParser.parse_date!(data)
+
+  defp parse({:SQL_TYPE_TIME, data}) when is_binary(data),
+    do: DateTimeParser.parse_time!(data)
+
+  defp parse({:SQL_TYPE_TIMESTAMP, data}) when is_binary(data),
+    do: DateTimeParser.parse_datetime!(data)
+
   defp parse({_type, data}) do
     # {_type, data} |> IO.inspect(label: :parse)
     data
   end
+
+  # TODO: support other Snowflake data types
+  # https://docs.snowflake.com/en/user-guide/odbc-api.html#custom-sql-data-types
+  #
+  #   define SQL_SF_TIMESTAMP_LTZ 2000
+  #   define SQL_SF_TIMESTAMP_TZ  2001
+  #   define SQL_SF_TIMESTAMP_NTZ 2002
+  #   define SQL_SF_ARRAY         2003
+  #   define SQL_SF_OBJECT        2004
+  #   define SQL_SF_VARIANT       2005
 end

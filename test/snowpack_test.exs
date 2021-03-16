@@ -32,7 +32,7 @@ defmodule SnowpackTest do
     end
   end
 
-  describe "query" do
+  describe "simple query" do
     setup [:connect]
 
     test "default protocol", %{conn: conn} do
@@ -46,8 +46,12 @@ defmodule SnowpackTest do
       assert {:ok, result} = Snowpack.query(conn, "SELECT ? * ?", [2, 3])
       assert result.rows == [[6]]
     end
+  end
 
-    test "snowflake sample db", %{conn: conn} do
+  describe "snowflake sample db query" do
+    setup [:connect]
+
+    test "with params and rows", %{conn: conn} do
       assert {:ok, result} =
                Snowpack.query(
                  conn,
@@ -56,6 +60,26 @@ defmodule SnowpackTest do
                )
 
       assert result.num_rows == 5
+    end
+
+    test "with join, custom column, and date", %{conn: conn} do
+      assert {:ok, result} =
+               Snowpack.query(
+                 conn,
+                 """
+                 SELECT ord.O_ORDERKEY, ord.O_ORDERSTATUS, ord.O_ORDERDATE, item.L_PARTKEY, 9 as number
+                  FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS ord
+                  INNER JOIN SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM item ON ord.O_ORDERKEY = item.L_ORDERKEY
+                  LIMIT ? OFFSET ?;
+                 """,
+                 [2, 0]
+               )
+
+      assert result.num_rows == 2
+
+      first_row = List.first(result.rows)
+      assert %Date{} = Enum.at(first_row, 2)
+      assert Enum.at(first_row, 4) == 9
     end
   end
 
