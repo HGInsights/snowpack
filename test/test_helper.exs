@@ -51,6 +51,6 @@ end
 Code.put_compiler_option(:warnings_as_errors, true)
 
 ExUnit.start()
-ExUnit.configure(exclude: [disabled: true])
+ExUnit.configure(exclude: [skip: true, ciskip: true])
 
 Vapor.load!([%Vapor.Provider.Dotenv{}])

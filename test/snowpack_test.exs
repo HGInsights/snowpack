@@ -1,6 +1,5 @@
 defmodule SnowpackTest do
   use ExUnit.Case, async: true
-  # import ExUnit.CaptureLog
 
   alias Snowpack.Result
 
@@ -52,7 +51,8 @@ defmodule SnowpackTest do
       assert {:ok, result} =
                Snowpack.query(
                  conn,
-                 "SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT 5;"
+                 "SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;",
+                 [5]
                )
 
       assert result.num_rows == 5

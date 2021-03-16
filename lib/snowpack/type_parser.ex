@@ -76,6 +76,7 @@ defmodule Snowpack.TypeParser do
       end)
 
     rows
+    |> Enum.map(&Tuple.to_list/1)
     |> Enum.map(&Enum.zip(types, &1))
     |> Enum.map(&parse_and_select/1)
   end
@@ -107,6 +108,8 @@ defmodule Snowpack.TypeParser do
 
   defp parse([]), do: []
   defp parse([head | tail]), do: [parse(head) | parse(tail)]
+
+  defp parse({[] = _types, data}), do: List.wrap(data)
 
   defp parse({types, data}) when is_list(types) do
     Enum.map(types, fn type -> parse({type, data}) end)
