@@ -55,6 +55,7 @@ defmodule Snowpack.Type do
   def encode({hour, minute, sec, usec}, _) do
     precision = if usec == 0, do: 0, else: 6
 
+    # credo:disable-for-lines:3 Credo.Check.Readability.SinglePipe
     encoded =
       Time.from_erl!({hour, minute, sec}, {usec, precision})
       |> to_encoded_string()
@@ -65,6 +66,7 @@ defmodule Snowpack.Type do
   def encode({{year, month, day}, {hour, minute, sec, usec}}, _) do
     precision = if usec == 0, do: 0, else: 6
 
+    # credo:disable-for-lines:6 Credo.Check.Readability.SinglePipe
     encoded =
       NaiveDateTime.from_erl!(
         {{year, month, day}, {hour, minute, sec}},
@@ -172,6 +174,7 @@ defmodule Snowpack.Type do
   end
 
   defp to_encoded_string(data) do
+    # credo:disable-for-lines:2 Credo.Check.Readability.SinglePipe
     data
     |> to_string()
   end

@@ -82,6 +82,7 @@ defmodule Snowpack.TypeParser do
   end
 
   defp parse_and_select(row) do
+    # credo:disable-for-lines:14 Credo.Check.Readability.SinglePipe
     parse(row)
     |> Enum.map(fn col ->
       col =
