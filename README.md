@@ -85,11 +85,10 @@ bool                 1 | 0
 int                  42
 float                42.0
 decimal              #Decimal<42.0> # (1)
-date                 ~D[2013-10-12] # (2)
-time                 ~T[00:37:14]   # (3)
-datetime             ~N[2013-10-12 00:37:14]  # (2), (4)
-timestamp            ~U[2013-10-12 00:37:14Z] # (2), (4)
-json                 %{"foo" => "bar"} # (5)
+date                 ~D[2013-10-12]
+time                 ~T[00:37:14]
+datetime             ~N[2013-10-12 00:37:14]  # (2)
+timestamp            ~U[2013-10-12 00:37:14Z] # (2)
 char                 "é"
 text                 "snowpack"
 binary               <<1, 2, 3>>
@@ -100,7 +99,7 @@ Notes:
 
 1. See [Decimal](https://github.com/ericmj/decimal)
 
-1. Datetime fields are represented as `NaiveDateTime`, however a UTC `DateTime` can be used for encoding as well
+2. Datetime fields are represented as `NaiveDateTime`, however a UTC `DateTime` can be used for encoding as well
 
 <!-- MDOC !-->
 

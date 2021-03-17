@@ -52,6 +52,8 @@ jobs:
   semantic_release:
     name: Semantic Release
     runs-on: ubuntu-latest
+    needs:
+      - tests
     outputs:
       next_version: ${{ steps.get_next_version.outputs.next_version }}
     steps:
