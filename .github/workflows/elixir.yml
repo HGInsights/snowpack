@@ -55,7 +55,7 @@ jobs:
     needs:
       - tests
     outputs:
-      next_version: ${{ steps.get_next_version.outputs.next_version }}
+      next-version: ${{ steps.get_next_version.outputs.next-version }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.6.0
@@ -97,12 +97,12 @@ jobs:
         run: |
           if [ -f "version" ]; then
             VERSION=`cat version`
-            echo "::set-output name=next_version::$VERSION"
+            echo "::set-output name=next-version::$VERSION"
           else
             VERSION=''
             echo "Next release version not set. No release."
           fi
-          echo "::set-output name=next_version::$VERSION"
+          echo "::set-output name=next-version::$VERSION"
 
   docs:
     name: Documentation
