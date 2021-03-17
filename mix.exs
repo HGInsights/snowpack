@@ -57,6 +57,7 @@ defmodule Snowpack.MixProject do
       {:db_connection, "~> 2.2"},
       {:decimal, "~> 1.6 or ~> 2.0"},
       {:backoff, "~> 1.1"},
+      {:date_time_parser, "~> 1.1.1"},
       {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},

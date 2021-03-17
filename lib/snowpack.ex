@@ -108,6 +108,7 @@ defmodule Snowpack do
   @spec query(conn, iodata, list, [option()]) ::
           {:ok, Snowpack.Result.t()} | {:error, Exception.t()}
   def query(conn, statement, params \\ [], options \\ []) when is_iodata(statement) do
+    # credo:disable-for-lines:2 Credo.Check.Readability.SinglePipe
     prepare_execute(conn, "", statement, params, options)
     |> query_result()
   end

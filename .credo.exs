@@ -21,7 +21,7 @@
       checks: [
         # enabled extra Credo checks
         {Credo.Check.Readability.AliasAs, []},
-        {Credo.Check.Readability.SinglePipe, [exit_status: 0]},
+        {Credo.Check.Readability.SinglePipe, []},
         {Credo.Check.Readability.StrictModuleLayout, order: ~w/
           shortdoc
           moduledoc

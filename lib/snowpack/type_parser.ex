@@ -76,11 +76,13 @@ defmodule Snowpack.TypeParser do
       end)
 
     rows
+    |> Enum.map(&Tuple.to_list/1)
     |> Enum.map(&Enum.zip(types, &1))
     |> Enum.map(&parse_and_select/1)
   end
 
   defp parse_and_select(row) do
+    # credo:disable-for-lines:14 Credo.Check.Readability.SinglePipe
     parse(row)
     |> Enum.map(fn col ->
       col =
@@ -108,6 +110,8 @@ defmodule Snowpack.TypeParser do
   defp parse([]), do: []
   defp parse([head | tail]), do: [parse(head) | parse(tail)]
 
+  defp parse({[] = _types, data}), do: List.wrap(data)
+
   defp parse({types, data}) when is_list(types) do
     Enum.map(types, fn type -> parse({type, data}) end)
   end
@@ -130,8 +134,27 @@ defmodule Snowpack.TypeParser do
     Decimal.from_float(float)
   end
 
+  defp parse({:SQL_TYPE_DATE, data}) when is_binary(data),
+    do: DateTimeParser.parse_date!(data)
+
+  defp parse({:SQL_TYPE_TIME, data}) when is_binary(data),
+    do: DateTimeParser.parse_time!(data)
+
+  defp parse({:SQL_TYPE_TIMESTAMP, data}) when is_binary(data),
+    do: DateTimeParser.parse_datetime!(data)
+
   defp parse({_type, data}) do
     # {_type, data} |> IO.inspect(label: :parse)
     data
   end
+
+  # TODO: support other Snowflake data types
+  # https://docs.snowflake.com/en/user-guide/odbc-api.html#custom-sql-data-types
+  #
+  #   define SQL_SF_TIMESTAMP_LTZ 2000
+  #   define SQL_SF_TIMESTAMP_TZ  2001
+  #   define SQL_SF_TIMESTAMP_NTZ 2002
+  #   define SQL_SF_ARRAY         2003
+  #   define SQL_SF_OBJECT        2004
+  #   define SQL_SF_VARIANT       2005
 end
