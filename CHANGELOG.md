@@ -1,3 +1,15 @@
+## [0.0.2](https://github.com/HGInsights/snowpack/compare/v0.0.1...v0.0.2) (2021-03-17)
+
+
+### Bug Fixes
+
+* use UTF-8 binary encoding and handle unknown column types (#2) ([3c3c55b](https://github.com/HGInsights/snowpack/commit/3c3c55b942f345540c40e35ae6cc7013d6639cd9)), closes [#2](https://github.com/HGInsights/snowpack/issues/2)
+
+
+### Chores
+
+* fix CHANGELOG version ([b94b857](https://github.com/HGInsights/snowpack/commit/b94b857947b44a612f949ee3b30bff16dd492e59))
+
 # 0.0.1 (2021-03-11)
 
 ### Chores
