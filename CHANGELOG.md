@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/HGInsights/snowpack/compare/v0.0.2...v0.1.0) (2021-03-17)
+
+
+### Features
+
+* release 0.1.0 and docs cleanup ([6048141](https://github.com/HGInsights/snowpack/commit/6048141110d1e8558e83befa2103505de74b6b05))
+
 ## [0.0.2](https://github.com/HGInsights/snowpack/compare/v0.0.1...v0.0.2) (2021-03-17)
 
 
