@@ -37,7 +37,7 @@ test:
   # Run unit tests
   RUN --secret SNOWPACK_SERVER=+secrets/SNOWPACK_SERVER \
     --mount=type=secret,target=${SNOWPACK_PRIV_KEY_FILE},id=+secrets/SNOWPACK_PRIV_KEY \
-    mix test --exclude ciskip
+    mix test --exclude ciskip:true
 
   SAVE ARTIFACT _build /_build
 

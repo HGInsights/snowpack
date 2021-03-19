@@ -1,4 +1,19 @@
-defmodule TestHelper do
+Code.put_compiler_option(:warnings_as_errors, true)
+Vapor.load!([%Vapor.Provider.Dotenv{}])
+
+ExUnit.start(exclude: [skip: true])
+
+defmodule Snowpack.TestHelper do
+  defmacro query(stat, params, opts \\ []) do
+    quote do
+      case Snowpack.query(var!(context)[:pid], unquote(stat), unquote(params), unquote(opts)) do
+        {:ok, %Snowpack.Result{rows: nil}} -> :ok
+        {:ok, %Snowpack.Result{rows: rows}} -> rows
+        {:error, err} -> err
+      end
+    end
+  end
+
   @spec odbc_ini_opts :: keyword()
   def odbc_ini_opts do
     [
@@ -47,10 +62,3 @@ defmodule TestHelper do
     ]
   end
 end
-
-Code.put_compiler_option(:warnings_as_errors, true)
-
-ExUnit.start()
-ExUnit.configure(exclude: [skip: true, ciskip: true])
-
-Vapor.load!([%Vapor.Provider.Dotenv{}])
