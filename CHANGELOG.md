@@ -1,3 +1,15 @@
+## [0.1.1](https://github.com/HGInsights/snowpack/compare/v0.1.0...v0.1.1) (2021-03-25)
+
+
+### Bug Fixes
+
+* parse zero-precision NUMBER types from Snowflake as integers, rather than decimals (#4) ([85d1665](https://github.com/HGInsights/snowpack/commit/85d1665fbf5762668249ca8fc5031640367d6d62)), closes [#4](https://github.com/HGInsights/snowpack/issues/4)
+
+
+### Chores
+
+* **ci:** fix next-version output var name ([9c8140c](https://github.com/HGInsights/snowpack/commit/9c8140c2894fa44204e56a051a6083bad0a69bb8))
+
 # [0.1.0](https://github.com/HGInsights/snowpack/compare/v0.0.2...v0.1.0) (2021-03-17)
 
 
