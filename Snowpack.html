@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.24.0">
+    <meta name="project" content="Snowpack v0.1.0">
+
+    <title>Snowpack — Snowpack v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
+
+    <script src="dist/sidebar_items-e478e59356.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-f27ff079945e43879c46.js"></script>
+
+
+  </head>
+  <body data-type="modules">
+    <script>
+
+      try {
+        if (localStorage.getItem('night-mode') === 'true') {
+          document.body.classList.add('night-mode');
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="Snowpack.html" class="sidebar-projectName">
+Snowpack
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list-link" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+Snowpack <small class="app-vsn">(Snowpack v0.1.0)</small>
+
+          <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Snowflake driver for Elixir.</p><p>Documentation: <a href="http://hexdocs.pm/snowpack">http://hexdocs.pm/snowpack</a></p><h2 id="module-features" class="section-heading">
+  <a href="#module-features" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Features
+</h2>
+<ul><li>Automatic decoding and encoding of Elixir values to and from Snowflake's ODBC driver formats</li><li>Supports transactions, prepared queries, streaming, pooling and more via
+<a href="https://github.com/elixir-ecto/db_connection">DBConnection</a></li><li>Supports Snowflake ODBC Drivers 2.22.5</li></ul><h2 id="module-usage" class="section-heading">
+  <a href="#module-usage" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Usage
+</h2>
+<p>Add <code class="inline">:snowpack</code> to your dependencies:</p><pre><code class="makeup elixir"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="p" data-group-id="2764958805-1">(</span><span class="p" data-group-id="2764958805-1">)</span><span class="w"> </span><span class="k" data-group-id="2764958805-2">do</span><span class="w">
+  </span><span class="p" data-group-id="2764958805-3">[</span><span class="w">
+    </span><span class="p" data-group-id="2764958805-4">{</span><span class="ss">:snowpack</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.1.0&quot;</span><span class="p" data-group-id="2764958805-4">}</span><span class="w">
+  </span><span class="p" data-group-id="2764958805-3">]</span><span class="w">
+</span><span class="k" data-group-id="2764958805-2">end</span></code></pre><p>Make sure you are using the latest version!</p><pre><code class="makeup elixir"><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="0577519755-1">[</span><span class="w">
+  </span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0577519755-2">[</span><span class="w">
+    </span><span class="ss">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DEV&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="ss">warehouse</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="0577519755-3">(</span><span class="s">&quot;SNOWFLAKE_WH&quot;</span><span class="p" data-group-id="0577519755-3">)</span><span class="p">,</span><span class="w">
+    </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="0577519755-4">(</span><span class="s">&quot;SNOWFLAKE_UID&quot;</span><span class="p" data-group-id="0577519755-4">)</span><span class="p">,</span><span class="w">
+    </span><span class="ss">pwd</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="0577519755-5">(</span><span class="s">&quot;SNOWFLAKE_PWD&quot;</span><span class="p" data-group-id="0577519755-5">)</span><span class="w">
+  </span><span class="p" data-group-id="0577519755-2">]</span><span class="w">
+</span><span class="p" data-group-id="0577519755-1">]</span><span class="w">
+
+</span><span class="p" data-group-id="0577519755-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="0577519755-6">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="0577519755-7">(</span><span class="n">opts</span><span class="p" data-group-id="0577519755-7">)</span><span class="w">
+</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="0577519755-8">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;select current_user()&quot;</span><span class="p" data-group-id="0577519755-8">)</span><span class="w">
+
+</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query</span><span class="p" data-group-id="0577519755-9">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT * FROM data&quot;</span><span class="p" data-group-id="0577519755-9">)</span><span class="w">
+</span><span class="p" data-group-id="0577519755-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+ </span><span class="p" data-group-id="0577519755-11">%</span><span class="nc" data-group-id="0577519755-11">Snowpack.Result</span><span class="p" data-group-id="0577519755-11">{</span><span class="w">
+   </span><span class="ss">columns</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0577519755-12">[</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;title&quot;</span><span class="p" data-group-id="0577519755-12">]</span><span class="p">,</span><span class="w">
+   </span><span class="ss">num_rows</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+   </span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0577519755-13">[</span><span class="p" data-group-id="0577519755-14">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 1&quot;</span><span class="p" data-group-id="0577519755-14">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0577519755-15">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 2&quot;</span><span class="p" data-group-id="0577519755-15">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0577519755-16">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 3&quot;</span><span class="p" data-group-id="0577519755-16">]</span><span class="p" data-group-id="0577519755-13">]</span><span class="w">
+ </span><span class="p" data-group-id="0577519755-11">}</span><span class="p" data-group-id="0577519755-10">}</span></code></pre><p>It's recommended to start Snowpack under a supervision tree:</p><pre><code class="makeup elixir"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">MyApp.Application</span><span class="w"> </span><span class="k" data-group-id="8634591388-1">do</span><span class="w">
+  </span><span class="kn">use</span><span class="w"> </span><span class="nc">Application</span><span class="w">
+
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="8634591388-2">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="8634591388-2">)</span><span class="w"> </span><span class="k" data-group-id="8634591388-3">do</span><span class="w">
+    </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="8634591388-4">[</span><span class="w">
+      </span><span class="p" data-group-id="8634591388-5">{</span><span class="nc">Snowpack</span><span class="p">,</span><span class="w"> </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snowflake-uid&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="ss">:snowpack</span><span class="p" data-group-id="8634591388-5">}</span><span class="w">
+    </span><span class="p" data-group-id="8634591388-4">]</span><span class="w">
+
+    </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="8634591388-6">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyApp.Supervisor</span><span class="p" data-group-id="8634591388-6">]</span><span class="w">
+    </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="8634591388-7">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="8634591388-7">)</span><span class="w">
+  </span><span class="k" data-group-id="8634591388-3">end</span><span class="w">
+</span><span class="k" data-group-id="8634591388-1">end</span></code></pre><p>and then we can refer to it by its <code class="inline">:name</code>:</p><pre><code class="makeup elixir"><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="7591135354-1">(</span><span class="ss">:snowpack</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT NOW()&quot;</span><span class="p" data-group-id="7591135354-1">)</span><span class="o">.</span><span class="n">rows</span><span class="w">
+</span><span class="p" data-group-id="7591135354-2">[</span><span class="p" data-group-id="7591135354-3">[</span><span class="ld">~N[2018-12-28 13:42:31]</span><span class="p" data-group-id="7591135354-3">]</span><span class="p" data-group-id="7591135354-2">]</span></code></pre><h2 id="module-data-representation" class="section-heading">
+  <a href="#module-data-representation" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Data representation
+</h2>
+<pre><code class="makeup elixir"><span class="nc">Snowflake</span><span class="w"> </span><span class="nc">ODBC</span><span class="w">       </span><span class="nc">Elixir</span><span class="w">
+</span><span class="o">--</span><span class="o">--</span><span class="o">-</span><span class="w">                </span><span class="o">--</span><span class="o">--</span><span class="o">--</span><span class="w">
+</span><span class="nc">NULL</span><span class="w">                 </span><span class="no">nil</span><span class="w">
+</span><span class="n">bool</span><span class="w">                 </span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="n">int</span><span class="w">                  </span><span class="mi">42</span><span class="w">
+</span><span class="n">float</span><span class="w">                </span><span class="mf">42.0</span><span class="w">
+</span><span class="n">decimal</span><span class="w">              </span><span class="p" data-group-id="5245087680-1">#</span><span class="nc" data-group-id="5245087680-1">Decimal</span><span class="p" data-group-id="5245087680-1">&lt;</span><span class="mf">42.0</span><span class="p" data-group-id="5245087680-1">&gt;</span><span class="w"> </span><span class="c1"># (1)</span><span class="w">
+</span><span class="n">date</span><span class="w">                 </span><span class="ld">~D[2013-10-12]</span><span class="w">
+</span><span class="n">time</span><span class="w">                 </span><span class="ld">~T[00:37:14]</span><span class="w">
+</span><span class="n">datetime</span><span class="w">             </span><span class="ld">~N[2013-10-12 00:37:14]</span><span class="w">  </span><span class="c1"># (2)</span><span class="w">
+</span><span class="n">timestamp</span><span class="w">            </span><span class="ld">~U[2013-10-12 00:37:14Z]</span><span class="w"> </span><span class="c1"># (2)</span><span class="w">
+</span><span class="n">char</span><span class="w">                 </span><span class="s">&quot;é&quot;</span><span class="w">
+</span><span class="n">text</span><span class="w">                 </span><span class="s">&quot;snowpack&quot;</span><span class="w">
+</span><span class="n">binary</span><span class="w">               </span><span class="p" data-group-id="5245087680-2">&lt;&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="5245087680-2">&gt;&gt;</span><span class="w">
+</span><span class="n">bit</span><span class="w">                  </span><span class="p" data-group-id="5245087680-3">&lt;&lt;</span><span class="mi">1</span><span class="o">::</span><span class="n">size</span><span class="p" data-group-id="5245087680-4">(</span><span class="mi">1</span><span class="p" data-group-id="5245087680-4">)</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">::</span><span class="n">size</span><span class="p" data-group-id="5245087680-5">(</span><span class="mi">1</span><span class="p" data-group-id="5245087680-5">)</span><span class="p" data-group-id="5245087680-3">&gt;&gt;</span></code></pre><p>Notes:</p><ol><li><p>See <a href="https://github.com/ericmj/decimal">Decimal</a></p></li><li><p>Datetime fields are represented as <a href="https://hexdocs.pm/elixir/NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a>, however a UTC <a href="https://hexdocs.pm/elixir/DateTime.html"><code class="inline">DateTime</code></a> can be used for encoding as well</p></li></ol>
+        </section>
+
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:conn/0">conn()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:option/0">option()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:snowflake_conn_option/0">snowflake_conn_option()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:start_option/0">start_option()</a>
+
+  </div>
+
+</div>
+
+  </div>
+
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#child_spec/1">child_spec(opts)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Returns a supervisor child specification for a DBConnection pool.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#close/3">close(conn, query, opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Closes a prepared query.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#execute/4">execute(conn, query, params, opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Executes a prepared query.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#execute!/4">execute!(conn, query, params, opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Executes a prepared query.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#prepare/4">prepare(conn, name, statement, opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Prepares a query to be later executed.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#prepare!/4">prepare!(conn, name, statement, opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Prepares a query.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#prepare_execute/5">prepare_execute(conn, name, statement, params \\ [], opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Prepares and executes a query in a single step.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#prepare_execute!/5">prepare_execute!(conn, name, statement, params \\ [], opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Prepares and executes a query in a single step.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#query/4">query(conn, statement, params \\ [], options \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Runs a query.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#query!/4">query!(conn, statement, params \\ [], opts \\ [])</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Runs a query.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start_link/1">start_link(options)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Starts the connection process and connects to Snowflake.</p></div>
+
+</div>
+
+  </div>
+
+        </section>
+
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types
+          </h1>
+          <div class="types-list">
+<section class="detail" id="t:conn/0">
+
+  <div class="detail-header">
+    <a href="#t:conn/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">conn()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L7" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>conn() :: <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#t:conn/0">DBConnection.conn</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:option/0">
+
+  <div class="detail-header">
+    <a href="#t:option/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">option()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L26" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>option() :: <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#t:option/0">DBConnection.option</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:snowflake_conn_option/0">
+
+  <div class="detail-header">
+    <a href="#t:snowflake_conn_option/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">snowflake_conn_option()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L9" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>snowflake_conn_option() ::
+  {:dsn, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:driver, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:server, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:warehouse, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:role, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:uid, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:pwd, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:authenticator, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:token, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:priv_key_file, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
+  | {:priv_key_file_pwd, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:start_option/0">
+
+  <div class="detail-header">
+    <a href="#t:start_option/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">start_option()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L22" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>start_option() ::
+  {:connection, <a href="#t:snowflake_conn_option/0">snowflake_conn_option</a>()} | <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#t:start_option/0">DBConnection.start_option</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+          </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions
+          </h1>
+          <div class="functions-list">
+<section class="detail" id="child_spec/1">
+
+  <div class="detail-header">
+    <a href="#child_spec/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">child_spec(opts)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L271" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>child_spec([<a href="#t:start_option/0">start_option</a>()]) :: <a href="https://erlang.org/doc/man/supervisor.html#type-child_spec">:supervisor.child_spec</a>()</pre>
+
+      </div>
+
+<p>Returns a supervisor child specification for a DBConnection pool.</p>
+  </section>
+</section>
+<section class="detail" id="close/3">
+
+    <span id="close/2"></span>
+
+  <div class="detail-header">
+    <a href="#close/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">close(conn, query, opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L257" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>close(<a href="#t:conn/0">conn</a>(), <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>(), [<a href="#t:option/0">option</a>()]) :: :ok</pre>
+
+      </div>
+
+<p>Closes a prepared query.</p><p>Returns <code class="inline">:ok</code> on success, or raises an exception if there was an error.</p><h2 id="close/3-options" class="section-heading">
+  <a href="#close/3-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Options
+</h2>
+<p>Options are passed to <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#close/3"><code class="inline">DBConnection.close/3</code></a>, see it's documentation for
+all available options.</p>
+  </section>
+</section>
+<section class="detail" id="execute/4">
+
+    <span id="execute/3"></span>
+
+  <div class="detail-header">
+    <a href="#execute/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">execute(conn, query, params, opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L234" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>execute(<a href="#t:conn/0">conn</a>(), <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), [<a href="#t:option/0">option</a>()]) ::
+  {:ok, <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>(), <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>()}</pre>
+
+      </div>
+
+<p>Executes a prepared query.</p><h2 id="execute/4-options" class="section-heading">
+  <a href="#execute/4-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Options
+</h2>
+<p>Options are passed to <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#execute/4"><code class="inline">DBConnection.execute/4</code></a>, see it's documentation for
+all available options.</p><h2 id="execute/4-examples" class="section-heading">
+  <a href="#execute/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="3095695538-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p" data-group-id="3095695538-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare</span><span class="p" data-group-id="3095695538-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p" data-group-id="3095695538-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="3095695538-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3095695538-4">%</span><span class="nc" data-group-id="3095695538-4">Snowpack.Result</span><span class="p" data-group-id="3095695538-4">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3095695538-5">[</span><span class="n">row</span><span class="p" data-group-id="3095695538-5">]</span><span class="p" data-group-id="3095695538-4">}</span><span class="p" data-group-id="3095695538-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">execute</span><span class="p" data-group-id="3095695538-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3095695538-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="3095695538-7">]</span><span class="p" data-group-id="3095695538-6">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
+</span><span class="p" data-group-id="3095695538-8">[</span><span class="mi">6</span><span class="p" data-group-id="3095695538-8">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="execute!/4">
+
+    <span id="execute!/3"></span>
+
+  <div class="detail-header">
+    <a href="#execute!/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">execute!(conn, query, params, opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L244" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>execute!(<a href="#t:conn/0">conn</a>(), <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) :: <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()</pre>
+
+      </div>
+
+<p>Executes a prepared query.</p><p>Returns <code class="inline">%Snowpack.Result{}</code> on success, or raises an exception if there was an error.</p><p>See: <a href="#execute/4"><code class="inline">execute/4</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="prepare/4">
+
+    <span id="prepare/3"></span>
+
+  <div class="detail-header">
+    <a href="#prepare/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">prepare(conn, name, statement, opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L154" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>prepare(<a href="#t:conn/0">conn</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), [<a href="#t:option/0">option</a>()]) ::
+  {:ok, <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>()}</pre>
+
+      </div>
+
+<p>Prepares a query to be later executed.</p><p>To execute the query, call <a href="#execute/4"><code class="inline">execute/4</code></a>. To close the query, call <a href="#close/3"><code class="inline">close/3</code></a>.
+If a name is given, the name must be unique per query, as the name is cached
+but the statement isn't. If a new statement is given to an old name, the old
+statement will be the one effectively used.</p><h2 id="prepare/4-options" class="section-heading">
+  <a href="#prepare/4-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Options
+</h2>
+<p>Options are passed to <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#prepare/3"><code class="inline">DBConnection.prepare/3</code></a>, see it's documentation for
+all available options.</p><h2 id="prepare/4-examples" class="section-heading">
+  <a href="#prepare/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9530895503-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p" data-group-id="9530895503-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare</span><span class="p" data-group-id="9530895503-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p" data-group-id="9530895503-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9530895503-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9530895503-4">%</span><span class="nc" data-group-id="9530895503-4">Snowpack.Result</span><span class="p" data-group-id="9530895503-4">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9530895503-5">[</span><span class="n">row</span><span class="p" data-group-id="9530895503-5">]</span><span class="p" data-group-id="9530895503-4">}</span><span class="p" data-group-id="9530895503-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">execute</span><span class="p" data-group-id="9530895503-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9530895503-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9530895503-7">]</span><span class="p" data-group-id="9530895503-6">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
+</span><span class="p" data-group-id="9530895503-8">[</span><span class="mi">6</span><span class="p" data-group-id="9530895503-8">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="prepare!/4">
+
+    <span id="prepare!/3"></span>
+
+  <div class="detail-header">
+    <a href="#prepare!/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">prepare!(conn, name, statement, opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L167" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>prepare!(<a href="#t:conn/0">conn</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), [<a href="#t:option/0">option</a>()]) :: <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>()</pre>
+
+      </div>
+
+<p>Prepares a query.</p><p>Returns <code class="inline">%Snowpack.Query{}</code> on success, or raises an exception if there was an error.</p><p>See <a href="#prepare/4"><code class="inline">prepare/4</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="prepare_execute/5">
+
+    <span id="prepare_execute/3"></span>
+
+    <span id="prepare_execute/4"></span>
+
+  <div class="detail-header">
+    <a href="#prepare_execute/5" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">prepare_execute(conn, name, statement, params \\ [], opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L194" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>prepare_execute(<a href="#t:conn/0">conn</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">keyword</a>()) ::
+  {:ok, <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>(), <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>()}</pre>
+
+      </div>
+
+<p>Prepares and executes a query in a single step.</p><h2 id="prepare_execute/5-multiple-results" class="section-heading">
+  <a href="#prepare_execute/5-multiple-results" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Multiple results
+</h2>
+<p>If a query returns multiple results (e.g. it's calling a procedure that returns multiple results)
+an error is raised. If a query may return multiple results it's recommended to use <code class="inline">stream/4</code> instead.</p><h2 id="prepare_execute/5-options" class="section-heading">
+  <a href="#prepare_execute/5-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Options
+</h2>
+<p>Options are passed to <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#prepare_execute/4"><code class="inline">DBConnection.prepare_execute/4</code></a>, see it's documentation for
+all available options.</p><h2 id="prepare_execute/5-examples" class="section-heading">
+  <a href="#prepare_execute/5-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7523021856-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="c">_query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7523021856-2">%</span><span class="nc" data-group-id="7523021856-2">Snowpack.Result</span><span class="p" data-group-id="7523021856-2">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7523021856-3">[</span><span class="n">row</span><span class="p" data-group-id="7523021856-3">]</span><span class="p" data-group-id="7523021856-2">}</span><span class="p" data-group-id="7523021856-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare_execute</span><span class="p" data-group-id="7523021856-4">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7523021856-5">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7523021856-5">]</span><span class="p" data-group-id="7523021856-4">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
+</span><span class="p" data-group-id="7523021856-6">[</span><span class="mi">6</span><span class="p" data-group-id="7523021856-6">]</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="prepare_execute!/5">
+
+    <span id="prepare_execute!/3"></span>
+
+    <span id="prepare_execute!/4"></span>
+
+  <div class="detail-header">
+    <a href="#prepare_execute!/5" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">prepare_execute!(conn, name, statement, params \\ [], opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L210" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>prepare_execute!(<a href="#t:conn/0">conn</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), [<a href="#t:option/0">option</a>()]) ::
+  {<a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>(), <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()}</pre>
+
+      </div>
+
+<p>Prepares and executes a query in a single step.</p><p>Returns <code class="inline">{%Snowpack.Query{}, %Snowpack.Result{}}</code> on success, or raises an exception if there was
+an error.</p><p>See: <a href="#prepare_execute/5"><code class="inline">prepare_execute/5</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="query/4">
+
+    <span id="query/2"></span>
+
+    <span id="query/3"></span>
+
+  <div class="detail-header">
+    <a href="#query/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">query(conn, statement, params \\ [], options \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L110" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>query(<a href="#t:conn/0">conn</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), [<a href="#t:option/0">option</a>()]) ::
+  {:ok, <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()} | {:error, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>()}</pre>
+
+      </div>
+
+<p>Runs a query.</p><h2 id="query/4-examples" class="section-heading">
+  <a href="#query/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query</span><span class="p" data-group-id="1184175785-1">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT * FROM posts&quot;</span><span class="p" data-group-id="1184175785-1">)</span><span class="w">
+</span><span class="p" data-group-id="1184175785-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1184175785-3">%</span><span class="nc" data-group-id="1184175785-3">Snowpack.Result</span><span class="p" data-group-id="1184175785-3">{</span><span class="p" data-group-id="1184175785-3">}</span><span class="p" data-group-id="1184175785-2">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="query!/4">
+
+    <span id="query!/2"></span>
+
+    <span id="query!/3"></span>
+
+  <div class="detail-header">
+    <a href="#query!/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">query!(conn, statement, params \\ [], opts \\ [])</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L124" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>query!(<a href="#t:conn/0">conn</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), [<a href="#t:option/0">option</a>()]) :: <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()</pre>
+
+      </div>
+
+<p>Runs a query.</p><p>Returns <code class="inline">%Snowpack.Result{}</code> on success, or raises an exception if there was an error.</p><p>See <a href="#query/4"><code class="inline">query/4</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="start_link/1">
+
+  <div class="detail-header">
+    <a href="#start_link/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">start_link(options)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L89" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>start_link([<a href="#t:start_option/0">start_option</a>()]) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()} | {:error, <a href="Snowpack.Error.html#t:t/0">Snowpack.Error.t</a>()}</pre>
+
+      </div>
+
+<p>Starts the connection process and connects to Snowflake.</p><h2 id="start_link/1-options" class="section-heading">
+  <a href="#start_link/1-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Options
+</h2>
+<h3 id="start_link/1-snowflake-connection-options" class="section-heading">
+  <a href="#start_link/1-snowflake-connection-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Snowflake Connection Options
+</h3>
+<p>See: <a href="https://docs.snowflake.com/en/user-guide/odbc-parameters.html#required-connection-parameters">https://docs.snowflake.com/en/user-guide/odbc-parameters.html#required-connection-parameters</a></p><ul><li><code class="inline">:connection</code><ul><li><code class="inline">:dsn</code> - Specifies the name of your DSN</li><li><code class="inline">:driver</code> - Snowflake ODBC driver path</li><li><code class="inline">:server</code> - Specifies the hostname for your account</li><li><code class="inline">:uid</code> - Specifies the login name of the Snowflake user to authenticate</li><li><code class="inline">:pwd</code> - A password is required to connect to Snowflake</li><li><code class="inline">:database</code> - Specifies the default database to use for sessions initiated by the driver</li><li><code class="inline">:schema</code> - Specifies the default schema to use for sessions initiated by the driver (default: <code class="inline">public</code>)</li><li><code class="inline">:warehouse</code> - Specifies the default warehouse to use for sessions initiated by the driver</li><li><code class="inline">:role</code> - Specifies the default role to use for sessions initiated by the driver</li><li><code class="inline">:authenticator</code> - Specifies the authenticator to use for verifying user login credentials</li><li><code class="inline">:priv_key_file</code> - Specifies the local path to the private key file</li></ul></li></ul><h3 id="start_link/1-dbconnection-options" class="section-heading">
+  <a href="#start_link/1-dbconnection-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  DBConnection Options
+</h3>
+<p>The given options are passed down to DBConnection, some of the most commonly used ones are
+documented below:</p><ul><li><p><code class="inline">:after_connect</code> - A function to run after the connection has been established, either a
+1-arity fun, a <code class="inline">{module, function, args}</code> tuple, or <code class="inline">nil</code> (default: <code class="inline">nil</code>)</p></li><li><p><code class="inline">:pool</code> - The pool module to use, defaults to built-in pool provided by DBconnection</p></li><li><p><code class="inline">:pool_size</code> - The size of the pool</p></li></ul><p>See <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#start_link/2"><code class="inline">DBConnection.start_link/2</code></a> for more information and a full list of available options.</p><h2 id="start_link/1-examples" class="section-heading">
+  <a href="#start_link/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+<p>Start connection using the default configuration (UNIX domain socket):</p><pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1656835617-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="1656835617-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="1656835617-2">(</span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1656835617-3">[</span><span class="ss">server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;account-id.snowflakecomputing.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">pwd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PASS&quot;</span><span class="p" data-group-id="1656835617-3">]</span><span class="p" data-group-id="1656835617-2">)</span><span class="w">
+</span><span class="p" data-group-id="1656835617-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1656835617-5">#</span><span class="nc" data-group-id="1656835617-5">PID</span><span class="p" data-group-id="1656835617-5">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">69</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="1656835617-5">&gt;</span><span class="p" data-group-id="1656835617-4">}</span></code></pre><p>Run a query after connection has been established:</p><pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6116715978-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="6116715978-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="6116715978-2">(</span><span class="ss">after_connect</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="6116715978-3">(</span><span class="ni">&amp;1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SET time_zone = &#39;+00:00&#39;&quot;</span><span class="p" data-group-id="6116715978-3">)</span><span class="p" data-group-id="6116715978-2">)</span><span class="w">
+</span><span class="p" data-group-id="6116715978-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6116715978-5">#</span><span class="nc" data-group-id="6116715978-5">PID</span><span class="p" data-group-id="6116715978-5">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">69</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="6116715978-5">&gt;</span><span class="p" data-group-id="6116715978-4">}</span></code></pre>
+  </section>
+</section>
+
+          </div>
+        </section>
+
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.24.0) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+
+  </body>
+</html>

@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.24.0">
+    <meta name="project" content="Snowpack v0.1.0">
+
+    <title>Snowpack.Protocol — Snowpack v0.1.0</title>
+    <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
+
+    <script src="dist/sidebar_items-e478e59356.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/app-f27ff079945e43879c46.js"></script>
+
+
+  </head>
+  <body data-type="modules">
+    <script>
+
+      try {
+        if (localStorage.getItem('night-mode') === 'true') {
+          document.body.classList.add('night-mode');
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+</button>
+
+<section class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
+      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+    </button>
+    <label class="search-label">
+      <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
+    </label>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectDetails">
+      <a href="Snowpack.html" class="sidebar-projectName">
+Snowpack
+      </a>
+      <strong class="sidebar-projectVersion">
+        v0.1.0
+      </strong>
+    </div>
+
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list-link" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+      <h1>
+Snowpack.Protocol <small class="app-vsn">(Snowpack v0.1.0)</small>
+
+          <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
+
+      </h1>
+
+
+        <section id="moduledoc">
+<p>Implementation of <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html"><code class="inline">DBConnection</code></a> behaviour for <a href="Snowpack.ODBC.html"><code class="inline">Snowpack.ODBC</code></a>.</p><p>Handles translation of concepts to what ODBC expects and holds
+state for a connection.</p><p>This module is not called directly, but rather through
+other <a href="Snowpack.html"><code class="inline">Snowpack</code></a> modules or <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html"><code class="inline">DBConnection</code></a> functions.</p>
+        </section>
+
+
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:opts/0">opts()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:params/0">params()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:query/0">query()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:result/0">result()</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:state/0">state()</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Process state.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:status/0">status()</a>
+
+  </div>
+
+</div>
+
+  </div>
+
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#checkin/1">checkin(state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:checkin/1"><code class="inline">DBConnection.checkin/1</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#checkout/1">checkout(state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:checkout/1"><code class="inline">DBConnection.checkout/1</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#connect/1">connect(opts)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:connect/1"><code class="inline">DBConnection.connect/1</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#disconnect/2">disconnect(err, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:disconnect/2"><code class="inline">DBConnection.disconnect/2</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_begin/2">handle_begin(opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_begin/2"><code class="inline">DBConnection.handle_begin/2</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_close/3">handle_close(query, opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_close/3"><code class="inline">DBConnection.handle_close/3</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_commit/2">handle_commit(opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_commit/2"><code class="inline">DBConnection.handle_commit/2</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_deallocate/4">handle_deallocate(query, cursor, opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_deallocate/4"><code class="inline">DBConnection.handle_deallocate/4</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_declare/4">handle_declare(query, params, opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_declare/4"><code class="inline">DBConnection.handle_declare/4</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_execute/4">handle_execute(query, params, opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_execute/4"><code class="inline">DBConnection.handle_execute/4</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_fetch/4">handle_fetch(query, cursor, opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_fetch/4"><code class="inline">DBConnection.handle_fetch/4</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_first/4">handle_first(query, cursor, opts, state)</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_next/4">handle_next(query, cursor, opts, state)</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_prepare/3">handle_prepare(query, opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_prepare/3"><code class="inline">DBConnection.handle_prepare/3</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_rollback/2">handle_rollback(opts, state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_rollback/2"><code class="inline">DBConnection.handle_rollback/2</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#handle_status/2">handle_status(_, s)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_status/2"><code class="inline">DBConnection.handle_status/2</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#ping/1">ping(state)</a>
+
+  </div>
+
+    <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:ping/1"><code class="inline">DBConnection.ping/1</code></a>.</p></div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#reconnect/2">reconnect(new_opts, state)</a>
+
+  </div>
+
+</div>
+
+  </div>
+
+        </section>
+
+
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Types
+          </h1>
+          <div class="types-list">
+<section class="detail" id="t:opts/0">
+
+  <div class="detail-header">
+    <a href="#t:opts/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">opts()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L34" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>opts() :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:params/0">
+
+  <div class="detail-header">
+    <a href="#t:params/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">params()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L36" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>params() :: [{:odbc.odbc_data_type(), :odbc.value()}]</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:query/0">
+
+  <div class="detail-header">
+    <a href="#t:query/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">query()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L35" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>query() :: <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:result/0">
+
+  <div class="detail-header">
+    <a href="#t:result/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">result()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L37" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>result() :: <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:state/0">
+
+  <div class="detail-header">
+    <a href="#t:state/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">state()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L28" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>state() :: %Snowpack.Protocol{
+  conn_opts: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>(),
+  pid: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(),
+  snowflake: :idle
+}</pre>
+
+      </div>
+
+<p>Process state.</p><p>Includes:</p><ul><li><code class="inline">:pid</code>: the pid of the ODBC process</li><li><code class="inline">:snowflake</code>: the transaction state. Can be <code class="inline">:idle</code> (not in a transaction).</li><li><code class="inline">:conn_opts</code>: the options used to set up the connection.</li></ul>
+  </section>
+</section>
+<section class="detail" id="t:status/0">
+
+  <div class="detail-header">
+    <a href="#t:status/0" class="detail-link" title="Link to this type">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature">status()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L38" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>status() :: :idle | :error</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+          </div>
+        </section>
+
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+Functions
+          </h1>
+          <div class="functions-list">
+<section class="detail" id="checkin/1">
+
+  <div class="detail-header">
+    <a href="#checkin/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">checkin(state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L80" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>checkin(<a href="#t:state/0">state</a>()) :: {:ok, <a href="#t:state/0">state</a>()} | {:disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:checkin/1"><code class="inline">DBConnection.checkin/1</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="checkout/1">
+
+  <div class="detail-header">
+    <a href="#checkout/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">checkout(state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L73" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>checkout(<a href="#t:state/0">state</a>()) :: {:ok, <a href="#t:state/0">state</a>()} | {:disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:checkout/1"><code class="inline">DBConnection.checkout/1</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="connect/1">
+
+  <div class="detail-header">
+    <a href="#connect/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">connect(opts)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L41" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>connect(<a href="#t:opts/0">opts</a>()) :: {:ok, <a href="#t:state/0">state</a>()} | {:error, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:connect/1"><code class="inline">DBConnection.connect/1</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="disconnect/2">
+
+  <div class="detail-header">
+    <a href="#disconnect/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">disconnect(err, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L60" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>disconnect(err :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>() | <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()) :: :ok</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:disconnect/2"><code class="inline">DBConnection.disconnect/2</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_begin/2">
+
+  <div class="detail-header">
+    <a href="#handle_begin/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_begin(opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L126" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_begin(<a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) ::
+  {:ok, <a href="#t:result/0">result</a>(), <a href="#t:state/0">state</a>()}
+  | {<a href="#t:status/0">status</a>(), <a href="#t:state/0">state</a>()}
+  | {:disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_begin/2"><code class="inline">DBConnection.handle_begin/2</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_close/3">
+
+  <div class="detail-header">
+    <a href="#handle_close/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_close(query, opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L100" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_close(<a href="#t:query/0">query</a>(), <a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) :: {:ok, <a href="#t:result/0">result</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_close/3"><code class="inline">DBConnection.handle_close/3</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_commit/2">
+
+  <div class="detail-header">
+    <a href="#handle_commit/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_commit(opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L134" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_commit(<a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) ::
+  {:ok, <a href="#t:result/0">result</a>(), <a href="#t:state/0">state</a>()}
+  | {<a href="#t:status/0">status</a>(), <a href="#t:state/0">state</a>()}
+  | {:disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_commit/2"><code class="inline">DBConnection.handle_commit/2</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_deallocate/4">
+
+  <div class="detail-header">
+    <a href="#handle_deallocate/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_deallocate(query, cursor, opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L162" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_deallocate(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">none</a>()</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_deallocate/4"><code class="inline">DBConnection.handle_deallocate/4</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_declare/4">
+
+  <div class="detail-header">
+    <a href="#handle_declare/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_declare(query, params, opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L147" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_declare(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">none</a>()</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_declare/4"><code class="inline">DBConnection.handle_declare/4</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_execute/4">
+
+  <div class="detail-header">
+    <a href="#handle_execute/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_execute(query, params, opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L94" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_execute(<a href="#t:query/0">query</a>(), <a href="#t:params/0">params</a>(), <a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) ::
+  {:ok, <a href="#t:query/0">query</a>(), <a href="#t:result/0">result</a>(), <a href="#t:state/0">state</a>()}
+  | {:error | :disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_execute/4"><code class="inline">DBConnection.handle_execute/4</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_fetch/4">
+
+  <div class="detail-header">
+    <a href="#handle_fetch/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_fetch(query, cursor, opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L167" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_fetch(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">none</a>()</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_fetch/4"><code class="inline">DBConnection.handle_fetch/4</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_first/4">
+
+  <div class="detail-header">
+    <a href="#handle_first/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_first(query, cursor, opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L152" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_first(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">none</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="handle_next/4">
+
+  <div class="detail-header">
+    <a href="#handle_next/4" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_next(query, cursor, opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L157" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_next(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">none</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="handle_prepare/3">
+
+  <div class="detail-header">
+    <a href="#handle_prepare/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_prepare(query, opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L87" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_prepare(<a href="#t:query/0">query</a>(), <a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) ::
+  {:ok, <a href="#t:query/0">query</a>(), <a href="#t:state/0">state</a>()} | {:error | :disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_prepare/3"><code class="inline">DBConnection.handle_prepare/3</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_rollback/2">
+
+  <div class="detail-header">
+    <a href="#handle_rollback/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_rollback(opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L142" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_rollback(<a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) ::
+  {:ok, <a href="#t:result/0">result</a>(), <a href="#t:state/0">state</a>()}
+  | {<a href="#t:status/0">status</a>(), <a href="#t:state/0">state</a>()}
+  | {:disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_rollback/2"><code class="inline">DBConnection.handle_rollback/2</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="handle_status/2">
+
+  <div class="detail-header">
+    <a href="#handle_status/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">handle_status(_, s)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L118" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>handle_status(<a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) :: {<a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#t:status/0">DBConnection.status</a>(), <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:handle_status/2"><code class="inline">DBConnection.handle_status/2</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="ping/1">
+
+  <div class="detail-header">
+    <a href="#ping/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">ping(state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L107" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>ping(state :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) ::
+  {:ok, new_state :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()} | {:disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), new_state :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()}</pre>
+
+      </div>
+
+<p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#c:ping/1"><code class="inline">DBConnection.ping/1</code></a>.</p>
+  </section>
+</section>
+<section class="detail" id="reconnect/2">
+
+  <div class="detail-header">
+    <a href="#reconnect/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">reconnect(new_opts, state)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/protocol.ex#L65" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>reconnect(<a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) :: {:ok, <a href="#t:state/0">state</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+
+          </div>
+        </section>
+
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.24.0) for the
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
+          </span>
+          <span class="line">
+            Designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          </span>
+        </p>
+        <p>
+
+            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+
+          <button class="line footer-button display-shortcuts-help">
+            Display keyboard shortcuts
+          </button>
+          <button class="line footer-button night-mode-toggle">
+            Toggle night mode
+          </button>
+          <button class="line footer-button display-quick-switch">
+            Go to a HexDocs package
+          </button>
+          <button class="line footer-button tooltips-toggle">
+            <span class="tooltips-option-disable">Disable tooltips</span>
+            <span class="tooltips-option-enable">Enable tooltips</span>
+          </button>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+
+
+  </body>
+</html>
