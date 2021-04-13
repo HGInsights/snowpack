@@ -32,6 +32,10 @@ defmodule Snowpack.TypeParser do
 
       ["UPDATE" | tail] ->
         find_tables(pid, tail, queried_columns, rows)
+
+      _ ->
+        binary_statement = IO.iodata_to_binary(statement)
+        parse_rows(pid, binary_statement, queried_columns, rows)
     end
   end
 

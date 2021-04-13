@@ -26,7 +26,7 @@ all-test:
 
 test:
   FROM +setup-deps
-  RUN MIX_ENV=test mix deps.compile
+
   COPY --dir lib test ./
   COPY README.md .
   COPY .env.test .
@@ -37,20 +37,20 @@ test:
   # Run unit tests
   RUN --secret SNOWPACK_SERVER=+secrets/SNOWPACK_SERVER \
     --mount=type=secret,target=${SNOWPACK_PRIV_KEY_FILE},id=+secrets/SNOWPACK_PRIV_KEY \
-    mix test --exclude ciskip
+    mix test --exclude ciskip:true
 
   SAVE ARTIFACT _build /_build
 
 setup-base:
   ARG ELIXIR=1.11.3
   ARG OTP=23.2.5
-  FROM hexpm/elixir-amd64:$ELIXIR-erlang-$OTP-ubuntu-xenial-20201014
+  FROM hexpm/elixir:$ELIXIR-erlang-$OTP-ubuntu-xenial-20201014
 
   RUN apt-get install -y \
     unixodbc \
     wget
 
-  ARG SNOWFLAKE_VERSION=2.22.5
+  ARG SNOWFLAKE_VERSION=2.23.0
 
   RUN wget -nv https://sfc-repo.snowflakecomputing.com/odbc/linux/${SNOWFLAKE_VERSION}/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -P /tmp \
     && tar -xf /tmp/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -C /opt/
@@ -79,7 +79,7 @@ setup-deps:
   RUN mix local.rebar --force
   RUN mix local.hex --force
   RUN mix deps.get
-  RUN mix deps.compile
+  RUN MIX_ENV=test mix deps.compile
 
   SAVE ARTIFACT deps /deps
   SAVE ARTIFACT _build /_build
