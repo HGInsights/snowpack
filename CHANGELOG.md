@@ -1,3 +1,10 @@
+## [0.1.2](https://github.com/HGInsights/snowpack/compare/v0.1.1...v0.1.2) (2021-04-13)
+
+
+### Bug Fixes
+
+* started adding more tests for queries (#3) ([d3f4c3d](https://github.com/HGInsights/snowpack/commit/d3f4c3d1b16b46dac3108f0825b6cb2edda4ef79)), closes [#3](https://github.com/HGInsights/snowpack/issues/3)
+
 ## [0.1.1](https://github.com/HGInsights/snowpack/compare/v0.1.0...v0.1.1) (2021-03-25)
 
 
