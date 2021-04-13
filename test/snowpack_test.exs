@@ -40,42 +40,33 @@ defmodule SnowpackTest do
       assert %Snowpack.Query{} = entry.query
     end
 
-    test "with params", %{pid: pid} do
-      assert {:ok, result} = Snowpack.query(pid, "SELECT ? * ?", [2, 3])
-      assert result.rows == [[6]]
+    test "with params", context do
+      assert [[6]] = query("SELECT ? * ?", [2, 3])
     end
   end
 
   describe "snowflake sample db query" do
     setup [:connect]
 
-    test "with params and rows", %{pid: pid} do
-      assert {:ok, result} =
-               Snowpack.query(
-                 pid,
-                 "SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;",
-                 [5]
-               )
+    test "with params and rows", context do
+      rows = query("SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;", [5])
 
-      assert result.num_rows == 5
+      assert length(rows) == 5
     end
 
-    test "with join, custom column, and date", %{pid: pid} do
-      assert {:ok, result} =
-               Snowpack.query(
-                 pid,
+    test "with join, custom column, where like, and date", context do
+      assert [first_row, _second_row] =
+               query(
                  """
                  SELECT ord.O_ORDERKEY, ord.O_ORDERSTATUS, ord.O_ORDERDATE, item.L_PARTKEY, 9 as number
                   FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS ord
                   INNER JOIN SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM item ON ord.O_ORDERKEY = item.L_ORDERKEY
+                  WHERE ord.O_COMMENT LIKE ?
                   LIMIT ? OFFSET ?;
                  """,
-                 [2, 0]
+                 ["%he carefully stealthy deposits.%", 2, 0]
                )
 
-      assert result.num_rows == 2
-
-      first_row = List.first(result.rows)
       assert %Date{} = Enum.at(first_row, 2)
       assert Enum.at(first_row, 4) == 9
     end
@@ -97,6 +88,6 @@ defmodule SnowpackTest do
   defp connect(_context) do
     {:ok, pid} = Snowpack.start_link(key_pair_opts())
 
-    %{pid: pid}
+    {:ok, [pid: pid]}
   end
 end
