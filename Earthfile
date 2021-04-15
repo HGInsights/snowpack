@@ -22,9 +22,10 @@ static-code-analysis:
   SAVE ARTIFACT priv/plts /priv/plts
 
 all-test:
-  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=24.0-rc2 +test
-  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=23.2.7.2 +test
-  BUILD --build-arg ELIXIR=1.11.3 --build-arg OTP=23.2.5 +test
+  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=24.0-rc2 --build-arg UBUNTU=focal-20210325 +test
+  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=23.3.1 --build-arg UBUNTU=focal-20210325 +test
+  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=23.2.7.2 --build-arg UBUNTU=focal-20210325 +test
+  BUILD --build-arg ELIXIR=1.11.3 --build-arg OTP=23.2.5 --build-arg UBUNTU=focal-20210119 +test
 
 test:
   FROM +setup-deps
@@ -46,9 +47,10 @@ test:
 setup-base:
   ARG ELIXIR=1.11.4
   ARG OTP=23.2.7.2
-  FROM hexpm/elixir:$ELIXIR-erlang-$OTP-ubuntu-focal-20210325
+  ARG UBUNTU=focal-20210325
+  FROM hexpm/elixir:$ELIXIR-erlang-$OTP-ubuntu-$UBUNTU
 
-  RUN apt-get install -y \
+  RUN apt-get update && apt-get install -y \
     curl
 
   ARG SNOWFLAKE_VERSION=2.23.1
