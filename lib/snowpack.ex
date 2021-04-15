@@ -4,6 +4,9 @@ defmodule Snowpack do
              |> String.split("<!-- MDOC !-->")
              |> Enum.fetch!(1)
 
+  # The amount of time in seconds that a heartbeat will be sent to the server
+  @default_session_keepalive 3600
+
   @type conn() :: DBConnection.conn()
 
   @type snowflake_conn_option() ::
@@ -24,9 +27,6 @@ defmodule Snowpack do
           | DBConnection.start_option()
 
   @type option() :: DBConnection.option()
-
-  # The amount of time in seconds that a heartbeat will be sent to the server
-  @default_session_keepalive 3600
 
   @doc """
   Starts the connection process and connects to Snowflake.
