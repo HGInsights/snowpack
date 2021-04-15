@@ -44,8 +44,8 @@ defmodule QueryTest do
 
     query(stmt, params) |> IO.inspect(label: :query)
 
-    for _x <- 1..50 do
-      query(stmt, ["%1234567890123456789012%", 1, 0]) |> IO.inspect(label: :query)
+    for x <- 1..50 do
+      query(stmt, ["%1234567890123456789012%", 1, 0]) |> IO.inspect(label: "query (#{x})")
     end
   end
 end
