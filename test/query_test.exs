@@ -30,4 +30,22 @@ defmodule QueryTest do
     assert [["this_is_a_really_really_long_string"]] =
              query("SELECT ?", ["this_is_a_really_really_long_string"])
   end
+
+  test "> 20 char params", context do
+    stmt = """
+      SELECT ord.O_ORDERKEY, ord.O_ORDERSTATUS, ord.O_ORDERDATE, item.L_PARTKEY, 9 as number
+      FROM ORDERS ord
+      INNER JOIN LINEITEM item ON ord.O_ORDERKEY = item.L_ORDERKEY
+      WHERE ord.O_COMMENT ILIKE ?
+      LIMIT ? OFFSET ?;
+    """
+
+    params = ["%stealthy%", 1, 0]
+
+    query(stmt, params) |> IO.inspect(label: :query)
+
+    for _x <- 1..50 do
+      query(stmt, ["%1234567890123456789012%", 1, 0]) |> IO.inspect(label: :query)
+    end
+  end
 end

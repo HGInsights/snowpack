@@ -52,8 +52,8 @@ defmodule Snowpack.TestHelper do
         server: System.fetch_env!("SNOWPACK_SERVER"),
         role: System.fetch_env!("SNOWPACK_KEYPAIR_ROLE"),
         warehouse: System.fetch_env!("SNOWPACK_KEYPAIR_WAREHOUSE"),
-        # database: System.fetch_env!("SNOWPACK_KEYPAIR_DATABASE"),
-        # schema: System.fetch_env!("SNOWPACK_KEYPAIR_SCHEMA"),
+        database: System.fetch_env!("SNOWPACK_KEYPAIR_DATABASE"),
+        schema: System.fetch_env!("SNOWPACK_KEYPAIR_SCHEMA"),
         uid: System.fetch_env!("SNOWPACK_KEYPAIR_UID"),
         authenticator: System.fetch_env!("SNOWPACK_KEYPAIR_AUTHENTICATOR"),
         priv_key_file: System.fetch_env!("SNOWPACK_PRIV_KEY_FILE")
