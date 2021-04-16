@@ -1,3 +1,10 @@
+## [0.1.3](https://github.com/HGInsights/snowpack/compare/v0.1.2...v0.1.3) (2021-04-16)
+
+
+### Bug Fixes
+
+* provide a default idle_interval of 3600 sec to be used as a session keepalive (#6) ([4a54529](https://github.com/HGInsights/snowpack/commit/4a54529a945352e1a6147a79efe827e0f8cb9836)), closes [#6](https://github.com/HGInsights/snowpack/issues/6)
+
 ## [0.1.2](https://github.com/HGInsights/snowpack/compare/v0.1.1...v0.1.2) (2021-04-13)
 
 
