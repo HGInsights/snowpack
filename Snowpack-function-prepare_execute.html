@@ -10,7 +10,7 @@
     <title>Snowpack.prepare_execute — Snowpack v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-76628a35d9.js"></script>
+    <script src="dist/sidebar_items-f3b612c260.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -98,7 +98,7 @@ Snowpack
     </a>
     <h1 class="signature">prepare_execute(conn, name, statement, params \\ [], opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L194" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L199" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -130,9 +130,9 @@ all available options.</p><h2 id="prepare_execute/5-examples" class="section-hea
   <a href="#prepare_execute/5-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
-<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6755466888-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="c">_query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6755466888-2">%</span><span class="nc" data-group-id="6755466888-2">Snowpack.Result</span><span class="p" data-group-id="6755466888-2">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6755466888-3">[</span><span class="n">row</span><span class="p" data-group-id="6755466888-3">]</span><span class="p" data-group-id="6755466888-2">}</span><span class="p" data-group-id="6755466888-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare_execute</span><span class="p" data-group-id="6755466888-4">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6755466888-5">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="6755466888-5">]</span><span class="p" data-group-id="6755466888-4">)</span><span class="w">
+<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9370732951-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="c">_query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9370732951-2">%</span><span class="nc" data-group-id="9370732951-2">Snowpack.Result</span><span class="p" data-group-id="9370732951-2">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9370732951-3">[</span><span class="n">row</span><span class="p" data-group-id="9370732951-3">]</span><span class="p" data-group-id="9370732951-2">}</span><span class="p" data-group-id="9370732951-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare_execute</span><span class="p" data-group-id="9370732951-4">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9370732951-5">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9370732951-5">]</span><span class="p" data-group-id="9370732951-4">)</span><span class="w">
 </span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
-</span><span class="p" data-group-id="6755466888-6">[</span><span class="mi">6</span><span class="p" data-group-id="6755466888-6">]</span></code></pre>
+</span><span class="p" data-group-id="9370732951-6">[</span><span class="mi">6</span><span class="p" data-group-id="9370732951-6">]</span></code></pre>
   </section>
 </section>
 
