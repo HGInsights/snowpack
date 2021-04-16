@@ -4,6 +4,9 @@ defmodule Snowpack do
              |> String.split("<!-- MDOC !-->")
              |> Enum.fetch!(1)
 
+  # The amount of time in seconds that a heartbeat will be sent to the server
+  @default_session_keepalive 3600
+
   @type conn() :: DBConnection.conn()
 
   @type snowflake_conn_option() ::
@@ -87,6 +90,8 @@ defmodule Snowpack do
   """
   @spec start_link([start_option()]) :: {:ok, pid()} | {:error, Snowpack.Error.t()}
   def start_link(options) do
+    options = Keyword.put_new(options, :idle_interval, @default_session_keepalive)
+
     DBConnection.start_link(Snowpack.Protocol, options)
   end
 

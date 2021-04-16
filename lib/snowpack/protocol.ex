@@ -105,7 +105,7 @@ defmodule Snowpack.Protocol do
           {:ok, new_state :: any()}
           | {:disconnect, Exception.t(), new_state :: any()}
   def ping(state) do
-    query = %Snowpack.Query{name: "ping", statement: "SELECT 1"}
+    query = %Snowpack.Query{name: "ping", statement: "SELECT /* snowpack:heartbeat */ 1;"}
 
     case do_query(query, [], [], state) do
       {:ok, _, new_state} -> {:ok, new_state}
