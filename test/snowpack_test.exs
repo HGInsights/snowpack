@@ -76,8 +76,8 @@ defmodule SnowpackTest do
     setup [:connect]
 
     test "succeeds", %{pid: pid} do
-      {:ok, %Snowpack.Query{name: "", statement: "SELECT ? * ?"} = query} =
-        Snowpack.prepare(pid, "", "SELECT ? * ?")
+      {:ok, %Snowpack.Query{name: "times", statement: "SELECT ? * ?"} = query} =
+        Snowpack.prepare(pid, "times", "SELECT ? * ?")
 
       {:ok, _query, %Snowpack.Result{rows: [row]}} = Snowpack.execute(pid, query, [2, 3])
 

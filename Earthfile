@@ -22,7 +22,12 @@ static-code-analysis:
   SAVE ARTIFACT priv/plts /priv/plts
 
 all-test:
-  BUILD --build-arg ELIXIR=1.11.3 --build-arg OTP=23.2.5 +test
+  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=24.0-rc3 --build-arg UBUNTU=focal-20210325 +test
+  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=23.3.2 --build-arg UBUNTU=focal-20210325 +test
+  BUILD --build-arg ELIXIR=1.11.3 --build-arg OTP=23.2.5 --build-arg UBUNTU=focal-20210119 +test
+
+quick-test:
+  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=23.3.2 --build-arg UBUNTU=focal-20210325 +test
 
 test:
   FROM +setup-deps
@@ -31,7 +36,7 @@ test:
   COPY README.md .
   COPY .env.test .
 
-  ENV SNOWPACK_DRIVER=/opt/snowflake_odbc/lib/libSnowflake.so
+  ENV SNOWPACK_DRIVER=/usr/lib/snowflake/odbc/lib/libSnowflake.so
   ENV SNOWPACK_PRIV_KEY_FILE=/tmp/rsa_key.p8
 
   # Run unit tests
@@ -42,30 +47,21 @@ test:
   SAVE ARTIFACT _build /_build
 
 setup-base:
-  ARG ELIXIR=1.11.3
-  ARG OTP=23.2.5
-  FROM hexpm/elixir:$ELIXIR-erlang-$OTP-ubuntu-xenial-20201014
+  ARG ELIXIR
+  ARG OTP
+  ARG UBUNTU
+  FROM hexpm/elixir:$ELIXIR-erlang-$OTP-ubuntu-$UBUNTU
 
-  RUN apt-get install -y \
-    unixodbc \
-    wget
+  RUN apt-get update && apt-get install -y \
+    curl
 
-  ARG SNOWFLAKE_VERSION=2.23.0
+  ARG SNOWFLAKE_VERSION=2.23.1
 
-  RUN wget -nv https://sfc-repo.snowflakecomputing.com/odbc/linux/${SNOWFLAKE_VERSION}/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -P /tmp \
-    && tar -xf /tmp/snowflake_linux_x8664_odbc-${SNOWFLAKE_VERSION}.tgz -C /opt/
+  RUN curl --output snowflake-odbc-${SNOWFLAKE_VERSION}.x86_64.deb \
+        https://sfc-repo.snowflakecomputing.com/odbc/linux/${SNOWFLAKE_VERSION}/snowflake-odbc-${SNOWFLAKE_VERSION}.x86_64.deb \
+     && dpkg -i snowflake-odbc-${SNOWFLAKE_VERSION}.x86_64.deb || true
 
-  RUN /opt/snowflake_odbc/unixodbc_setup.sh
-  RUN perl -i -pe 's|/usr/lib64/libodbcinst.so|/usr/lib/x86_64-linux-gnu/libodbcinst.so.2|;' /opt/snowflake_odbc/lib/simba.snowflake.ini
-
-  RUN echo -e '\n\
-  [Snowpack]\n\
-  Description=SnowflakeDB\n\
-  Driver=SnowflakeDSIIDriver\n\
-  Locale=en-US\n\
-  PORT=443\n\
-  SSL=on'\
-  >> /etc/odbc.ini
+  RUN apt-get update && yes N | apt-get -fy --no-install-recommends install && rm -r /var/lib/apt/lists/* /var/cache/*
 
   ENV ELIXIR_ASSERT_TIMEOUT=10000
   WORKDIR /src
