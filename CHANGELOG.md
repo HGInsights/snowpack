@@ -1,3 +1,15 @@
+## [0.1.4](https://github.com/HGInsights/snowpack/compare/v0.1.3...v0.1.4) (2021-04-30)
+
+
+### Bug Fixes
+
+* set the default idle_interval to 5 min (#9) ([67edb80](https://github.com/HGInsights/snowpack/commit/67edb8056a5e85a57a8b0985cfad9783777297f4)), closes [#9](https://github.com/HGInsights/snowpack/issues/9)
+
+
+### Chores
+
+* **ci:** refactor ci and Earthfile to configure elixir, erlang, ubuntu, and snowflake versions via args (#7) ([3e39531](https://github.com/HGInsights/snowpack/commit/3e3953193d2221471f279784cc34fd085b1897d3)), closes [#7](https://github.com/HGInsights/snowpack/issues/7)
+
 ## [0.1.3](https://github.com/HGInsights/snowpack/compare/v0.1.2...v0.1.3) (2021-04-16)
 
 
