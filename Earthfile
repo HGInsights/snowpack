@@ -26,6 +26,9 @@ all-test:
   BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=23.3.2 --build-arg UBUNTU=focal-20210325 +test
   BUILD --build-arg ELIXIR=1.11.3 --build-arg OTP=23.2.5 --build-arg UBUNTU=focal-20210119 +test
 
+quick-test:
+  BUILD --build-arg ELIXIR=1.11.4 --build-arg OTP=23.3.2 --build-arg UBUNTU=focal-20210325 +test
+
 test:
   FROM +setup-deps
 
@@ -44,9 +47,9 @@ test:
   SAVE ARTIFACT _build /_build
 
 setup-base:
-  ARG ELIXIR=1.11.4
-  ARG OTP=23.3.2
-  ARG UBUNTU=focal-20210325
+  ARG ELIXIR
+  ARG OTP
+  ARG UBUNTU
   FROM hexpm/elixir:$ELIXIR-erlang-$OTP-ubuntu-$UBUNTU
 
   RUN apt-get update && apt-get install -y \

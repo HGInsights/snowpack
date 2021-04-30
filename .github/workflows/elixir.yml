@@ -8,8 +8,9 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  otp-version: '23.2.5'
-  elixir-version: '1.11.3'
+  otp-version: '23.3.2'
+  elixir-version: '1.11.4'
+  snowflake-version: '2.23.1'
 
 jobs:
   tests:
@@ -23,8 +24,9 @@ jobs:
       max-parallel: 1
       matrix:
         include:
-          - elixir: 1.11.3
-            otp: 23.2.5
+          - elixir: '1.11.4'
+            otp: '23.3.2'
+            ubuntu: 'focal-20210325'
 
     steps:
       - name: Cancel Previous Runs
@@ -45,6 +47,8 @@ jobs:
           earthly --ci \
             --build-arg ELIXIR=${{ matrix.elixir }} \
             --build-arg OTP=${{ matrix.otp }} \
+            --build-arg UBUNTU=${{ matrix.ubuntu }} \
+            --build-arg SNOWFLAKE_VERSION=${{ env.snowflake-version }} \
             --secret SNOWPACK_SERVER="${{ secrets.SNOWPACK_SERVER }}" \
             --secret SNOWPACK_PRIV_KEY="${{ secrets.SNOWPACK_PRIV_KEY }}" \
             +all
