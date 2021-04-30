@@ -4,8 +4,9 @@ defmodule Snowpack do
              |> String.split("<!-- MDOC !-->")
              |> Enum.fetch!(1)
 
-  # The amount of time in seconds that a heartbeat will be sent to the server
-  @default_session_keepalive 3600
+  # The amount of time in milliseconds that a heartbeat
+  # will be sent to the server (default: 5 min)
+  @default_session_keepalive 300 * 1000
 
   @type conn() :: DBConnection.conn()
 
