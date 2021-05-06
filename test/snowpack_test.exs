@@ -30,6 +30,16 @@ defmodule SnowpackTest do
     end
   end
 
+  describe "connection options" do
+    setup [:connect]
+
+    test "with warehouse, database, and schema", context do
+      rows = query("SELECT * FROM CUSTOMER LIMIT ?;", [5])
+
+      assert length(rows) == 5
+    end
+  end
+
   describe "simple query" do
     setup [:connect]
 
