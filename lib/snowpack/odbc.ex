@@ -16,6 +16,35 @@ defmodule Snowpack.ODBC do
   require Logger
 
   @timeout :timer.seconds(60)
+  @begin_transaction IO.iodata_to_binary("begin transaction;")
+  @last_query_id IO.iodata_to_binary("SELECT LAST_QUERY_ID() as query_id;")
+  @close_transaction IO.iodata_to_binary("commit;")
+
+  @data_types [
+    {~r/NUMBER\([0-9]+,0\)/, :integer},
+    {~r/DECIMAL\([0-9]+,0\)/, :integer},
+    {~r/NUMERIC\([0-9]+,0\)/, :integer},
+    {~r/INT\([0-9]+,0\)/, :integer},
+    {~r/INTEGER\([0-9]+,0\)/, :integer},
+    {~r/BIGINT\([0-9]+,0\)/, :integer},
+    {~r/SMALLINT\([0-9]+,0\)/, :integer},
+    {~r/NUMBER\([0-9]+,[1-9]+\)/, :float},
+    {~r/DECIMAL\([0-9]+,[1-9]+\)/, :float},
+    {~r/NUMERIC\([0-9]+,[1-9]+\)/, :float},
+    {~r/INT\([0-9]+,[1-9]+\)/, :float},
+    {~r/INTEGER\([0-9]+,[1-9]+\)/, :float},
+    {~r/BIGINT\([0-9]+,[1-9]+\)/, :float},
+    {~r/SMALLINT\([0-9]+,[1-9]+\)/, :float},
+    {~r/FLOAT/, :float},
+    {~r/DOUBLE/, :float},
+    {~r/REAL/, :float},
+    {~r/DATETIME/, :datetime},
+    {~r/TIMESTAMP/, :datetime},
+    {~r/DATE/, :date},
+    {~r/TIME/, :time},
+    {~r/OBJECT/, :json},
+    {~r/ARRAY/, :json}
+  ]
 
   ## Public API
 
@@ -74,6 +103,17 @@ defmodule Snowpack.ODBC do
     end
   end
 
+  @spec describe_result(pid(), iodata()) ::
+          {:selected, [binary()], [tuple()]}
+          | {:error, Error.t()}
+  def describe_result(pid, query_id) do
+    if Process.alive?(pid) do
+      GenServer.call(pid, {:describe_result, query_id})
+    else
+      {:error, %Error{message: :no_connection}}
+    end
+  end
+
   @doc """
   Disconnects from the ODBC driver.
 
@@ -101,15 +141,23 @@ defmodule Snowpack.ODBC do
         _from,
         %{pid: pid} = state
       ) do
+    :odbc.sql_query(pid, to_charlist(@begin_transaction))
+
     case :odbc.param_query(pid, to_charlist(statement), params) do
       {:error, reason} ->
         error = Error.exception(reason)
         Logger.warn("Unable to execute query: #{error.message}")
 
+        :odbc.sql_query(pid, to_charlist(@close_transaction))
+
         {:reply, {:error, error}, state}
 
       result ->
-        {:reply, result, state}
+        {:selected, _, query_id} = :odbc.sql_query(pid, to_charlist(@last_query_id))
+
+        :odbc.sql_query(pid, to_charlist(@close_transaction))
+
+        {:reply, Tuple.append(result, query_id), state}
     end
   end
 
@@ -124,6 +172,21 @@ defmodule Snowpack.ODBC do
 
       result ->
         {:reply, result, state}
+    end
+  end
+
+  @spec handle_call(request :: term(), term(), state :: term()) :: term()
+  def handle_call({:describe_result, query_id}, _from, %{pid: pid} = state) do
+    case :odbc.sql_query(pid, to_charlist("DESCRIBE RESULT '#{query_id}'")) do
+      {:error, reason} ->
+        error = Error.exception(reason)
+        Logger.warn("Unable to describe #{query_id}: #{error.message}")
+
+        {:reply, {:error, error}, state}
+
+      result ->
+        # parse name, type
+        {:reply, build_type_tuples(result), state}
     end
   end
 
@@ -162,5 +225,26 @@ defmodule Snowpack.ODBC do
         {_, new_backoff} = :backoff.fail(backoff)
         {:noreply, %{backoff: new_backoff, state: :not_connected}}
     end
+  end
+
+  defp build_type_tuples({_, columns, rows}) do
+    index_of_name =
+      Enum.find_index(columns, fn element ->
+        List.to_string(element) |> String.downcase() |> String.equivalent?("name")
+      end)
+
+    index_of_type =
+      Enum.find_index(columns, fn element ->
+        List.to_string(element) |> String.downcase() |> String.equivalent?("type")
+      end)
+
+    Enum.map(rows, fn row ->
+      {_, type} =
+        Enum.find(@data_types, {nil, :default}, fn {reg, type} ->
+          String.match?(elem(row, index_of_type), reg)
+        end)
+
+      {elem(row, index_of_name), type}
+    end)
   end
 end

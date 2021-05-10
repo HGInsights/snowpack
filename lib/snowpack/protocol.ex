@@ -176,13 +176,14 @@ defmodule Snowpack.Protocol do
       {:error, reason} ->
         {:error, reason, state}
 
-      {:selected, columns, rows} ->
+      {:selected, columns, rows, [{query_id}]} ->
         rows =
           Snowpack.TypeParser.parse_rows(
             state.pid,
             query.statement,
             columns,
-            rows
+            rows,
+            query_id
           )
 
         {:ok,

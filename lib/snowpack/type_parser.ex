@@ -5,105 +5,22 @@ defmodule Snowpack.TypeParser do
 
   alias Snowpack.TypeCache
 
-  @spec parse_rows(pid(), binary, any, any) :: list
-  def parse_rows(pid, statement, queried_columns, rows)
+  @spec parse_rows(pid(), binary, any, any, any) :: list
+  def parse_rows(pid, statement, queried_columns, rows, query_id)
       when is_binary(statement) do
     statement = String.split(statement)
-    parse_rows(pid, statement, queried_columns, rows)
+    parse_rows(pid, statement, queried_columns, rows, query_id)
   end
 
-  @spec parse_rows(pid(), list(), any, any) :: list
-  def parse_rows(pid, statement, queried_columns, rows)
+  @spec parse_rows(pid(), list(), any, any, any) :: list
+  def parse_rows(pid, statement, queried_columns, rows, query_id)
       when is_list(statement) do
-    case statement do
-      ["INSERT INTO ", [34, table, 34] | _] ->
-        table_columns = TypeCache.fetch_table_columns(pid, table)
-        parse(table_columns, queried_columns, rows)
-
-      ["UPDATE ", [34, table, 34] | _] ->
-        table_columns = TypeCache.fetch_table_columns(pid, table)
-        parse(table_columns, queried_columns, rows)
-
-      ["DELETE" | tail] ->
-        find_tables(pid, tail, queried_columns, rows)
-
-      ["SELECT" | tail] ->
-        find_tables(pid, tail, queried_columns, rows)
-
-      ["UPDATE" | tail] ->
-        find_tables(pid, tail, queried_columns, rows)
-
-      _ ->
-        binary_statement = IO.iodata_to_binary(statement)
-        parse_rows(pid, binary_statement, queried_columns, rows)
-    end
+    result_columns = TypeCache.fetch_result_columns(pid, query_id, List.to_string(statement))
+    parse(result_columns, queried_columns, rows)
   end
 
-  defp find_tables(pid, tail, queried_columns, rows) do
-    case build_table_list(tail, []) do
-      [table] ->
-        table_columns = TypeCache.fetch_table_columns(pid, table)
-        parse(table_columns, queried_columns, rows)
-
-      [] ->
-        Enum.map(rows, &Tuple.to_list/1)
-
-      table_list ->
-        table_list
-        |> Enum.reverse()
-        |> Enum.map(&TypeCache.fetch_table_columns(pid, &1))
-        |> parse_tables(queried_columns, rows)
-    end
-  end
-
-  defp build_table_list([], tables), do: tables
-
-  defp build_table_list(["FROM", "(SELECT" | tail], tables),
-    do: build_table_list(tail, tables)
-
-  defp build_table_list(["FROM", table | tail], tables),
-    do: build_table_list(tail, [table | tables])
-
-  defp build_table_list(["JOIN", table | tail], tables),
-    do: build_table_list(tail, [table | tables])
-
-  defp build_table_list([_ | tail], tables), do: build_table_list(tail, tables)
-
-  defp parse_tables(tables, queried_columns, rows) do
-    types =
-      Enum.map(queried_columns, fn column ->
-        tables
-        |> Enum.map(&Map.get(&1, column))
-        |> Enum.filter(& &1)
-        |> Enum.sort()
-        |> Enum.dedup()
-      end)
-
-    rows
-    |> Enum.map(&Tuple.to_list/1)
-    |> Enum.map(&Enum.zip(types, &1))
-    |> Enum.map(&parse_and_select/1)
-  end
-
-  defp parse_and_select(row) do
-    # credo:disable-for-lines:14 Credo.Check.Readability.SinglePipe
-    parse(row)
-    |> Enum.map(fn col ->
-      col =
-        col
-        |> Enum.sort()
-        |> Enum.dedup()
-
-      if Enum.count(col) == 1 do
-        List.first(col)
-      else
-        raise "unable to determine correct type of #{inspect(col)}"
-      end
-    end)
-  end
-
-  defp parse(table_columns, queried_columns, rows) do
-    types = Enum.map(queried_columns, &Map.get(table_columns, &1))
+  defp parse(result_columns, queried_columns, rows) do
+    types = Enum.map(queried_columns, &Map.get(result_columns, &1))
 
     rows
     |> Enum.map(&Tuple.to_list/1)
@@ -120,51 +37,26 @@ defmodule Snowpack.TypeParser do
     Enum.map(types, fn type -> parse({type, data}) end)
   end
 
-  defp parse({_type, :null}), do: :null
+  defp parse({:time, data}), do: DateTimeParser.parse_time!(data)
 
-  defp parse({:sql_bigint, data}) when is_binary(data),
-    do: String.to_integer(data)
+  defp parse({:date, data}), do: DateTimeParser.parse_date!(data)
 
-  defp parse({:sql_integer, data}) when is_binary(data),
-    do: String.to_integer(data)
+  defp parse({:datetime, data}), do: DateTimeParser.parse_datetime!(data)
 
-  defp parse({{:sql_numeric, _, 0}, data}) when is_binary(data),
-    do: String.to_integer(data)
-
-  defp parse({{:sql_numeric, _, _}, data}) when is_binary(data) do
+  defp parse({:float, data}) do
     {float, ""} = Float.parse(data)
     Decimal.from_float(float)
   end
 
-  defp parse({{:sql_decimal, _, 0}, data}) when is_binary(data),
-    do: String.to_integer(data)
+  defp parse({:integer, data}), do: String.to_integer(data)
 
-  defp parse({{:sql_decimal, _, _}, data}) when is_binary(data) do
-    {float, ""} = Float.parse(data)
-    Decimal.from_float(float)
-  end
+  defp parse({:json, data}), do: Poison.decode!(data)
 
-  defp parse({:SQL_TYPE_DATE, data}) when is_binary(data),
-    do: DateTimeParser.parse_date!(data)
-
-  defp parse({:SQL_TYPE_TIME, data}) when is_binary(data),
-    do: DateTimeParser.parse_time!(data)
-
-  defp parse({:SQL_TYPE_TIMESTAMP, data}) when is_binary(data),
-    do: DateTimeParser.parse_datetime!(data)
-
-  defp parse({_type, data}) do
-    # {_type, data} |> IO.inspect(label: :parse)
+  defp parse({_, data}) do
     data
   end
 
   # TODO: support other Snowflake data types
   # https://docs.snowflake.com/en/user-guide/odbc-api.html#custom-sql-data-types
-  #
-  #   define SQL_SF_TIMESTAMP_LTZ 2000
-  #   define SQL_SF_TIMESTAMP_TZ  2001
-  #   define SQL_SF_TIMESTAMP_NTZ 2002
-  #   define SQL_SF_ARRAY         2003
-  #   define SQL_SF_OBJECT        2004
   #   define SQL_SF_VARIANT       2005
 end
