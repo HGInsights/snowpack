@@ -18,12 +18,11 @@ defmodule QueryTest do
     assert [[true, false]] = query("SELECT true, false", [])
     assert [["e"]] = query("SELECT 'e'::char", [])
     assert [[42]] = query("SELECT 42", [])
-    fourty_two = Decimal.new("42.0")
-    assert [[^fourty_two]] = query("SELECT 42::float", [])
+    assert [[42.0]] == query("SELECT 42::float", [])
     date = ~D[2020-05-28]
     assert [[^date]] = query("SELECT '2020-05-28'::DATE", [])
-    array = <<1, 2, 3>>
-    assert [[array]] == query("SELECT array_construct(1, 2, 3)", [])
+    array = [1,2,3]
+    assert [[^array]] = query("SELECT array_construct(1, 2, 3)", [])
 
     #    credo:disable-for-next-line Credo.Check.Design.TagTODO
     #    TODO: Get working test for OBJECT type

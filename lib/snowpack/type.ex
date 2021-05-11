@@ -142,34 +142,11 @@ defmodule Snowpack.Type do
   Transforms `:odbc` return values to Elixir representations.
   """
   @spec decode(:odbc.value(), opts :: Keyword.t()) :: return_value()
-  def decode(value, _) when is_float(value) do
-    Decimal.from_float(value)
-  end
-
-  def decode(value, _opts) when is_binary(value) do
-    to_string(value)
-  end
-
-  def decode(value, _) when is_list(value) do
-    to_string(value)
-  end
-
   def decode(:null, _) do
     nil
   end
 
-  def decode({date, {h, m, s}}, opts) do
-    decode({date, {h, m, s, 0}}, opts)
-  end
-
-  def decode({{year, month, day}, {hour, minute, second, msecond}}, _) do
-    {:ok, date} = Date.new(year, month, day)
-    {:ok, time} = Time.new(hour, minute, second, msecond)
-    {:ok, datetime} = NaiveDateTime.new(date, time)
-    datetime
-  end
-
-  def decode(value, _) do
+  def decode(value, opts) do
     value
   end
 
