@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/HGInsights/snowpack/compare/v0.1.4...v0.2.0) (2021-05-11)
+
+
+### Features
+
+* Update type parsing to cover more types and be based on query result (fixes #5) ([8cf6b85](https://github.com/HGInsights/snowpack/commit/8cf6b85a7b3855bb8d56cd78aa85f6503aa23f4b)), closes [#5](https://github.com/HGInsights/snowpack/issues/5)
+
 ## [0.1.4](https://github.com/HGInsights/snowpack/compare/v0.1.3...v0.1.4) (2021-04-30)
 
 
