@@ -51,7 +51,7 @@ defmodule Snowpack.TypeParser do
 
   defp parse({:integer, data}) when is_binary(data), do: String.to_integer(data)
 
-  defp parse({:json, data}), do: JSON.decode!(data)
+  defp parse({:json, data}), do: Jason.decode!(data)
 
   defp parse({_, data}) do
     data
