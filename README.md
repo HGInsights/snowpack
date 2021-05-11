@@ -81,10 +81,10 @@ Snowpack.query!(:snowpack, "SELECT NOW()").rows
 Snowflake ODBC       Elixir
 -----                ------
 NULL                 nil
-bool                 1 | 0
+bool                 true | false
 int                  42
 float                42.0
-decimal              #Decimal<42.0> # (1)
+decimal              42.0
 date                 ~D[2013-10-12]
 time                 ~T[00:37:14]
 datetime             ~N[2013-10-12 00:37:14]  # (2)
@@ -93,6 +93,8 @@ char                 "é"
 text                 "snowpack"
 binary               <<1, 2, 3>>
 bit                  <<1::size(1), 0::size(1)>>
+array                [1, 2, 3]
+object               %{key: "value"}
 ```
 
 Notes:
