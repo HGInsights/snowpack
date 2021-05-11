@@ -20,7 +20,7 @@ defmodule Snowpack.TypeParser do
   end
 
   defp parse(result_columns, queried_columns, rows) do
-    types = Enum.map(queried_columns, &Map.get(result_columns, &1))
+    types = Enum.map(queried_columns, &List.to_string/1) |> Enum.map(&Map.get(result_columns, &1))
 
     rows
     |> Enum.map(&Tuple.to_list/1)
@@ -43,14 +43,14 @@ defmodule Snowpack.TypeParser do
 
   defp parse({:datetime, data}), do: DateTimeParser.parse_datetime!(data)
 
-  defp parse({:float, data}) do
+  defp parse({:float, data}) when is_binary(data) do
     {float, ""} = Float.parse(data)
     Decimal.from_float(float)
   end
 
-  defp parse({:integer, data}), do: String.to_integer(data)
+  defp parse({:integer, data}) when is_binary(data), do: String.to_integer(data)
 
-  defp parse({:json, data}), do: Poison.decode!(data)
+  defp parse({:json, data}), do: JSON.decode!(data)
 
   defp parse({_, data}) do
     data

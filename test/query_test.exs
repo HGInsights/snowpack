@@ -20,6 +20,12 @@ defmodule QueryTest do
     assert [[42]] = query("SELECT 42", [])
     fourty_two = Decimal.new("42.0")
     assert [[^fourty_two]] = query("SELECT 42::float", [])
+    date = ~D[2020-05-28]
+    assert [[^date]] = query("SELECT '2020-05-28'::DATE", [])
+    array = <<1, 2, 3>>
+    assert [[array]] == query("SELECT array_construct(1, 2, 3)", [])
+    object = %{ key1: "value1", key2: "value2" }
+    assert [[^object]] = query("SELECT parse_json(' { \"key1\": \"value1\", \"key2\": \"value2\" } ')", [])
   end
 
   test "long number param", context do
