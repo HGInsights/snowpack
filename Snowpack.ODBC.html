@@ -10,7 +10,7 @@
     <title>Snowpack.ODBC — Snowpack v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-e44adcd617.js"></script>
+    <script src="dist/sidebar_items-00b5ddfcbd.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -130,6 +130,13 @@ accessed directly.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#describe_result/2">describe_result(pid, query_id)</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#disconnect/1">disconnect(pid)</a>
 
   </div>
@@ -210,7 +217,7 @@ Functions
     </a>
     <h1 class="signature">describe(pid, table)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L69" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L98" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -231,6 +238,36 @@ Functions
 <p>Describes the given table.</p>
   </section>
 </section>
+<section class="detail" id="describe_result/2">
+
+  <div class="detail-header">
+    <a href="#describe_result/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">describe_result(pid, query_id)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L109" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>describe_result(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()) ::
+  {:selected, [<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()], [<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">tuple</a>()]} | {:error, <a href="Snowpack.Error.html#t:t/0">Snowpack.Error.t</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
 <section class="detail" id="disconnect/1">
 
   <div class="detail-header">
@@ -240,7 +277,7 @@ Functions
     </a>
     <h1 class="signature">disconnect(pid)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L83" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L123" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -269,7 +306,7 @@ Functions
     </a>
     <h1 class="signature">init(opts)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L90" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L130" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -298,7 +335,7 @@ Functions
     </a>
     <h1 class="signature">query(pid, statement, params, opts)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L49" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L78" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -335,7 +372,7 @@ for usage details and examples.</p><p><code class="inline">pid</code> is the <co
     </a>
     <h1 class="signature">start_link(conn_str, opts)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L29" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L58" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>

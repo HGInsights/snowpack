@@ -7,10 +7,10 @@
     <meta name="generator" content="ExDoc v0.24.0">
     <meta name="project" content="Snowpack v0.1.0">
 
-    <title>Snowpack.TypeCache.fetch_table_columns — Snowpack v0.1.0</title>
+    <title>Snowpack.ODBC.describe_result — Snowpack v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-e44adcd617.js"></script>
+    <script src="dist/sidebar_items-00b5ddfcbd.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -79,22 +79,22 @@ Snowpack
   <div class="content-outer">
     <div id="content" class="content-inner">
 
-<h1>Snowpack.TypeCache.fetch_table_columns</h1>
+<h1>Snowpack.ODBC.describe_result</h1>
 
 <div class="deprecated">
-  You're seeing just the function <code>fetch_table_columns</code>, go back to <a href="Snowpack.TypeCache.html">Snowpack.TypeCache</a> module for more information.
+  You're seeing just the function <code>describe_result</code>, go back to <a href="Snowpack.ODBC.html">Snowpack.ODBC</a> module for more information.
 </div>
 
-<section class="detail" id="fetch_table_columns/2">
+<section class="detail" id="describe_result/2">
 
   <div class="detail-header">
-    <a href="#fetch_table_columns/2" class="detail-link" title="Link to this function">
+    <a href="#describe_result/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">fetch_table_columns(pid, table)</h1>
+    <h1 class="signature">describe_result(pid, query_id)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_cache.ex#L7" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/odbc.ex#L109" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -107,7 +107,8 @@ Snowpack
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>fetch_table_columns(pid :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), table :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()}</pre>
+          <pre>describe_result(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()) ::
+  {:selected, [<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()], [<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">tuple</a>()]} | {:error, <a href="Snowpack.Error.html#t:t/0">Snowpack.Error.t</a>()}</pre>
 
       </div>
 
