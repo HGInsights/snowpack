@@ -16,9 +16,9 @@ defmodule Snowpack.ODBC do
   require Logger
 
   @timeout :timer.seconds(60)
-  @begin_transaction IO.iodata_to_binary("begin transaction;")
-  @last_query_id IO.iodata_to_binary("SELECT LAST_QUERY_ID() as query_id;")
-  @close_transaction IO.iodata_to_binary("commit;")
+  @begin_transaction 'begin transaction;'
+  @last_query_id 'SELECT LAST_QUERY_ID() as query_id;'
+  @close_transaction 'commit;'
 
   @data_types [
     {~r/NUMBER\([0-9]+,0\)/, :integer},
@@ -141,21 +141,21 @@ defmodule Snowpack.ODBC do
         _from,
         %{pid: pid} = state
       ) do
-    :odbc.sql_query(pid, to_charlist(@begin_transaction))
+    :odbc.sql_query(pid, @begin_transaction)
 
     case :odbc.param_query(pid, to_charlist(statement), params) do
       {:error, reason} ->
         error = Error.exception(reason)
         Logger.warn("Unable to execute query: #{error.message}")
 
-        :odbc.sql_query(pid, to_charlist(@close_transaction))
+        :odbc.sql_query(pid, @close_transaction)
 
         {:reply, {:error, error}, state}
 
       result ->
-        {:selected, _, query_id} = :odbc.sql_query(pid, to_charlist(@last_query_id))
+        {:selected, _, query_id} = :odbc.sql_query(pid, @last_query_id)
 
-        :odbc.sql_query(pid, to_charlist(@close_transaction))
+        :odbc.sql_query(pid, @close_transaction)
 
         {:reply, Tuple.append(result, query_id), state}
     end
