@@ -24,8 +24,10 @@ defmodule QueryTest do
     assert [[^date]] = query("SELECT '2020-05-28'::DATE", [])
     array = <<1, 2, 3>>
     assert [[array]] == query("SELECT array_construct(1, 2, 3)", [])
-    object = %{ key1: "value1", key2: "value2" }
-    assert [[^object]] = query("SELECT parse_json(' { \"key1\": \"value1\", \"key2\": \"value2\" } ')", [])
+    object = %{key1: "value1", key2: "value2"}
+
+    assert [[^object]] =
+             query("SELECT parse_json(' { \"key1\": \"value1\", \"key2\": \"value2\" } ')", [])
   end
 
   test "long number param", context do
