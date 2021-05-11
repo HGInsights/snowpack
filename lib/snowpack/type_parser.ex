@@ -20,6 +20,7 @@ defmodule Snowpack.TypeParser do
   end
 
   defp parse(result_columns, queried_columns, rows) do
+    # credo:disable-for-next-line Credo.Check.Readability.SinglePipe
     types = Enum.map(queried_columns, &List.to_string/1) |> Enum.map(&Map.get(result_columns, &1))
 
     rows
@@ -56,6 +57,7 @@ defmodule Snowpack.TypeParser do
     data
   end
 
+  # credo:disable-for-next-line Credo.Check.Design.TagTODO
   # TODO: support other Snowflake data types
   # https://docs.snowflake.com/en/user-guide/odbc-api.html#custom-sql-data-types
   #   define SQL_SF_VARIANT       2005

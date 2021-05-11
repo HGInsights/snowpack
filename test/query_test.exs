@@ -26,6 +26,7 @@ defmodule QueryTest do
     assert [[array]] == query("SELECT array_construct(1, 2, 3)", [])
     object = %{key1: "value1", key2: "value2"}
 
+    # credo:disable-for-lines:2 Credo.Check.Readability.StringSigils
     assert [[^object]] =
              query("SELECT parse_json(' { \"key1\": \"value1\", \"key2\": \"value2\" } ')", [])
   end
