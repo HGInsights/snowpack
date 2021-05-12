@@ -146,7 +146,7 @@ defmodule Snowpack.Type do
     nil
   end
 
-  def decode(value, opts) do
+  def decode(value, _opts) do
     value
   end
 

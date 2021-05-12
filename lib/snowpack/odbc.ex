@@ -240,7 +240,7 @@ defmodule Snowpack.ODBC do
 
     Enum.map(rows, fn row ->
       {_, type} =
-        Enum.find(@data_types, {nil, :default}, fn {reg, type} ->
+        Enum.find(@data_types, {nil, :default}, fn {reg, _type} ->
           String.match?(elem(row, index_of_type), reg)
         end)
 
