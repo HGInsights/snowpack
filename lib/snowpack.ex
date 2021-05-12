@@ -202,7 +202,7 @@ defmodule Snowpack do
       when is_iodata(name) and is_iodata(statement) do
     query = %Snowpack.Query{name: name, statement: statement}
     IO.inspect(query, label: "Snowpack Query")
-    DBConnection.prepare_execute(conn, query, params, opts)
+    DBConnection.prepare_execute(conn, query, params, [log: &IO.inspect/1])
   end
 
   @doc """
@@ -219,7 +219,7 @@ defmodule Snowpack do
       when is_iodata(name) and is_iodata(statement) do
     query = %Snowpack.Query{name: name, statement: statement}
     IO.inspect(query, label: "Snowpack Query")
-    DBConnection.prepare_execute!(conn, query, params, opts)
+    DBConnection.prepare_execute!(conn, query, params, [log: &IO.inspect/1])
   end
 
   @doc """
