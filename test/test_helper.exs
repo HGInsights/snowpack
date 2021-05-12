@@ -18,15 +18,9 @@ defmodule Snowpack.TestHelper do
   def odbc_ini_opts do
     [
       connection: [
-        dsn: System.fetch_env!("SNOWPACK_DSN_NAME"),
-        server: System.fetch_env!("SNOWPACK_SERVER"),
-        uid: System.fetch_env!("SNOWPACK_KEYPAIR_UID"),
-        authenticator: System.fetch_env!("SNOWPACK_KEYPAIR_AUTHENTICATOR"),
-        priv_key_file: System.fetch_env!("SNOWPACK_PRIV_KEY_FILE")
+        dsn: System.fetch_env!("SNOWPACK_DSN_NAME")
       ],
       pool_size: 1
-      # queue_target: 50,
-      # queue_interval: 1000
     ]
   end
 
