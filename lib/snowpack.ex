@@ -117,6 +117,7 @@ defmodule Snowpack do
     # credo:disable-for-lines:2 Credo.Check.Readability.SinglePipe
     prepare_execute(conn, "", statement, params, options)
     |> query_result()
+    |> IO.inspect(label: "Snowpack Query Result")
   end
 
   @doc """
