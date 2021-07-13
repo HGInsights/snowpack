@@ -195,6 +195,9 @@ defmodule Snowpack.Protocol do
 
       {:updated, num_rows} ->
         {:ok, %Result{num_rows: num_rows}, state}
+
+      {:updated, :undefined, [{query_id}]} ->
+        {:ok, %Result{num_rows: 1}, state}
     end
   end
 
