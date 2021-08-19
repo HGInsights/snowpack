@@ -186,7 +186,9 @@ defmodule Snowpack.ODBC do
           "02000" ->
             Logger.warn("Query #{query_id} has expired.")
             {:reply, [], state}
-          _ -> {:reply, {:error, error}, state}
+
+          _ ->
+            {:reply, {:error, error}, state}
         end
 
       result ->

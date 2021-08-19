@@ -28,5 +28,10 @@ snowpack-*.tar
 # Temporary files for e.g. tests
 /tmp
 
+# JetBrains
+.idea
+*.iml
+
 # Key Files
 *.p8
+*.pem
