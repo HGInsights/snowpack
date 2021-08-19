@@ -182,7 +182,12 @@ defmodule Snowpack.ODBC do
         error = Error.exception(reason)
         Logger.warn("Unable to describe #{query_id}: #{error.message}")
 
-        {:reply, {:error, error}, state}
+        case error.odbc_code do
+          "02000" ->
+            Logger.warn("Query #{query_id} has expired.")
+            {:reply, [], state}
+          _ -> {:reply, {:error, error}, state}
+        end
 
       result ->
         # parse name, type
