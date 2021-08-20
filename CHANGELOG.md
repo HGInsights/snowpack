@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/HGInsights/snowpack/compare/v0.2.0...v0.3.0) (2021-08-20)
+
+
+### Features
+
+* Handle results from a non select statement (#12) ([a5b6f11](https://github.com/HGInsights/snowpack/commit/a5b6f11859f41dcc6d458c0ddefd43be485c1b12)), closes [#12](https://github.com/HGInsights/snowpack/issues/12)
+
 # [0.2.0](https://github.com/HGInsights/snowpack/compare/v0.1.4...v0.2.0) (2021-05-11)
 
 
