@@ -125,9 +125,7 @@ defmodule Snowpack.Type do
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
 
-  def encode(nil, _) do
-    {:sql_integer, [:null]}
-  end
+  def encode(nil, _), do: {:sql_integer, [:null]}
 
   def encode(values, v) when is_list(values),
     do: Enum.map(values, &encode(&1, v))
@@ -142,19 +140,11 @@ defmodule Snowpack.Type do
   Transforms `:odbc` return values to Elixir representations.
   """
   @spec decode(:odbc.value(), opts :: Keyword.t()) :: return_value()
-  def decode(:null, _) do
-    nil
-  end
+  def decode(:null, _), do: nil
 
-  def decode(value, opts) do
-    value
-  end
+  def decode(value, _opts), do: value
 
-  defp to_encoded_string(data) do
-    # credo:disable-for-lines:2 Credo.Check.Readability.SinglePipe
-    data
-    |> to_string()
-  end
+  defp to_encoded_string(data), do: to_string(data)
 
   defp calculate_decimal_scale(dec) do
     coef_size = dec.coef |> Integer.digits() |> Enum.count()
