@@ -10,7 +10,7 @@
     <title>Snowpack.TypeParser — Snowpack v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-faa3787778.js"></script>
+    <script src="dist/sidebar_items-f4980c134d.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -110,7 +110,7 @@ Snowpack.TypeParser <small class="app-vsn">(Snowpack v0.1.0)</small>
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#parse_rows/5">parse_rows(pid, statement, queried_columns, rows, query_id)</a>
+    <a href="#parse_rows/3">parse_rows(column_types, queried_columns, rows)</a>
 
   </div>
 
@@ -130,16 +130,16 @@ Snowpack.TypeParser <small class="app-vsn">(Snowpack v0.1.0)</small>
 Functions
           </h1>
           <div class="functions-list">
-<section class="detail" id="parse_rows/5">
+<section class="detail" id="parse_rows/3">
 
   <div class="detail-header">
-    <a href="#parse_rows/5" class="detail-link" title="Link to this function">
+    <a href="#parse_rows/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">parse_rows(pid, statement, queried_columns, rows, query_id)</h1>
+    <h1 class="signature">parse_rows(column_types, queried_columns, rows)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_parser.ex#L9" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_parser.ex#L7" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -152,9 +152,7 @@ Functions
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>parse_rows(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
-
-          <pre>parse_rows(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
+          <pre>parse_rows(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>()</pre>
 
       </div>
 

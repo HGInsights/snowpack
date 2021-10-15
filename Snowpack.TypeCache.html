@@ -10,7 +10,7 @@
     <title>Snowpack.TypeCache — Snowpack v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-faa3787778.js"></script>
+    <script src="dist/sidebar_items-f4980c134d.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -110,7 +110,28 @@ Snowpack.TypeCache <small class="app-vsn">(Snowpack v0.1.0)</small>
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#fetch_result_columns/3">fetch_result_columns(pid, query_id, statement)</a>
+    <a href="#fetch_column_types/3">fetch_column_types(pid, query_id, statement)</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_column_types/1">get_column_types(statement)</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#key_from_statement/1">key_from_statement(statement)</a>
+
+  </div>
+
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start_link/0">start_link()</a>
 
   </div>
 
@@ -130,16 +151,16 @@ Snowpack.TypeCache <small class="app-vsn">(Snowpack v0.1.0)</small>
 Functions
           </h1>
           <div class="functions-list">
-<section class="detail" id="fetch_result_columns/3">
+<section class="detail" id="fetch_column_types/3">
 
   <div class="detail-header">
-    <a href="#fetch_result_columns/3" class="detail-link" title="Link to this function">
+    <a href="#fetch_column_types/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">fetch_result_columns(pid, query_id, statement)</h1>
+    <h1 class="signature">fetch_column_types(pid, query_id, statement)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_cache.ex#L8" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_cache.ex#L37" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -152,8 +173,95 @@ Functions
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>fetch_result_columns(pid :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), query_id :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), statement :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) ::
+          <pre>fetch_column_types(pid :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), query_id :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), statement :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">any</a>()) ::
   {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()}</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="get_column_types/1">
+
+  <div class="detail-header">
+    <a href="#get_column_types/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_column_types(statement)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_cache.ex#L23" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>get_column_types(statement :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()} | nil</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="key_from_statement/1">
+
+  <div class="detail-header">
+    <a href="#key_from_statement/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">key_from_statement(statement)</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_cache.ex#L20" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>key_from_statement(statement :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="start_link/0">
+
+  <div class="detail-header">
+    <a href="#start_link/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">start_link()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_cache.ex#L9" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre>start_link() :: <a href="https://hexdocs.pm/elixir/Supervisor.html#t:on_start/0">Supervisor.on_start</a>()</pre>
 
       </div>
 

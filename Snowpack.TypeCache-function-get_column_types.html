@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.24.0">
     <meta name="project" content="Snowpack v0.1.0">
 
-    <title>Snowpack.close — Snowpack v0.1.0</title>
+    <title>Snowpack.TypeCache.get_column_types — Snowpack v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
     <script src="dist/sidebar_items-f4980c134d.js"></script>
@@ -79,24 +79,22 @@ Snowpack
   <div class="content-outer">
     <div id="content" class="content-inner">
 
-<h1>Snowpack.close</h1>
+<h1>Snowpack.TypeCache.get_column_types</h1>
 
 <div class="deprecated">
-  You're seeing just the function <code>close</code>, go back to <a href="Snowpack.html">Snowpack</a> module for more information.
+  You're seeing just the function <code>get_column_types</code>, go back to <a href="Snowpack.TypeCache.html">Snowpack.TypeCache</a> module for more information.
 </div>
 
-<section class="detail" id="close/3">
-
-    <span id="close/2"></span>
+<section class="detail" id="get_column_types/1">
 
   <div class="detail-header">
-    <a href="#close/3" class="detail-link" title="Link to this function">
+    <a href="#get_column_types/1" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature">close(conn, query, opts \\ [])</h1>
+    <h1 class="signature">get_column_types(statement)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L265" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/type_cache.ex#L23" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -109,16 +107,11 @@ Snowpack
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre>close(<a href="#t:conn/0">conn</a>(), <a href="Snowpack.Query.html#t:t/0">Snowpack.Query.t</a>(), [<a href="#t:option/0">option</a>()]) :: :ok</pre>
+          <pre>get_column_types(statement :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">map</a>()} | nil</pre>
 
       </div>
 
-<p>Closes a prepared query.</p><p>Returns <code class="inline">:ok</code> on success, or raises an exception if there was an error.</p><h2 id="close/3-options" class="section-heading">
-  <a href="#close/3-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
-  Options
-</h2>
-<p>Options are passed to <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#close/3"><code class="inline">DBConnection.close/3</code></a>, see it's documentation for
-all available options.</p>
+
   </section>
 </section>
 
