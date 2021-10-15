@@ -3,25 +3,16 @@ defmodule Snowpack.TypeParser do
   Parser for table column data types.
   """
 
-  alias Snowpack.TypeCache
-
-  @spec parse_rows(pid(), binary, any, any, any) :: list
-  def parse_rows(pid, statement, queried_columns, rows, query_id)
-      when is_binary(statement) do
-    statement = String.split(statement)
-    parse_rows(pid, statement, queried_columns, rows, query_id)
+  @spec parse_rows(any, any, any) :: list
+  def parse_rows(column_types, queried_columns, rows) do
+    parse(column_types, queried_columns, rows)
   end
 
-  @spec parse_rows(pid(), list(), any, any, any) :: list
-  def parse_rows(pid, statement, queried_columns, rows, query_id)
-      when is_list(statement) do
-    result_columns = TypeCache.fetch_result_columns(pid, query_id, List.to_string(statement))
-    parse(result_columns, queried_columns, rows)
-  end
-
-  defp parse(result_columns, queried_columns, rows) do
-    # credo:disable-for-next-line Credo.Check.Readability.SinglePipe
-    types = Enum.map(queried_columns, &List.to_string/1) |> Enum.map(&Map.get(result_columns, &1))
+  defp parse(column_types, queried_columns, rows) do
+    types =
+      queried_columns
+      |> Enum.map(&List.to_string/1)
+      |> Enum.map(&Map.get(column_types, &1))
 
     rows
     |> Enum.map(&Tuple.to_list/1)

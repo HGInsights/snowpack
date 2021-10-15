@@ -70,18 +70,20 @@ defmodule Snowpack.ODBC do
   `statement` is the SQL query string
   `params` are the parameters to send with the SQL query
   `opts` are options to be passed on to `:odbc`
+  `with_query_id` runs query in transaction and selects LAST_QUERY_ID()
   """
-  @spec query(pid(), iodata(), Keyword.t(), Keyword.t()) ::
+  @spec query(pid(), iodata(), Keyword.t(), Keyword.t(), boolean()) ::
           {:selected, [binary()], [tuple()]}
+          | {:selected, [binary()], [tuple()], [{binary()}]}
           | {:updated, non_neg_integer()}
           | {:error, Error.t()}
-  def query(pid, statement, params, opts) do
+  def query(pid, statement, params, opts, with_query_id \\ false) do
     if Process.alive?(pid) do
       statement = IO.iodata_to_binary(statement)
 
       GenServer.call(
         pid,
-        {:query, %{statement: statement, params: params}},
+        {:query, %{statement: statement, params: params, with_query_id: with_query_id}},
         Keyword.get(opts, :timeout, @timeout)
       )
     else
@@ -132,12 +134,30 @@ defmodule Snowpack.ODBC do
     {:ok, %{backoff: :backoff.init(2, 60), state: :not_connected}}
   end
 
+  @spec handle_call(request :: term(), term(), state :: term()) :: term()
   def handle_call({:query, _query}, _from, %{state: :not_connected} = state) do
     {:reply, {:error, :not_connected}, state}
   end
 
   def handle_call(
-        {:query, %{statement: statement, params: params}},
+        {:query, %{statement: statement, params: params, with_query_id: false}},
+        _from,
+        %{pid: pid} = state
+      ) do
+    case :odbc.param_query(pid, to_charlist(statement), params) do
+      {:error, reason} ->
+        error = Error.exception(reason)
+        Logger.warn("Unable to execute query: #{error.message}")
+
+        {:reply, {:error, error}, state}
+
+      result ->
+        {:reply, result, state}
+    end
+  end
+
+  def handle_call(
+        {:query, %{statement: statement, params: params, with_query_id: true}},
         _from,
         %{pid: pid} = state
       ) do
@@ -161,7 +181,6 @@ defmodule Snowpack.ODBC do
     end
   end
 
-  @spec handle_call(request :: term(), term(), state :: term()) :: term()
   def handle_call({:describe, table}, _from, %{pid: pid} = state) do
     case :odbc.describe_table(pid, to_charlist(table)) do
       {:error, reason} ->
@@ -175,7 +194,6 @@ defmodule Snowpack.ODBC do
     end
   end
 
-  @spec handle_call(request :: term(), term(), state :: term()) :: term()
   def handle_call({:describe_result, query_id}, _from, %{pid: pid} = state) do
     case :odbc.sql_query(pid, to_charlist("DESCRIBE RESULT '#{query_id}'")) do
       {:error, reason} ->
@@ -247,7 +265,7 @@ defmodule Snowpack.ODBC do
 
     Enum.map(rows, fn row ->
       {_, type} =
-        Enum.find(@data_types, {nil, :default}, fn {reg, type} ->
+        Enum.find(@data_types, {nil, :default}, fn {reg, _type} ->
           String.match?(elem(row, index_of_type), reg)
         end)
 

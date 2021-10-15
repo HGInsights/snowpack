@@ -11,8 +11,7 @@ defmodule Snowpack.Protocol do
 
   use DBConnection
 
-  alias Snowpack.ODBC
-  alias Snowpack.Result
+  alias Snowpack.{ODBC, Result, TypeCache, TypeParser}
 
   defstruct pid: nil, snowflake: :idle, conn_opts: []
 
@@ -169,28 +168,36 @@ defmodule Snowpack.Protocol do
   end
 
   defp do_query(query, params, opts, state) do
-    case ODBC.query(state.pid, query.statement, params, opts) do
+    result =
+      case TypeCache.get_column_types(query.statement) do
+        {:ok, column_types} ->
+          query_result = ODBC.query(state.pid, query.statement, params, opts)
+          Tuple.append(query_result, %{column_types: column_types})
+
+        nil ->
+          with {:selected, columns, rows, [{query_id}]} <-
+                 ODBC.query(state.pid, query.statement, params, opts, true),
+               {:ok, column_types} <-
+                 TypeCache.fetch_column_types(state.pid, query_id, to_string(query.statement)) do
+            {:selected, columns, rows, %{column_types: column_types}}
+          end
+      end
+
+    case result do
       {:error, %Snowpack.Error{odbc_code: :connection_exception} = reason} ->
         {:disconnect, reason, state}
 
       {:error, reason} ->
         {:error, reason, state}
 
-      {:selected, columns, rows, [{query_id}]} ->
-        rows =
-          Snowpack.TypeParser.parse_rows(
-            state.pid,
-            query.statement,
-            columns,
-            rows,
-            query_id
-          )
+      {:selected, columns, rows, %{column_types: column_types}} ->
+        typed_rows = TypeParser.parse_rows(column_types, columns, rows)
 
         {:ok,
          %Result{
            columns: Enum.map(columns, &to_string(&1)),
-           rows: rows,
-           num_rows: Enum.count(rows)
+           rows: typed_rows,
+           num_rows: Enum.count(typed_rows)
          }, state}
 
       {:updated, num_rows} ->
