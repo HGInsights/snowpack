@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/HGInsights/snowpack/compare/v0.3.0...v0.4.0) (2021-10-15)
+
+
+### Features
+
+* better caching of query column types to reduce usage of transactions, LAST_QUERY_ID(), and DESCRIBE RESULT (#13) ([aba7732](https://github.com/HGInsights/snowpack/commit/aba77323488c72398347055bbeaec639236b3d05)), closes [#13](https://github.com/HGInsights/snowpack/issues/13)
+
 # [0.3.0](https://github.com/HGInsights/snowpack/compare/v0.2.0...v0.3.0) (2021-08-20)
 
 
