@@ -1,6 +1,6 @@
 defmodule Snowpack.TypeCache do
   @moduledoc """
-  Cache of fetching and storing the table column types.
+  Cache for fetching and storing the table column types.
   """
 
   @cache :type_cache

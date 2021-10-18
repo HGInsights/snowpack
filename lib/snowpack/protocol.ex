@@ -11,9 +11,9 @@ defmodule Snowpack.Protocol do
 
   use DBConnection
 
-  alias Snowpack.{ODBC, Result, TypeCache, TypeParser}
+  alias Snowpack.{ODBC, Result, Telemetry, TypeCache, TypeParser}
 
-  defstruct pid: nil, snowflake: :idle, conn_opts: []
+  defstruct pid: nil, snowflake: :idle, conn_opts: [], event_prefix: nil
 
   @typedoc """
   Process state.
@@ -23,11 +23,13 @@ defmodule Snowpack.Protocol do
   * `:pid`: the pid of the ODBC process
   * `:snowflake`: the transaction state. Can be `:idle` (not in a transaction).
   * `:conn_opts`: the options used to set up the connection.
+  * `:event_prefix`: the prefix to use for telemetry events
   """
   @type state :: %__MODULE__{
           pid: pid(),
           snowflake: :idle,
-          conn_opts: Keyword.t()
+          conn_opts: Keyword.t(),
+          event_prefix: atom()
         }
 
   @type opts :: Keyword.t()
@@ -39,6 +41,7 @@ defmodule Snowpack.Protocol do
   @spec connect(opts) :: {:ok, state} | {:error, Exception.t()}
   def connect(opts) do
     conn_opts = Keyword.fetch!(opts, :connection)
+    event_prefix = Keyword.fetch!(opts, :event_prefix)
 
     conn_str =
       Enum.reduce(conn_opts, "", fn {key, value}, acc ->
@@ -51,7 +54,8 @@ defmodule Snowpack.Protocol do
      %__MODULE__{
        pid: pid,
        conn_opts: opts,
-       snowflake: :idle
+       snowflake: :idle,
+       event_prefix: event_prefix
      }}
   end
 
@@ -168,43 +172,76 @@ defmodule Snowpack.Protocol do
   end
 
   defp do_query(query, params, opts, state) do
-    result =
-      case TypeCache.get_column_types(query.statement) do
-        {:ok, column_types} ->
-          query_result = ODBC.query(state.pid, query.statement, params, opts)
-          Tuple.append(query_result, %{column_types: column_types})
+    event_prefix = state.event_prefix
+    metadata = %{params: params, query: query.statement}
 
-        nil ->
-          with {:selected, columns, rows, [{query_id}]} <-
-                 ODBC.query(state.pid, query.statement, params, opts, true),
-               {:ok, column_types} <-
-                 TypeCache.fetch_column_types(state.pid, query_id, to_string(query.statement)) do
-            {:selected, columns, rows, %{column_types: column_types}}
-          end
+    start_time = Telemetry.start(event_prefix, :query, metadata)
+
+    try do
+      result =
+        case TypeCache.get_column_types(query.statement) do
+          {:ok, column_types} ->
+            query_result = ODBC.query(state.pid, query.statement, params, opts)
+            Tuple.append(query_result, %{column_types: column_types})
+
+          nil ->
+            with {:selected, columns, rows, [{query_id}]} <-
+                   ODBC.query(state.pid, query.statement, params, opts, true),
+                 {:ok, column_types} <-
+                   TypeCache.fetch_column_types(state.pid, query_id, to_string(query.statement)) do
+              {:selected, columns, rows, %{column_types: column_types}}
+            end
+        end
+
+      case result do
+        {:error, %Snowpack.Error{odbc_code: :connection_exception} = error} ->
+          metadata = Map.put(metadata, :error, error)
+          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          {:disconnect, error, state}
+
+        {:error, error} ->
+          metadata = Map.put(metadata, :error, error)
+          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          {:error, error, state}
+
+        {:selected, columns, rows, %{column_types: column_types}} ->
+          typed_rows = TypeParser.parse_rows(column_types, columns, rows)
+          num_rows = Enum.count(typed_rows)
+
+          metadata = Map.merge(metadata, %{result: :selected, num_rows: num_rows})
+
+          Telemetry.stop(event_prefix, :query, start_time, metadata)
+
+          {:ok,
+           %Result{
+             columns: Enum.map(columns, &to_string(&1)),
+             rows: typed_rows,
+             num_rows: num_rows
+           }, state}
+
+        {:updated, num_rows} ->
+          metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
+          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          {:ok, %Result{num_rows: num_rows}, state}
+
+        {:updated, :undefined, [{_query_id}]} ->
+          metadata = Map.merge(metadata, %{result: :updated, num_rows: 1})
+          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          {:ok, %Result{num_rows: 1}, state}
       end
+    catch
+      kind, error ->
+        Telemetry.exception(
+          event_prefix,
+          :query,
+          start_time,
+          kind,
+          error,
+          __STACKTRACE__,
+          metadata
+        )
 
-    case result do
-      {:error, %Snowpack.Error{odbc_code: :connection_exception} = reason} ->
-        {:disconnect, reason, state}
-
-      {:error, reason} ->
-        {:error, reason, state}
-
-      {:selected, columns, rows, %{column_types: column_types}} ->
-        typed_rows = TypeParser.parse_rows(column_types, columns, rows)
-
-        {:ok,
-         %Result{
-           columns: Enum.map(columns, &to_string(&1)),
-           rows: typed_rows,
-           num_rows: Enum.count(typed_rows)
-         }, state}
-
-      {:updated, num_rows} ->
-        {:ok, %Result{num_rows: num_rows}, state}
-
-      {:updated, :undefined, [{_query_id}]} ->
-        {:ok, %Result{num_rows: 1}, state}
+        :erlang.raise(kind, error, __STACKTRACE__)
     end
   end
 
