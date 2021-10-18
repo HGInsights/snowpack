@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.24.0">
     <meta name="project" content="Snowpack v0.1.0">
 
-    <title>Snowpack.query-exclamation-mark — Snowpack v0.1.0</title>
+    <title>Snowpack.Telemetry — Snowpack v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
     <script src="dist/sidebar_items-b5fc6e5e0b.js"></script>
@@ -79,45 +79,21 @@ Snowpack
   <div class="content-outer">
     <div id="content" class="content-inner">
 
-<h1>Snowpack.query-exclamation-mark</h1>
+      <h1>
+Snowpack.Telemetry <small class="app-vsn">(Snowpack v0.1.0)</small>
 
-<div class="deprecated">
-  You're seeing just the function <code>query-exclamation-mark</code>, go back to <a href="Snowpack.html">Snowpack</a> module for more information.
-</div>
+          <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack/telemetry.ex#L1" title="View Source" class="view-source" rel="help">
+            <span class="icon-code" aria-hidden="true"></span>
+            <span class="sr-only">View Source</span>
+          </a>
 
-<section class="detail" id="query!/4">
-
-    <span id="query!/2"></span>
-
-    <span id="query!/3"></span>
-
-  <div class="detail-header">
-    <a href="#query!/4" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature">query!(conn, statement, params \\ [], opts \\ [])</h1>
-
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L159" class="view-source" rel="help" title="View Source">
-       <span class="icon-code" aria-hidden="true"></span>
-       <span class="sr-only">View Source</span>
-     </a>
+      </h1>
 
 
-  </div>
+        <section id="moduledoc">
+<p>Telemetry integration.</p><p>Unless specified, all time's are in <code class="inline">:native</code> units.</p><p>Snowpack executes the following events:</p><ul><li><code class="inline">[:my_app, :snowpack, :query, :start]</code> - Executed at the start of each query sent to Snowflake.</li></ul><h4>Measurements</h4><ul><li><code class="inline">:system_time</code> - The time the query started</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">[:my_app, :snowpack, :query, :stop]</code> - Executed at the end of each query sent to Snowflake.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:end_time</code> - The time the query ended</li><li><code class="inline">:duration</code> - The time spent executing the query (end_time - start_time)</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">:result</code> - The query result (selected, updated)</p></li><li><p><code class="inline">:num_rows</code> - The number of rows effected by the query</p></li><li><p><code class="inline">:error</code> - Present if any error occurred while processing the query. (optional)</p></li><li><p><code class="inline">[:my_app, :snowpack, :query, :exception]</code> - Executed if executing a query throws an exception.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:end_time</code> - The time the query ended</li><li><code class="inline">:duration</code> - The time spent executing the query (end_time - start_time)</li></ul><h4>Metadata</h4><ul><li><code class="inline">:kind</code> - The type of exception.</li><li><code class="inline">:error</code> - Error description or error data.</li><li><code class="inline">:stacktrace</code> - The stacktrace</li></ul>
+        </section>
 
-  <section class="docstring">
-
-      <h2>Specs</h2>
-      <div class="specs">
-
-          <pre>query!(<a href="#t:conn/0">conn</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">list</a>(), [<a href="#t:option/0">option</a>()]) :: <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()</pre>
-
-      </div>
-
-<p>Runs a query.</p><p>Returns <code class="inline">%Snowpack.Result{}</code> on success, or raises an exception if there was an error.</p><p>See <a href="#query/4"><code class="inline">query/4</code></a>.</p>
-  </section>
-</section>
 
 
       <footer class="footer">

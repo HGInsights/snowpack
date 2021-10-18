@@ -4,6 +4,7 @@ Snowpack.ODBC.html
 Snowpack.Protocol.html
 Snowpack.Query.html
 Snowpack.Result.html
+Snowpack.Telemetry.html
 Snowpack.Type.html
 Snowpack.TypeCache.html
 Snowpack.TypeParser.html
@@ -16,7 +17,7 @@ dist/html/fonts/icomoon.eot
 dist/html/fonts/icomoon.svg
 dist/html/fonts/icomoon.ttf
 dist/html/fonts/icomoon.woff
-dist/search_items-9f7d6bb59d.js
-dist/sidebar_items-f4980c134d.js
+dist/search_items-614147d08e.js
+dist/sidebar_items-b5fc6e5e0b.js
 index.html
 search.html
