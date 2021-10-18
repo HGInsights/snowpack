@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/HGInsights/snowpack/compare/v0.4.0...v0.5.0) (2021-10-18)
+
+
+### Features
+
+* add sending telemetry events for query start, stop, and exception (#14) ([42c1b7d](https://github.com/HGInsights/snowpack/commit/42c1b7de2286162ffda0ab2e781c8f4a7384aea5)), closes [#14](https://github.com/HGInsights/snowpack/issues/14)
+
 # [0.4.0](https://github.com/HGInsights/snowpack/compare/v0.3.0...v0.4.0) (2021-10-15)
 
 
