@@ -14,8 +14,10 @@ defmodule Snowpack do
           {:dsn, String.t()}
           | {:driver, String.t()}
           | {:server, String.t()}
-          | {:warehouse, String.t()}
           | {:role, String.t()}
+          | {:warehouse, String.t()}
+          | {:database, String.t()}
+          | {:schema, String.t()}
           | {:uid, String.t()}
           | {:pwd, String.t()}
           | {:authenticator, String.t()}
@@ -26,8 +28,23 @@ defmodule Snowpack do
   @type start_option() ::
           {:connection, snowflake_conn_option()}
           | DBConnection.start_option()
+          | {:event_prefix, atom()}
 
   @type option() :: DBConnection.option()
+
+  defmacrop is_iodata(data) do
+    quote do
+      is_list(unquote(data)) or is_binary(unquote(data))
+    end
+  end
+
+  @doc """
+  Returns a supervisor child specification for a DBConnection pool.
+  """
+  @spec child_spec([start_option()]) :: :supervisor.child_spec()
+  def child_spec(opts) do
+    DBConnection.child_spec(Snowpack.Protocol, opts)
+  end
 
   @doc """
   Starts the connection process and connects to Snowflake.
@@ -46,19 +63,21 @@ defmodule Snowpack do
 
     * `:server` - Specifies the hostname for your account
 
-    * `:uid` - Specifies the login name of the Snowflake user to authenticate
+    * `:role` - Specifies the default role to use for sessions initiated by the driver
 
-    * `:pwd` - A password is required to connect to Snowflake
+    * `:warehouse` - Specifies the default warehouse to use for sessions initiated by the driver
 
     * `:database` - Specifies the default database to use for sessions initiated by the driver
 
     * `:schema` - Specifies the default schema to use for sessions initiated by the driver (default: `public`)
 
-    * `:warehouse` - Specifies the default warehouse to use for sessions initiated by the driver
+    * `:uid` - Specifies the login name of the Snowflake user to authenticate
 
-    * `:role` - Specifies the default role to use for sessions initiated by the driver
+    * `:pwd` - A password is required to connect to Snowflake
 
     * `:authenticator` - Specifies the authenticator to use for verifying user login credentials
+
+    * `:token` - Specifies the token to use for token based authentication
 
     * `:priv_key_file` - Specifies the local path to the private key file
 
@@ -76,32 +95,39 @@ defmodule Snowpack do
 
   See `DBConnection.start_link/2` for more information and a full list of available options.
 
+  ### Library Options
+
+  The given options are used to configure snowpack:
+
+    * `:event_prefix` - Used to prefix `Telemetry` events (required)
+
   ## Examples
 
-  Start connection using the default configuration (UNIX domain socket):
+  Start connection using basic User / Pass configuration:
 
-      iex> {:ok, pid} = Snowpack.start_link(connection: [server: "account-id.snowflakecomputing.com", uid: "USER", pwd: "PASS"])
+      iex> {:ok, pid} = Snowpack.start_link(event_prefix: :my_app, connection: [server: "account-id.snowflakecomputing.com", uid: "USER", pwd: "PASS"])
+      {:ok, #PID<0.69.0>}
+
+  Start connection using DNS configuration:
+
+      iex> {:ok, pid} = Snowpack.start_link(event_prefix: :my_app, connection: [dsn: "snowflake"])
       {:ok, #PID<0.69.0>}
 
   Run a query after connection has been established:
 
-      iex> {:ok, pid} = Snowpack.start_link(after_connect: &Snowpack.query!(&1, "SET time_zone = '+00:00'"))
+      iex> {:ok, pid} = Snowpack.start_link(event_prefix: :my_app, connection: [dsn: "snowflake"], after_connect: &Snowpack.query!(&1, "SET time_zone = '+00:00'"))
       {:ok, #PID<0.69.0>}
 
   """
   @spec start_link([start_option()]) :: {:ok, pid()} | {:error, Snowpack.Error.t()}
-  def start_link(options) do
-    options = Keyword.put_new(options, :idle_interval, @default_session_keepalive)
+  def start_link(opts) do
+    _ = Keyword.get(opts, :event_prefix) || raise ArgumentError, "must supply a event_prefix"
+
+    opts = Keyword.put_new(opts, :idle_interval, @default_session_keepalive)
 
     {:ok, _pid} = Snowpack.TypeCache.start_link()
 
-    DBConnection.start_link(Snowpack.Protocol, options)
-  end
-
-  defmacrop is_iodata(data) do
-    quote do
-      is_list(unquote(data)) or is_binary(unquote(data))
-    end
+    DBConnection.start_link(Snowpack.Protocol, opts)
   end
 
   @doc """
@@ -116,9 +142,10 @@ defmodule Snowpack do
   @spec query(conn, iodata, list, [option()]) ::
           {:ok, Snowpack.Result.t()} | {:error, Exception.t()}
   def query(conn, statement, params \\ [], options \\ []) when is_iodata(statement) do
-    # credo:disable-for-lines:2 Credo.Check.Readability.SinglePipe
-    prepare_execute(conn, "", statement, params, options)
-    |> query_result()
+    case prepare_execute(conn, "", statement, params, options) do
+      {:ok, _query, result} -> {:ok, result}
+      {:error, error} -> {:error, error}
+    end
   end
 
   @doc """
@@ -271,16 +298,4 @@ defmodule Snowpack do
         error
     end
   end
-
-  @doc """
-  Returns a supervisor child specification for a DBConnection pool.
-  """
-  @spec child_spec([start_option()]) :: :supervisor.child_spec()
-  def child_spec(opts) do
-    # ensure_deps_started!(opts)
-    DBConnection.child_spec(Snowpack.Protocol, opts)
-  end
-
-  defp query_result({:ok, _query, result}), do: {:ok, result}
-  defp query_result({:error, _} = error), do: error
 end

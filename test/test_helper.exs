@@ -17,6 +17,7 @@ defmodule Snowpack.TestHelper do
   @spec odbc_ini_opts :: keyword()
   def odbc_ini_opts do
     [
+      event_prefix: event_prefix(),
       connection: [
         dsn: System.fetch_env!("SNOWPACK_DSN_NAME")
       ],
@@ -29,6 +30,7 @@ defmodule Snowpack.TestHelper do
   @spec okta_opts :: keyword()
   def okta_opts do
     [
+      event_prefix: event_prefix(),
       connection: [
         driver: System.fetch_env!("SNOWPACK_DRIVER"),
         server: System.fetch_env!("SNOWPACK_SERVER"),
@@ -43,6 +45,7 @@ defmodule Snowpack.TestHelper do
   @spec key_pair_opts :: keyword()
   def key_pair_opts do
     [
+      event_prefix: event_prefix(),
       connection: [
         driver: System.fetch_env!("SNOWPACK_DRIVER"),
         server: System.fetch_env!("SNOWPACK_SERVER"),
@@ -57,4 +60,7 @@ defmodule Snowpack.TestHelper do
       pool_size: 1
     ]
   end
+
+  @spec event_prefix :: atom()
+  def event_prefix, do: :test_app
 end
