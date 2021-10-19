@@ -28,7 +28,6 @@ defmodule Snowpack do
   @type start_option() ::
           {:connection, snowflake_conn_option()}
           | DBConnection.start_option()
-          | {:event_prefix, atom()}
 
   @type option() :: DBConnection.option()
 
@@ -95,34 +94,26 @@ defmodule Snowpack do
 
   See `DBConnection.start_link/2` for more information and a full list of available options.
 
-  ### Library Options
-
-  The given options are used to configure snowpack:
-
-    * `:event_prefix` - Used to prefix `Telemetry` events (required)
-
   ## Examples
 
   Start connection using basic User / Pass configuration:
 
-      iex> {:ok, pid} = Snowpack.start_link(event_prefix: :my_app, connection: [server: "account-id.snowflakecomputing.com", uid: "USER", pwd: "PASS"])
+      iex> {:ok, pid} = Snowpack.start_link(connection: [server: "account-id.snowflakecomputing.com", uid: "USER", pwd: "PASS"])
       {:ok, #PID<0.69.0>}
 
   Start connection using DNS configuration:
 
-      iex> {:ok, pid} = Snowpack.start_link(event_prefix: :my_app, connection: [dsn: "snowflake"])
+      iex> {:ok, pid} = Snowpack.start_link(connection: [dsn: "snowflake"])
       {:ok, #PID<0.69.0>}
 
   Run a query after connection has been established:
 
-      iex> {:ok, pid} = Snowpack.start_link(event_prefix: :my_app, connection: [dsn: "snowflake"], after_connect: &Snowpack.query!(&1, "SET time_zone = '+00:00'"))
+      iex> {:ok, pid} = Snowpack.start_link(connection: [dsn: "snowflake"], after_connect: &Snowpack.query!(&1, "SET time_zone = '+00:00'"))
       {:ok, #PID<0.69.0>}
 
   """
   @spec start_link([start_option()]) :: {:ok, pid()} | {:error, Snowpack.Error.t()}
   def start_link(opts) do
-    _ = Keyword.get(opts, :event_prefix) || raise ArgumentError, "must supply a event_prefix"
-
     opts = Keyword.put_new(opts, :idle_interval, @default_session_keepalive)
 
     {:ok, _pid} = Snowpack.TypeCache.start_link()

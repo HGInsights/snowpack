@@ -15,17 +15,16 @@ defmodule TelemetryTest do
 
       parent = self()
       ref = make_ref()
-      prefix = event_prefix()
 
       handler = fn event, measurements, meta, _config ->
         case event do
-          [^prefix, :snowpack, :query, :start] ->
+          [:snowpack, :query, :start] ->
             assert is_integer(measurements.system_time)
             assert is_binary(meta.query)
             assert is_list(meta.params)
             send(parent, {ref, :start})
 
-          [^prefix, :snowpack, :query, :stop] ->
+          [:snowpack, :query, :stop] ->
             assert is_integer(measurements.end_time)
             assert is_integer(measurements.duration)
             assert is_binary(meta.query)
@@ -41,9 +40,9 @@ defmodule TelemetryTest do
       :telemetry.attach_many(
         to_string(test_name),
         [
-          [prefix, :snowpack, :query, :start],
-          [prefix, :snowpack, :query, :stop],
-          [prefix, :snowpack, :query, :exception]
+          [:snowpack, :query, :start],
+          [:snowpack, :query, :stop],
+          [:snowpack, :query, :exception]
         ],
         handler,
         nil
@@ -62,17 +61,16 @@ defmodule TelemetryTest do
 
       parent = self()
       ref = make_ref()
-      prefix = event_prefix()
 
       handler = fn event, measurements, meta, _config ->
         case event do
-          [^prefix, :snowpack, :query, :start] ->
+          [:snowpack, :query, :start] ->
             assert is_integer(measurements.system_time)
             assert is_binary(meta.query)
             assert is_list(meta.params)
             send(parent, {ref, :start})
 
-          [^prefix, :snowpack, :query, :stop] ->
+          [:snowpack, :query, :stop] ->
             assert is_integer(measurements.end_time)
             assert is_integer(measurements.duration)
             assert is_binary(meta.query)
@@ -88,9 +86,9 @@ defmodule TelemetryTest do
       :telemetry.attach_many(
         to_string(test_name),
         [
-          [prefix, :snowpack, :query, :start],
-          [prefix, :snowpack, :query, :stop],
-          [prefix, :snowpack, :query, :exception]
+          [:snowpack, :query, :start],
+          [:snowpack, :query, :stop],
+          [:snowpack, :query, :exception]
         ],
         handler,
         nil
