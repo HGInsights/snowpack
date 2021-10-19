@@ -6,7 +6,7 @@ defmodule Snowpack.Telemetry do
 
   Snowpack executes the following events:
 
-  * `[:my_app, :snowpack, :query, :start]` - Executed at the start of each query sent to Snowflake.
+  * `[:snowpack, :query, :start]` - Executed at the start of each query sent to Snowflake.
 
   #### Measurements
 
@@ -17,7 +17,7 @@ defmodule Snowpack.Telemetry do
     * `:query` - The query sent to the database as a string
     * `:params` - The query parameters
 
-  * `[:my_app, :snowpack, :query, :stop]` - Executed at the end of each query sent to Snowflake.
+  * `[:snowpack, :query, :stop]` - Executed at the end of each query sent to Snowflake.
 
   #### Measurements
 
@@ -32,7 +32,7 @@ defmodule Snowpack.Telemetry do
     * `:num_rows` - The number of rows effected by the query
     * `:error` - Present if any error occurred while processing the query. (optional)
 
-  * `[:my_app, :snowpack, :query, :exception]` - Executed if executing a query throws an exception.
+  * `[:snowpack, :query, :exception]` - Executed if executing a query throws an exception.
 
   #### Measurements
 
@@ -48,13 +48,13 @@ defmodule Snowpack.Telemetry do
   """
 
   @doc false
-  @spec start(atom, atom, map, map) :: integer
+  @spec start(atom, map, map) :: integer
   # Emits a `start` telemetry event and returns the the start time
-  def start(prefix, event, meta \\ %{}, extra_measurements \\ %{}) do
+  def start(event, meta \\ %{}, extra_measurements \\ %{}) do
     start_time = System.monotonic_time()
 
     :telemetry.execute(
-      [prefix, :snowpack, event, :start],
+      [:snowpack, event, :start],
       Map.merge(extra_measurements, %{system_time: System.system_time()}),
       meta
     )
@@ -63,25 +63,24 @@ defmodule Snowpack.Telemetry do
   end
 
   @doc false
-  @spec stop(atom, atom, number, map, map) :: :ok
+  @spec stop(atom, number, map, map) :: :ok
   # Emits a stop event.
-  def stop(prefix, event, start_time, meta \\ %{}, extra_measurements \\ %{}) do
+  def stop(event, start_time, meta \\ %{}, extra_measurements \\ %{}) do
     end_time = System.monotonic_time()
 
     measurements =
       Map.merge(extra_measurements, %{end_time: end_time, duration: end_time - start_time})
 
     :telemetry.execute(
-      [prefix, :snowpack, event, :stop],
+      [:snowpack, event, :stop],
       measurements,
       meta
     )
   end
 
   @doc false
-  @spec exception(atom, atom, number, any, any, any, map, map) :: :ok
+  @spec exception(atom, number, any, any, any, map, map) :: :ok
   def exception(
-        prefix,
         event,
         start_time,
         kind,
@@ -101,13 +100,13 @@ defmodule Snowpack.Telemetry do
       |> Map.put(:error, reason)
       |> Map.put(:stacktrace, stack)
 
-    :telemetry.execute([prefix, :snowpack, event, :exception], measurements, meta)
+    :telemetry.execute([:snowpack, event, :exception], measurements, meta)
   end
 
   @doc false
-  @spec event(atom, atom, number | map, map) :: :ok
+  @spec event(atom, number | map, map) :: :ok
   # Used for reporting generic events
-  def event(prefix, event, measurements, meta) do
-    :telemetry.execute([prefix, :snowpack, event], measurements, meta)
+  def event(event, measurements, meta) do
+    :telemetry.execute([:snowpack, event], measurements, meta)
   end
 end

@@ -13,7 +13,7 @@ defmodule Snowpack.Protocol do
 
   alias Snowpack.{ODBC, Result, Telemetry, TypeCache, TypeParser}
 
-  defstruct pid: nil, snowflake: :idle, conn_opts: [], event_prefix: nil
+  defstruct pid: nil, snowflake: :idle, conn_opts: []
 
   @typedoc """
   Process state.
@@ -23,13 +23,11 @@ defmodule Snowpack.Protocol do
   * `:pid`: the pid of the ODBC process
   * `:snowflake`: the transaction state. Can be `:idle` (not in a transaction).
   * `:conn_opts`: the options used to set up the connection.
-  * `:event_prefix`: the prefix to use for telemetry events
   """
   @type state :: %__MODULE__{
           pid: pid(),
           snowflake: :idle,
-          conn_opts: Keyword.t(),
-          event_prefix: atom()
+          conn_opts: Keyword.t()
         }
 
   @type opts :: Keyword.t()
@@ -41,7 +39,6 @@ defmodule Snowpack.Protocol do
   @spec connect(opts) :: {:ok, state} | {:error, Exception.t()}
   def connect(opts) do
     conn_opts = Keyword.fetch!(opts, :connection)
-    event_prefix = Keyword.fetch!(opts, :event_prefix)
 
     conn_str =
       Enum.reduce(conn_opts, "", fn {key, value}, acc ->
@@ -54,8 +51,7 @@ defmodule Snowpack.Protocol do
      %__MODULE__{
        pid: pid,
        conn_opts: opts,
-       snowflake: :idle,
-       event_prefix: event_prefix
+       snowflake: :idle
      }}
   end
 
@@ -172,10 +168,9 @@ defmodule Snowpack.Protocol do
   end
 
   defp do_query(query, params, opts, state) do
-    event_prefix = state.event_prefix
     metadata = %{params: params, query: query.statement}
 
-    start_time = Telemetry.start(event_prefix, :query, metadata)
+    start_time = Telemetry.start(:query, metadata)
 
     try do
       result =
@@ -196,12 +191,12 @@ defmodule Snowpack.Protocol do
       case result do
         {:error, %Snowpack.Error{odbc_code: :connection_exception} = error} ->
           metadata = Map.put(metadata, :error, error)
-          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          Telemetry.stop(:query, start_time, metadata)
           {:disconnect, error, state}
 
         {:error, error} ->
           metadata = Map.put(metadata, :error, error)
-          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          Telemetry.stop(:query, start_time, metadata)
           {:error, error, state}
 
         {:selected, columns, rows, %{column_types: column_types}} ->
@@ -210,7 +205,7 @@ defmodule Snowpack.Protocol do
 
           metadata = Map.merge(metadata, %{result: :selected, num_rows: num_rows})
 
-          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          Telemetry.stop(:query, start_time, metadata)
 
           {:ok,
            %Result{
@@ -221,25 +216,17 @@ defmodule Snowpack.Protocol do
 
         {:updated, num_rows} ->
           metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
-          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          Telemetry.stop(:query, start_time, metadata)
           {:ok, %Result{num_rows: num_rows}, state}
 
         {:updated, :undefined, [{_query_id}]} ->
           metadata = Map.merge(metadata, %{result: :updated, num_rows: 1})
-          Telemetry.stop(event_prefix, :query, start_time, metadata)
+          Telemetry.stop(:query, start_time, metadata)
           {:ok, %Result{num_rows: 1}, state}
       end
     catch
       kind, error ->
-        Telemetry.exception(
-          event_prefix,
-          :query,
-          start_time,
-          kind,
-          error,
-          __STACKTRACE__,
-          metadata
-        )
+        Telemetry.exception(:query, start_time, kind, error, __STACKTRACE__, metadata)
 
         :erlang.raise(kind, error, __STACKTRACE__)
     end

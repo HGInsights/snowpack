@@ -59,6 +59,7 @@ defmodule Snowpack.MixProject do
       {:backoff, "~> 1.1"},
       {:date_time_parser, "~> 1.1.1"},
       {:mentat, "~> 0.7.1"},
+      {:telemetry, "~> 0.4 or ~> 1.0"},
       {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
