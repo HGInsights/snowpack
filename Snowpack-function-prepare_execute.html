@@ -10,7 +10,7 @@
     <title>Snowpack.prepare_execute — Snowpack v0.1.0</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-b5fc6e5e0b.js"></script>
+    <script src="dist/sidebar_items-e7aae6eb4b.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -98,7 +98,7 @@ Snowpack
     </a>
     <h1 class="signature">prepare_execute(conn, name, statement, params \\ [], opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L229" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L220" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -125,14 +125,14 @@ an error is raised. If a query may return multiple results it's recommended to u
   <a href="#prepare_execute/5-options" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Options
 </h2>
-<p>Options are passed to <a href="https://hexdocs.pm/db_connection/2.3.1/DBConnection.html#prepare_execute/4"><code class="inline">DBConnection.prepare_execute/4</code></a>, see it's documentation for
+<p>Options are passed to <a href="https://hexdocs.pm/db_connection/2.4.1/DBConnection.html#prepare_execute/4"><code class="inline">DBConnection.prepare_execute/4</code></a>, see it's documentation for
 all available options.</p><h2 id="prepare_execute/5-examples" class="section-heading">
   <a href="#prepare_execute/5-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
-<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9575207516-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="c">_query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9575207516-2">%</span><span class="nc" data-group-id="9575207516-2">Snowpack.Result</span><span class="p" data-group-id="9575207516-2">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9575207516-3">[</span><span class="n">row</span><span class="p" data-group-id="9575207516-3">]</span><span class="p" data-group-id="9575207516-2">}</span><span class="p" data-group-id="9575207516-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare_execute</span><span class="p" data-group-id="9575207516-4">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9575207516-5">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9575207516-5">]</span><span class="p" data-group-id="9575207516-4">)</span><span class="w">
+<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1813417940-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="c">_query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1813417940-2">%</span><span class="nc" data-group-id="1813417940-2">Snowpack.Result</span><span class="p" data-group-id="1813417940-2">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1813417940-3">[</span><span class="n">row</span><span class="p" data-group-id="1813417940-3">]</span><span class="p" data-group-id="1813417940-2">}</span><span class="p" data-group-id="1813417940-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare_execute</span><span class="p" data-group-id="1813417940-4">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1813417940-5">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1813417940-5">]</span><span class="p" data-group-id="1813417940-4">)</span><span class="w">
 </span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
-</span><span class="p" data-group-id="9575207516-6">[</span><span class="mi">6</span><span class="p" data-group-id="9575207516-6">]</span></code></pre>
+</span><span class="p" data-group-id="1813417940-6">[</span><span class="mi">6</span><span class="p" data-group-id="1813417940-6">]</span></code></pre>
   </section>
 </section>
 
