@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/HGInsights/snowpack/compare/v0.5.0...v0.5.1) (2021-10-19)
+
+
+### Bug Fixes
+
+* remove event_prefix as it adds complication for common handlers and no real value (#15) ([a34c6b0](https://github.com/HGInsights/snowpack/commit/a34c6b09f00fc156bad1470b10842a4da20af2e6)), closes [#15](https://github.com/HGInsights/snowpack/issues/15)
+
 # [0.5.0](https://github.com/HGInsights/snowpack/compare/v0.4.0...v0.5.0) (2021-10-18)
 
 
