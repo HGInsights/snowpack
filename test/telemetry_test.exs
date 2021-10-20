@@ -50,8 +50,8 @@ defmodule TelemetryTest do
 
       _rows = query("SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;", [3])
 
-      assert_receive {^ref, :start}
-      assert_receive {^ref, :stop}
+      assert_receive {^ref, :start}, 1_000
+      assert_receive {^ref, :stop}, 1_000
 
       :telemetry.detach(to_string(test_name))
     end
@@ -96,8 +96,8 @@ defmodule TelemetryTest do
 
       _rows = query("SELECT * FROM SNOWFLAKE_SAMPLE_DATA.BAD_SCHEMA.CUSTOMER LIMIT ?;", [3])
 
-      assert_receive {^ref, :start}
-      assert_receive {^ref, :stop}
+      assert_receive {^ref, :start}, 1_000
+      assert_receive {^ref, :stop}, 1_000
 
       :telemetry.detach(to_string(test_name))
     end

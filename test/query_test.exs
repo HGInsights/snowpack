@@ -1,5 +1,5 @@
 defmodule QueryTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   import Snowpack.TestHelper
 
@@ -38,19 +38,17 @@ defmodule QueryTest do
     end
 
     test "column type parsing is cached on first call", context do
-      statement = "SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;"
+      statement = "SELECT C_CUSTKEY FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;"
+      key = Snowpack.TypeCache.key_from_statement(statement)
 
+      # force clean
+      Mentat.delete(:type_cache, key)
       assert Snowpack.TypeCache.get_column_types(statement) == nil
+
       rows = query(statement, [7])
       assert length(rows) == 7
 
       assert {:ok, _column_types} = Snowpack.TypeCache.get_column_types(statement)
-
-      query(statement, [7])
-      query(statement, [7])
-      query(statement, [7])
-
-      assert length(Mentat.keys(:type_cache)) == 1
     end
   end
 

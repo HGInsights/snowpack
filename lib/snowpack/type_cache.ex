@@ -4,16 +4,20 @@ defmodule Snowpack.TypeCache do
   """
 
   @cache :type_cache
+  @cache_limit 1_000
 
-  @spec start_link :: Supervisor.on_start()
-  def start_link do
-    case Mentat.start_link(name: @cache) do
-      {:ok, pid} ->
-        {:ok, pid}
+  GenServer
+  @spec child_spec(any) :: Supervisor.child_spec()
+  def child_spec(opts) do
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, [opts]}
+    }
+  end
 
-      {:error, {:already_started, pid}} ->
-        {:ok, pid}
-    end
+  @spec start_link(any()) :: Supervisor.on_start()
+  def start_link(_) do
+    Mentat.start_link(name: @cache, limit: [size: @cache_limit])
   end
 
   @spec key_from_statement(statement :: binary()) :: binary()
