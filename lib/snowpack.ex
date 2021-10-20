@@ -116,8 +116,6 @@ defmodule Snowpack do
   def start_link(opts) do
     opts = Keyword.put_new(opts, :idle_interval, @default_session_keepalive)
 
-    {:ok, _pid} = Snowpack.TypeCache.start_link()
-
     DBConnection.start_link(Snowpack.Protocol, opts)
   end
 
