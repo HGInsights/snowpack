@@ -1,3 +1,10 @@
+## [0.5.2](https://github.com/HGInsights/snowpack/compare/v0.5.1...v0.5.2) (2021-10-20)
+
+
+### Bug Fixes
+
+* need to supervise the cache (#16) ([3a461e3](https://github.com/HGInsights/snowpack/commit/3a461e320aec103e52176642f4ae962d7bdcc6b0)), closes [#16](https://github.com/HGInsights/snowpack/issues/16)
+
 ## [0.5.1](https://github.com/HGInsights/snowpack/compare/v0.5.0...v0.5.1) (2021-10-19)
 
 
