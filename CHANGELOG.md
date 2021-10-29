@@ -1,3 +1,15 @@
+## [0.5.3](https://github.com/HGInsights/snowpack/compare/v0.5.2...v0.5.3) (2021-10-29)
+
+
+### Bug Fixes
+
+* bump version and update readme ([9d93316](https://github.com/HGInsights/snowpack/commit/9d9331694a81243a6e1d3bce145d90ebb315e11b))
+
+
+### Chores
+
+* jason should be an explicit dep ([a77b1ba](https://github.com/HGInsights/snowpack/commit/a77b1bac4d486aa8ebe0c2a17b7e85dab667e7e6))
+
 ## [0.5.2](https://github.com/HGInsights/snowpack/compare/v0.5.1...v0.5.2) (2021-10-20)
 
 
