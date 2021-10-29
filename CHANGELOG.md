@@ -1,3 +1,11 @@
+## [0.5.4](https://github.com/HGInsights/snowpack/compare/v0.5.3...v0.5.4) (2021-10-29)
+
+
+### Bug Fixes
+
+* remove end_time from telemetry measurements ([92250f4](https://github.com/HGInsights/snowpack/commit/92250f4da4cb3a932d2843b55937c6a9561d5e3f))
+* telemetry tests ([cb79304](https://github.com/HGInsights/snowpack/commit/cb793045bdb1be707f9534c6365dad609777f849))
+
 ## [0.5.3](https://github.com/HGInsights/snowpack/compare/v0.5.2...v0.5.3) (2021-10-29)
 
 
