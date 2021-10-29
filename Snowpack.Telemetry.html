@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.24.0">
-    <meta name="project" content="Snowpack v0.5.3">
+    <meta name="project" content="Snowpack v0.5.4">
 
-    <title>Snowpack.Telemetry — Snowpack v0.5.3</title>
+    <title>Snowpack.Telemetry — Snowpack v0.5.4</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-801eb92cdc.js"></script>
+    <script src="dist/sidebar_items-dc6572356d.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -58,7 +58,7 @@
 Snowpack
       </a>
       <strong class="sidebar-projectVersion">
-        v0.5.3
+        v0.5.4
       </strong>
     </div>
 
@@ -80,9 +80,9 @@ Snowpack
     <div id="content" class="content-inner">
 
       <h1>
-Snowpack.Telemetry <small class="app-vsn">(Snowpack v0.5.3)</small>
+Snowpack.Telemetry <small class="app-vsn">(Snowpack v0.5.4)</small>
 
-          <a href="https://github.com/HGInsights/snowpack/blob/v0.5.3/lib/snowpack/telemetry.ex#L1" title="View Source" class="view-source" rel="help">
+          <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/telemetry.ex#L1" title="View Source" class="view-source" rel="help">
             <span class="icon-code" aria-hidden="true"></span>
             <span class="sr-only">View Source</span>
           </a>
@@ -91,7 +91,7 @@ Snowpack.Telemetry <small class="app-vsn">(Snowpack v0.5.3)</small>
 
 
         <section id="moduledoc">
-<p>Telemetry integration.</p><p>Unless specified, all time's are in <code class="inline">:native</code> units.</p><p>Snowpack executes the following events:</p><ul><li><code class="inline">[:snowpack, :query, :start]</code> - Executed at the start of each query sent to Snowflake.</li></ul><h4>Measurements</h4><ul><li><code class="inline">:system_time</code> - The time the query started</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">[:snowpack, :query, :stop]</code> - Executed at the end of each query sent to Snowflake.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:end_time</code> - The time the query ended</li><li><code class="inline">:duration</code> - The time spent executing the query (end_time - start_time)</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">:result</code> - The query result (selected, updated)</p></li><li><p><code class="inline">:num_rows</code> - The number of rows effected by the query</p></li><li><p><code class="inline">:error</code> - Present if any error occurred while processing the query. (optional)</p></li><li><p><code class="inline">[:snowpack, :query, :exception]</code> - Executed if executing a query throws an exception.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:end_time</code> - The time the query ended</li><li><code class="inline">:duration</code> - The time spent executing the query (end_time - start_time)</li></ul><h4>Metadata</h4><ul><li><code class="inline">:kind</code> - The type of exception.</li><li><code class="inline">:error</code> - Error description or error data.</li><li><code class="inline">:stacktrace</code> - The stacktrace</li></ul>
+<p>Telemetry integration.</p><p>Unless specified, all time's are in <code class="inline">:native</code> units.</p><p>Snowpack executes the following events:</p><ul><li><code class="inline">[:snowpack, :query, :start]</code> - Executed at the start of each query sent to Snowflake.</li></ul><h4>Measurements</h4><ul><li><code class="inline">:system_time</code> - The time the query started</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">[:snowpack, :query, :stop]</code> - Executed at the end of each query sent to Snowflake.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:duration</code> - The time spent executing the query</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">:result</code> - The query result (selected, updated)</p></li><li><p><code class="inline">:num_rows</code> - The number of rows effected by the query</p></li><li><p><code class="inline">:error</code> - Present if any error occurred while processing the query. (optional)</p></li><li><p><code class="inline">[:snowpack, :query, :exception]</code> - Executed if executing a query throws an exception.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:duration</code> - The time spent executing the query</li></ul><h4>Metadata</h4><ul><li><code class="inline">:kind</code> - The type of exception.</li><li><code class="inline">:error</code> - Error description or error data.</li><li><code class="inline">:stacktrace</code> - The stacktrace</li></ul>
         </section>
 
 
