@@ -21,8 +21,7 @@ defmodule Snowpack.Telemetry do
 
   #### Measurements
 
-    * `:end_time` - The time the query ended
-    * `:duration` - The time spent executing the query (end_time - start_time)
+    * `:duration` - The time spent executing the query
 
   #### Metadata:
 
@@ -36,8 +35,7 @@ defmodule Snowpack.Telemetry do
 
   #### Measurements
 
-    * `:end_time` - The time the query ended
-    * `:duration` - The time spent executing the query (end_time - start_time)
+    * `:duration` - The time spent executing the query
 
   #### Metadata
 
@@ -68,8 +66,7 @@ defmodule Snowpack.Telemetry do
   def stop(event, start_time, meta \\ %{}, extra_measurements \\ %{}) do
     end_time = System.monotonic_time()
 
-    measurements =
-      Map.merge(extra_measurements, %{end_time: end_time, duration: end_time - start_time})
+    measurements = Map.merge(extra_measurements, %{duration: end_time - start_time})
 
     :telemetry.execute(
       [:snowpack, event, :stop],
@@ -91,8 +88,7 @@ defmodule Snowpack.Telemetry do
       ) do
     end_time = System.monotonic_time()
 
-    measurements =
-      Map.merge(extra_measurements, %{end_time: end_time, duration: end_time - start_time})
+    measurements = Map.merge(extra_measurements, %{duration: end_time - start_time})
 
     meta =
       meta
