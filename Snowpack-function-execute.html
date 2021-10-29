@@ -5,12 +5,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.24.0">
-    <meta name="project" content="Snowpack v0.1.0">
+    <meta name="project" content="Snowpack v0.5.3">
 
-    <title>Snowpack.execute — Snowpack v0.1.0</title>
+    <title>Snowpack.execute — Snowpack v0.5.3</title>
     <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
 
-    <script src="dist/sidebar_items-4e9bc35325.js"></script>
+    <script src="dist/sidebar_items-801eb92cdc.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -58,7 +58,7 @@
 Snowpack
       </a>
       <strong class="sidebar-projectVersion">
-        v0.1.0
+        v0.5.3
       </strong>
     </div>
 
@@ -96,7 +96,7 @@ Snowpack
     </a>
     <h1 class="signature">execute(conn, query, params, opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.1.0/lib/snowpack.ex#L258" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.3/lib/snowpack.ex#L258" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -123,10 +123,10 @@ all available options.</p><h2 id="execute/4-examples" class="section-heading">
   <a href="#execute/4-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
   Examples
 </h2>
-<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9888091139-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p" data-group-id="9888091139-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare</span><span class="p" data-group-id="9888091139-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p" data-group-id="9888091139-2">)</span><span class="w">
-</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9888091139-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9888091139-4">%</span><span class="nc" data-group-id="9888091139-4">Snowpack.Result</span><span class="p" data-group-id="9888091139-4">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9888091139-5">[</span><span class="n">row</span><span class="p" data-group-id="9888091139-5">]</span><span class="p" data-group-id="9888091139-4">}</span><span class="p" data-group-id="9888091139-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">execute</span><span class="p" data-group-id="9888091139-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9888091139-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9888091139-7">]</span><span class="p" data-group-id="9888091139-6">)</span><span class="w">
+<pre><code class="makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="0962894505-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p" data-group-id="0962894505-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare</span><span class="p" data-group-id="0962894505-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p" data-group-id="0962894505-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="0962894505-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0962894505-4">%</span><span class="nc" data-group-id="0962894505-4">Snowpack.Result</span><span class="p" data-group-id="0962894505-4">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0962894505-5">[</span><span class="n">row</span><span class="p" data-group-id="0962894505-5">]</span><span class="p" data-group-id="0962894505-4">}</span><span class="p" data-group-id="0962894505-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">execute</span><span class="p" data-group-id="0962894505-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0962894505-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="0962894505-7">]</span><span class="p" data-group-id="0962894505-6">)</span><span class="w">
 </span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
-</span><span class="p" data-group-id="9888091139-8">[</span><span class="mi">6</span><span class="p" data-group-id="9888091139-8">]</span></code></pre>
+</span><span class="p" data-group-id="0962894505-8">[</span><span class="mi">6</span><span class="p" data-group-id="0962894505-8">]</span></code></pre>
   </section>
 </section>
 
