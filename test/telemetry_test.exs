@@ -25,7 +25,6 @@ defmodule TelemetryTest do
             send(parent, {ref, :start})
 
           [:snowpack, :query, :stop] ->
-            assert is_integer(measurements.end_time)
             assert is_integer(measurements.duration)
             assert is_binary(meta.query)
             assert is_list(meta.params)
@@ -71,7 +70,6 @@ defmodule TelemetryTest do
             send(parent, {ref, :start})
 
           [:snowpack, :query, :stop] ->
-            assert is_integer(measurements.end_time)
             assert is_integer(measurements.duration)
             assert is_binary(meta.query)
             assert is_list(meta.params)
