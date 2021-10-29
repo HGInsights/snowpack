@@ -6,7 +6,7 @@
 
 Snowflake driver for Elixir.
 
-Documentation: <http://hexdocs.pm/snowpack>
+Documentation: <https://hginsights.github.io/snowpack>
 
 ## Features
 

@@ -2,7 +2,7 @@ defmodule Snowpack.MixProject do
   use Mix.Project
 
   @name "Snowpack"
-  @version "0.1.0"
+  @version "0.5.3"
   @source_url "https://github.com/HGInsights/snowpack"
 
   def project do
