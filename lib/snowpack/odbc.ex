@@ -15,7 +15,7 @@ defmodule Snowpack.ODBC do
 
   require Logger
 
-  @timeout :timer.seconds(60)
+  @default_timeout :infinity
   @begin_transaction 'begin transaction;'
   @last_query_id 'SELECT LAST_QUERY_ID() as query_id;'
   @close_transaction 'commit;'
@@ -84,7 +84,7 @@ defmodule Snowpack.ODBC do
       GenServer.call(
         pid,
         {:query, %{statement: statement, params: params, with_query_id: with_query_id}},
-        Keyword.get(opts, :timeout, @timeout)
+        Keyword.get(opts, :timeout, @default_timeout)
       )
     else
       {:error, %Error{message: :no_connection}}
