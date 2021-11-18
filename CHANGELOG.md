@@ -1,3 +1,10 @@
+## [0.5.5](https://github.com/HGInsights/snowpack/compare/v0.5.4...v0.5.5) (2021-11-18)
+
+
+### Bug Fixes
+
+* Make ODBC GenServer query calls default timeout Infinity (#17) ([e63b4e5](https://github.com/HGInsights/snowpack/commit/e63b4e5e59abc29e6712a79ff3d2cb4f496a9775)), closes [#17](https://github.com/HGInsights/snowpack/issues/17)
+
 ## [0.5.4](https://github.com/HGInsights/snowpack/compare/v0.5.3...v0.5.4) (2021-10-29)
 
 
