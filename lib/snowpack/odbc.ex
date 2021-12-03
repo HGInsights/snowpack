@@ -43,7 +43,7 @@ defmodule Snowpack.ODBC do
     {~r/DATE/, :date},
     {~r/TIME/, :time},
     {~r/OBJECT/, :json},
-    {~r/ARRAY/, :json}
+    {~r/ARRAY/, :array}
   ]
 
   ## Public API
