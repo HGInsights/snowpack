@@ -1,3 +1,15 @@
+## [0.5.6](https://github.com/HGInsights/snowpack/compare/v0.5.5...v0.5.6) (2021-12-06)
+
+
+### Bug Fixes
+
+* change array type to :array, handle null arrays and json ([1dea4ed](https://github.com/HGInsights/snowpack/commit/1dea4ed38ef5ab53f7a24e53e7f8d7830fc640d2))
+
+
+### Chores
+
+* update Semantic Release CI step to use common config ([dc189a6](https://github.com/HGInsights/snowpack/commit/dc189a6bbb3792d7b97396c73a9bd70bd18ccbbe))
+
 ## [0.5.5](https://github.com/HGInsights/snowpack/compare/v0.5.4...v0.5.5) (2021-11-18)
 
 
