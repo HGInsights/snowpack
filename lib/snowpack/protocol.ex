@@ -91,7 +91,7 @@ defmodule Snowpack.Protocol do
           {:ok, query(), result(), state}
           | {:error | :disconnect, Exception.t(), state}
   def handle_execute(query, params, opts, state) do
-    {status, message, new_state} = do_query(query, params, opts, state)
+    {status, message, new_state} = _query(query, params, opts, state)
     execute_return(status, query, message, new_state, opts)
   end
 
@@ -106,7 +106,7 @@ defmodule Snowpack.Protocol do
   def ping(state) do
     query = %Snowpack.Query{name: "ping", statement: "SELECT /* snowpack:heartbeat */ 1;"}
 
-    case do_query(query, [], [], state) do
+    case _query(query, [], [], state) do
       {:ok, _, new_state} -> {:ok, new_state}
       {:error, reason, new_state} -> {:disconnect, reason, new_state}
       other -> other
@@ -167,32 +167,24 @@ defmodule Snowpack.Protocol do
     throw("not implemeted")
   end
 
-  defp do_query(query, params, opts, state) do
+  defp _query(query, params, opts, state) do
     metadata = %{params: params, query: query.statement}
 
     start_time = Telemetry.start(:query, metadata)
 
     try do
-      result =
-        case TypeCache.get_column_types(query.statement) do
-          {:ok, column_types} ->
-            query_result = ODBC.query(state.pid, query.statement, params, opts)
-            Tuple.append(query_result, %{column_types: column_types})
-
-          nil ->
-            with {:selected, columns, rows, [{query_id}]} <-
-                   ODBC.query(state.pid, query.statement, params, opts, true),
-                 {:ok, column_types} <-
-                   TypeCache.fetch_column_types(state.pid, query_id, to_string(query.statement)) do
-              {:selected, columns, rows, %{column_types: column_types}}
-            end
-        end
+      result = get_column_types(query, params, opts, state)
 
       case result do
         {:error, %Snowpack.Error{odbc_code: :connection_exception} = error} ->
           metadata = Map.put(metadata, :error, error)
           Telemetry.stop(:query, start_time, metadata)
           {:disconnect, error, state}
+
+        {:error, error, _column_types} ->
+          metadata = Map.put(metadata, :error, error)
+          Telemetry.stop(:query, start_time, metadata)
+          {:error, error, state}
 
         {:error, error} ->
           metadata = Map.put(metadata, :error, error)
@@ -229,6 +221,22 @@ defmodule Snowpack.Protocol do
         Telemetry.exception(:query, start_time, kind, error, __STACKTRACE__, metadata)
 
         :erlang.raise(kind, error, __STACKTRACE__)
+    end
+  end
+
+  defp get_column_types(query, params, opts, state) do
+    case TypeCache.get_column_types(query.statement) do
+      {:ok, column_types} ->
+        query_result = ODBC.query(state.pid, query.statement, params, opts)
+        Tuple.append(query_result, %{column_types: column_types})
+
+      nil ->
+        with {:selected, columns, rows, [{query_id}]} <-
+               ODBC.query(state.pid, query.statement, params, opts, true),
+             {:ok, column_types} <-
+               TypeCache.fetch_column_types(state.pid, query_id, to_string(query.statement)) do
+          {:selected, columns, rows, %{column_types: column_types}}
+        end
     end
   end
 
