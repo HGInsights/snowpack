@@ -1,3 +1,10 @@
+## [0.5.7](https://github.com/HGInsights/snowpack/compare/v0.5.6...v0.5.7) (2022-01-26)
+
+
+### Bug Fixes
+
+* Error handling and timeouts (#20) ([6c3ada1](https://github.com/HGInsights/snowpack/commit/6c3ada1d1ddebd84ede5e5ca1c956b3bf9c18c2f)), closes [#20](https://github.com/HGInsights/snowpack/issues/20)
+
 ## [0.5.6](https://github.com/HGInsights/snowpack/compare/v0.5.5...v0.5.6) (2021-12-06)
 
 
