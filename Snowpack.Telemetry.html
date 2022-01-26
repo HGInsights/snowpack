@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.24.0">
+    <meta name="generator" content="ExDoc v0.27.3">
     <meta name="project" content="Snowpack v0.5.4">
 
     <title>Snowpack.Telemetry — Snowpack v0.5.4</title>
-    <link rel="stylesheet" href="dist/elixir-a172fe91e725dcb259e2.css" />
+    <link rel="stylesheet" href="dist/elixir-784c12ef29cae13371ff.css" />
 
-    <script src="dist/sidebar_items-267bc3f4da.js"></script>
+    <script src="dist/sidebar_items-e884de34a8.js"></script>
 
       <script src="docs_config.js"></script>
 
-    <script async src="dist/app-f27ff079945e43879c46.js"></script>
+    <script async src="dist/app-38f5da25bdde1981e2f0.js"></script>
 
 
   </head>
@@ -31,16 +31,16 @@
 <div class="main">
 
 <button class="sidebar-button sidebar-toggle">
-  <span class="icon-menu" title="Collapse/expand sidebar"></span>
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
 </button>
 
 <section class="sidebar">
   <form class="sidebar-search" action="search.html">
     <button type="submit" class="search-button" aria-label="Submit Search">
-      <span class="icon-search" aria-hidden="true" title="Submit search"></span>
+      <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
     </button>
     <button type="button" tabindex="-1" class="search-close-button" aria-label="Cancel Search">
-      <span class="icon-cross" aria-hidden="true" title="Cancel search"></span>
+      <i class="ri-close-line ri-lg" aria-hidden="true" title="Cancel search"></i>
     </button>
     <label class="search-label">
       <input name="q" type="text" class="search-input" placeholder="Search..." aria-label="Input your search terms" autocomplete="off" />
@@ -53,24 +53,24 @@
   </div>
 
   <div class="sidebar-header">
+
     <div class="sidebar-projectDetails">
-      <a href="Snowpack.html" class="sidebar-projectName">
+      <a href="Snowpack.html" class="sidebar-projectName" translate="no">
 Snowpack
       </a>
-      <strong class="sidebar-projectVersion">
+      <strong class="sidebar-projectVersion" translate="no">
         v0.5.4
       </strong>
     </div>
+    <ul class="sidebar-listNav">
+      <li><a id="extras-list-link" href="#full-list">Pages</a></li>
 
+        <li><a id="modules-list-link" href="#full-list">Modules</a></li>
+
+
+    </ul>
   </div>
 
-  <ul class="sidebar-listNav">
-    <li><a id="extras-list-link" href="#full-list">Pages</a></li>
-
-      <li><a id="modules-list-link" href="#full-list">Modules</a></li>
-
-
-  </ul>
   <div class="gradient"></div>
   <ul id="full-list" class="sidebar-fullList"></ul>
 </section>
@@ -79,52 +79,52 @@ Snowpack
   <div class="content-outer">
     <div id="content" class="content-inner">
 
-      <h1>
-Snowpack.Telemetry <small class="app-vsn">(Snowpack v0.5.4)</small>
-
-          <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/telemetry.ex#L1" title="View Source" class="view-source" rel="help">
-            <span class="icon-code" aria-hidden="true"></span>
-            <span class="sr-only">View Source</span>
-          </a>
-
-      </h1>
+<h1>
+<button class="settings display-settings">
+  <i class="ri-settings-3-line"></i>
+  <span class="sr-only">Settings</span>
+</button>
 
 
-        <section id="moduledoc">
+    <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/telemetry.ex#L1" title="View Source" class="view-source" rel="help">
+      <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+      <span class="sr-only">View Source</span>
+    </a>
+
+  <span translate="no">Snowpack.Telemetry</span> 
+  <small class="app-vsn" translate="no">(Snowpack v0.5.4)</small>
+
+</h1>
+
+
+  <section id="moduledoc">
 <p>Telemetry integration.</p><p>Unless specified, all time's are in <code class="inline">:native</code> units.</p><p>Snowpack executes the following events:</p><ul><li><code class="inline">[:snowpack, :query, :start]</code> - Executed at the start of each query sent to Snowflake.</li></ul><h4>Measurements</h4><ul><li><code class="inline">:system_time</code> - The time the query started</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">[:snowpack, :query, :stop]</code> - Executed at the end of each query sent to Snowflake.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:duration</code> - The time spent executing the query</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">:result</code> - The query result (selected, updated)</p></li><li><p><code class="inline">:num_rows</code> - The number of rows effected by the query</p></li><li><p><code class="inline">:error</code> - Present if any error occurred while processing the query. (optional)</p></li><li><p><code class="inline">[:snowpack, :query, :exception]</code> - Executed if executing a query throws an exception.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:duration</code> - The time spent executing the query</li></ul><h4>Metadata</h4><ul><li><code class="inline">:kind</code> - The type of exception.</li><li><code class="inline">:error</code> - Error description or error data.</li><li><code class="inline">:stacktrace</code> - The stacktrace</li></ul>
-        </section>
+  </section>
 
 
 
       <footer class="footer">
-        <p>
-          <span class="line">
-            Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.24.0) for the
-            <a href="https://elixir-lang.org" title="Elixir" target="_blank">Elixir programming language</a>.
-          </span>
-          <span class="line">
-            Designed by
-            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
-          </span>
-        </p>
-        <p>
 
-            <a href="api-reference.html" title="API reference" class="line footer-button">API Reference</a>
+          <p>
+            On Hex.pm:
 
-          <button class="line footer-button display-shortcuts-help">
-            Display keyboard shortcuts
-          </button>
-          <button class="line footer-button night-mode-toggle">
-            Toggle night mode
-          </button>
-          <button class="line footer-button display-quick-switch">
-            Go to a HexDocs package
-          </button>
-          <button class="line footer-button tooltips-toggle">
-            <span class="tooltips-option-disable">Disable tooltips</span>
-            <span class="tooltips-option-enable">Enable tooltips</span>
-          </button>
+            <span class="line">
+              <a href="https://hex.pm/packages/snowpack/0.5.4" class="line footer-hex-package">Package</a>
+              <a href="https://preview.hex.pm/preview/snowpack/0.5.4" class="line">Preview</a>
+
+                <a href="https://preview.hex.pm/preview/snowpack/0.5.4/show/lib/snowpack/telemetry.ex">(current file)</a>
+
+            </span>
+
+            <button class="line footer-button display-quick-switch">
+              Search
+            </button>
+          </p>
+
+        <p>
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.27.3) for the
+          <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
         </p>
       </footer>
     </div>
