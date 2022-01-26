@@ -15,7 +15,7 @@ defmodule Snowpack.ODBC do
 
   require Logger
 
-  @default_timeout :infinity
+  @default_query_timeout :timer.seconds(120)
   @begin_transaction 'begin transaction;'
   @last_query_id 'SELECT LAST_QUERY_ID() as query_id;'
   @close_transaction 'commit;'
@@ -66,11 +66,12 @@ defmodule Snowpack.ODBC do
   [Erlang's ODBC guide](http://erlang.org/doc/apps/odbc/getting_started.html)
   for usage details and examples.
 
-  `pid` is the `:odbc` process id
-  `statement` is the SQL query string
-  `params` are the parameters to send with the SQL query
-  `opts` are options to be passed on to `:odbc`
-  `with_query_id` runs query in transaction and selects LAST_QUERY_ID()
+  * `pid` is the `:odbc` process id
+  * `statement` is the SQL query string
+  * `params` are the parameters to send with the SQL query
+  * `opts` are options to be passed on to `:odbc`
+    * `timeout` in millisecods (defaults to 2 minutes)
+  * `with_query_id` runs query in transaction and selects LAST_QUERY_ID()
   """
   @spec query(pid(), iodata(), Keyword.t(), Keyword.t(), boolean()) ::
           {:selected, [binary()], [tuple()]}
@@ -81,10 +82,16 @@ defmodule Snowpack.ODBC do
     if Process.alive?(pid) do
       statement = IO.iodata_to_binary(statement)
 
+      timeout = Keyword.get(opts, :timeout, @default_query_timeout)
+
+      # call timeout is query timeout + 60s buffer
+      call_timeout = timeout + :timer.seconds(60)
+
       GenServer.call(
         pid,
-        {:query, %{statement: statement, params: params, with_query_id: with_query_id}},
-        Keyword.get(opts, :timeout, @default_timeout)
+        {:query,
+         %{statement: statement, params: params, with_query_id: with_query_id, timeout: timeout}},
+        call_timeout
       )
     else
       {:error, %Error{message: :no_connection}}
@@ -140,11 +147,11 @@ defmodule Snowpack.ODBC do
   end
 
   def handle_call(
-        {:query, %{statement: statement, params: params, with_query_id: false}},
+        {:query, %{statement: statement, params: params, with_query_id: false, timeout: timeout}},
         _from,
         %{pid: pid} = state
       ) do
-    case :odbc.param_query(pid, to_charlist(statement), params) do
+    case :odbc.param_query(pid, to_charlist(statement), params, timeout) do
       {:error, reason} ->
         error = Error.exception(reason)
         Logger.warn("Unable to execute query: #{error.message}")
@@ -157,13 +164,13 @@ defmodule Snowpack.ODBC do
   end
 
   def handle_call(
-        {:query, %{statement: statement, params: params, with_query_id: true}},
+        {:query, %{statement: statement, params: params, with_query_id: true, timeout: timeout}},
         _from,
         %{pid: pid} = state
       ) do
     :odbc.sql_query(pid, @begin_transaction)
 
-    case :odbc.param_query(pid, to_charlist(statement), params) do
+    case :odbc.param_query(pid, to_charlist(statement), params, timeout) do
       {:error, reason} ->
         error = Error.exception(reason)
         Logger.warn("Unable to execute query: #{error.message}")
