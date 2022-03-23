@@ -66,7 +66,8 @@ defmodule Snowpack.MixProject do
       {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false}
+      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:mix_test_watch, "~> 1.0.2", only: [:test, :dev], runtime: false}
     ]
   end
 
