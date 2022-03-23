@@ -25,6 +25,8 @@ defmodule Snowpack.TypeParser do
 
   defp parse({[] = _types, data}), do: List.wrap(data)
 
+  defp parse({_, :null}), do: :null
+
   defp parse({types, data}) when is_list(types) do
     Enum.map(types, fn type -> parse({type, data}) end)
   end
