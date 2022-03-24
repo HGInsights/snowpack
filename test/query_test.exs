@@ -12,12 +12,21 @@ defmodule QueryTest do
 
     test "decode basic types", context do
       assert [[nil]] = query("SELECT NULL", [])
+
       assert [[true, false]] = query("SELECT true, false", [])
+
       assert [["e"]] = query("SELECT 'e'::char", [])
+
       assert [[42]] = query("SELECT 42", [])
+
       assert [[42.0]] == query("SELECT 42::float", [])
+
       date = ~D[2020-05-28]
       assert [[^date]] = query("SELECT '2020-05-28'::DATE", [])
+
+      date_time = ~N[2020-05-28 01:23:34]
+      assert [[^date_time]] = query("SELECT '2020-05-28 01:23:34'::DATETIME", [])
+
       array = [1, 2, 3]
       assert [[^array]] = query("SELECT array_construct(1, 2, 3)", [])
 
