@@ -35,10 +35,9 @@ defmodule Snowpack.TypeParser do
 
   defp parse({:date, data}), do: DateTimeParser.parse_date!(data)
 
-  defp parse({:datetime, {{_year, _month, _day}, {_hour, _minute, _second}} = data}) do
-    data
-    |> NaiveDateTime.from_erl!()
-  end
+  defp parse({:datetime, {{_year, _month, _day}, {_hour, _minute, _second}} = data}),
+    do: NaiveDateTime.from_erl!(data)
+
   defp parse({:datetime, data}), do: DateTimeParser.parse_datetime!(data)
 
   defp parse({:float, data}) when is_binary(data) do
