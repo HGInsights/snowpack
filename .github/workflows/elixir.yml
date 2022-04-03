@@ -8,9 +8,9 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  otp-version: '23.3.2'
-  elixir-version: '1.11.4'
-  snowflake-version: '2.23.1'
+  otp-version: '24.1.7'
+  elixir-version: '1.13.1'
+  snowflake-version: '2.24.7'
 
 jobs:
   tests:
@@ -27,8 +27,8 @@ jobs:
           - elixir: '1.11.4'
             otp: '23.3.2'
             ubuntu: 'focal-20210325'
-          - elixir: '1.12.3'
-            otp: '24.1.2'
+          - elixir: '1.13.1'
+            otp: '24.1.7'
             ubuntu: 'focal-20210325'
 
     steps:
