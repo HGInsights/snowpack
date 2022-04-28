@@ -1,3 +1,10 @@
+## [0.5.8](https://github.com/HGInsights/snowpack/compare/v0.5.7...v0.5.8) (2022-04-28)
+
+
+### Bug Fixes
+
+* handle datetime and nil types and query strings with extended character sets (#21) ([873fd88](https://github.com/HGInsights/snowpack/commit/873fd888aa52a9c6ca6abafdcd9df6099ee913a6)), closes [#21](https://github.com/HGInsights/snowpack/issues/21)
+
 ## [0.5.7](https://github.com/HGInsights/snowpack/compare/v0.5.6...v0.5.7) (2022-01-26)
 
 
