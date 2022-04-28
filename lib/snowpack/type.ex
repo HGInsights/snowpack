@@ -120,9 +120,7 @@ defmodule Snowpack.Type do
   end
 
   def encode(value, _) when is_binary(value) do
-    encoded = to_encoded_string(value)
-
-    {{:sql_varchar, String.length(encoded)}, [encoded]}
+    {{:sql_varchar, byte_size(value)}, [value]}
   end
 
   def encode(nil, _), do: {:sql_integer, [:null]}

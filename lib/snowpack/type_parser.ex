@@ -25,6 +25,8 @@ defmodule Snowpack.TypeParser do
 
   defp parse({[] = _types, data}), do: List.wrap(data)
 
+  defp parse({_, :null}), do: :null
+
   defp parse({types, data}) when is_list(types) do
     Enum.map(types, fn type -> parse({type, data}) end)
   end
@@ -32,6 +34,9 @@ defmodule Snowpack.TypeParser do
   defp parse({:time, data}), do: DateTimeParser.parse_time!(data)
 
   defp parse({:date, data}), do: DateTimeParser.parse_date!(data)
+
+  defp parse({:datetime, {{_year, _month, _day}, {_hour, _minute, _second}} = data}),
+    do: NaiveDateTime.from_erl!(data)
 
   defp parse({:datetime, data}), do: DateTimeParser.parse_datetime!(data)
 

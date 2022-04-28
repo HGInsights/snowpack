@@ -56,7 +56,7 @@ defmodule Snowpack.ODBC do
   """
   @spec start_link(binary(), Keyword.t()) :: {:ok, pid()}
   def start_link(conn_str, opts) do
-    GenServer.start_link(__MODULE__, [{:conn_str, to_charlist(conn_str)} | opts])
+    GenServer.start_link(__MODULE__, [{:conn_str, :binary.bin_to_list(conn_str)} | opts])
   end
 
   @doc """
@@ -151,7 +151,7 @@ defmodule Snowpack.ODBC do
         _from,
         %{pid: pid} = state
       ) do
-    case :odbc.param_query(pid, to_charlist(statement), params, timeout) do
+    case :odbc.param_query(pid, :binary.bin_to_list(statement), params, timeout) do
       {:error, reason} ->
         error = Error.exception(reason)
         Logger.warn("Unable to execute query: #{error.message}")
@@ -170,7 +170,7 @@ defmodule Snowpack.ODBC do
       ) do
     :odbc.sql_query(pid, @begin_transaction)
 
-    case :odbc.param_query(pid, to_charlist(statement), params, timeout) do
+    case :odbc.param_query(pid, :binary.bin_to_list(statement), params, timeout) do
       {:error, reason} ->
         error = Error.exception(reason)
         Logger.warn("Unable to execute query: #{error.message}")
@@ -189,7 +189,7 @@ defmodule Snowpack.ODBC do
   end
 
   def handle_call({:describe, table}, _from, %{pid: pid} = state) do
-    case :odbc.describe_table(pid, to_charlist(table)) do
+    case :odbc.describe_table(pid, :binary.bin_to_list(table)) do
       {:error, reason} ->
         error = Error.exception(reason)
         Logger.warn("Unable to describe #{table}: #{error.message}")
@@ -202,7 +202,7 @@ defmodule Snowpack.ODBC do
   end
 
   def handle_call({:describe_result, query_id}, _from, %{pid: pid} = state) do
-    case :odbc.sql_query(pid, to_charlist("DESCRIBE RESULT '#{query_id}'")) do
+    case :odbc.sql_query(pid, :binary.bin_to_list("DESCRIBE RESULT '#{query_id}'")) do
       {:error, reason} ->
         error = Error.exception(reason)
         Logger.warn("Unable to describe #{query_id}: #{error.message}")
