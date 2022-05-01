@@ -10,6 +10,8 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SNOWPACK_SERVER: ${{ secrets.SNOWPACK_SERVER }}
   SNOWPACK_PRIV_KEY: ${{ secrets.SNOWPACK_PRIV_KEY }}
+  SNOWPACK_PRIV_KEY_FILE: /tmp/rsa_key.p8
+  SNOWPACK_DRIVER: /home/runner/work/snowpack/snowpack/snowflake_odbc/lib/libSnowflake.so
 
 jobs:
   test:
@@ -50,8 +52,9 @@ jobs:
           cd snowflake_odbc
           sudo ./unixodbc_setup.sh
 
-          cat /etc/odbc.ini
-          cat /etc/odbcinst.ini
+      - name: Put Private Key in File
+        run: |
+          echo "${{ secrets.SNOWPACK_PRIV_KEY }}" >> /tmp/rsa_key.p8
 
       - uses: actions/cache@v2
         with:
