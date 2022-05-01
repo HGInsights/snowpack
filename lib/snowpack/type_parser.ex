@@ -3,6 +3,8 @@ defmodule Snowpack.TypeParser do
   Parser for table column data types.
   """
 
+  require Logger
+
   @spec parse_rows(any, any, any) :: list
   def parse_rows(column_types, queried_columns, rows) do
     parse(column_types, queried_columns, rows)
@@ -40,11 +42,16 @@ defmodule Snowpack.TypeParser do
 
   defp parse({:datetime, data}), do: DateTimeParser.parse_datetime!(data)
 
+  defp parse({:float, data}) when is_float(data), do: data
+
   defp parse({:float, data}) when is_binary(data) do
-    {float, ""} = Float.parse(data)
-    Decimal.from_float(float)
+    case Float.parse(data) do
+      {float, _rest} -> Decimal.from_float(float)
+      :error -> return_raw(:float, data, :float_parse_error)
+    end
   end
 
+  defp parse({:integer, data}) when is_integer(data), do: data
   defp parse({:integer, data}) when is_binary(data), do: String.to_integer(data)
 
   defp parse({:array, :null}), do: []
@@ -53,12 +60,30 @@ defmodule Snowpack.TypeParser do
   defp parse({:json, :null}), do: %{}
   defp parse({:json, data}), do: Jason.decode!(data)
 
-  defp parse({_, data}) do
+  defp parse({:variant, :null}), do: :null
+
+  defp parse({:variant, data}) do
+    case Jason.decode(data) do
+      {:ok, json} -> json
+      {:error, error} -> return_raw(:variant, data, error)
+    end
+  end
+
+  defp parse({:default, data}), do: data
+
+  defp parse({type, data}) do
+    Logger.warn("TypeParser.parse/1: unsupported type '#{type}', data: #{inspect(data)}")
     data
   end
 
-  # credo:disable-for-next-line Credo.Check.Design.TagTODO
-  # TODO: support other Snowflake data types
-  # https://docs.snowflake.com/en/user-guide/odbc-api.html#custom-sql-data-types
-  #   define SQL_SF_VARIANT       2005
+  defp return_raw(type, data, error) do
+    error_msg =
+      case error do
+        %{__exception__: true} = exception -> Exception.message(exception)
+        _ -> error
+      end
+
+    Logger.warn("TypeParser.parse/1: failed decode of '#{type}' type: #{error_msg}")
+    data
+  end
 end

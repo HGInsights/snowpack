@@ -29,16 +29,10 @@ defmodule QueryTest do
 
       array = [1, 2, 3]
       assert [[^array]] = query("SELECT array_construct(1, 2, 3)", [])
-
-      #    credo:disable-for-next-line Credo.Check.Design.TagTODO
-      #    TODO: Get working test for OBJECT type
-      #    object = %{a: 1, b: 'BBBB'}
-      #    assert [[^object]] =
-      #             query("SELECT object_construct('a',1,'b','BBBB') as obj", [])
     end
 
     test "long number param", context do
-      assert [["123456789012345678901"]] = query("SELECT ?", [123_456_789_012_345_678_901])
+      assert [[123_456_789_012_345_678_901]] = query("SELECT ?", [123_456_789_012_345_678_901])
     end
 
     test "long string param", context do

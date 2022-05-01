@@ -47,7 +47,7 @@ defmodule Snowpack.Type do
     encoded =
       date
       |> Date.from_erl!()
-      |> to_encoded_string()
+      |> Date.to_iso8601()
 
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
@@ -58,7 +58,7 @@ defmodule Snowpack.Type do
     # credo:disable-for-lines:3 Credo.Check.Readability.SinglePipe
     encoded =
       Time.from_erl!({hour, minute, sec}, {usec, precision})
-      |> to_encoded_string()
+      |> Time.to_iso8601()
 
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
@@ -72,23 +72,28 @@ defmodule Snowpack.Type do
         {{year, month, day}, {hour, minute, sec}},
         {usec, precision}
       )
-      |> to_encoded_string()
+      |> NaiveDateTime.to_iso8601()
 
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
 
   def encode(%NaiveDateTime{} = datetime, _) do
-    encoded = to_encoded_string(datetime)
+    encoded = NaiveDateTime.to_iso8601(datetime)
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
 
   def encode(%DateTime{} = datetime, _) do
-    encoded = to_encoded_string(datetime)
+    encoded = DateTime.to_iso8601(datetime)
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
 
   def encode(%Date{} = date, _) do
-    encoded = to_encoded_string(date)
+    encoded = Date.to_iso8601(date)
+    {{:sql_varchar, String.length(encoded)}, [encoded]}
+  end
+
+  def encode(%Time{} = time, _) do
+    encoded = Time.to_iso8601(time)
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
 
@@ -99,24 +104,22 @@ defmodule Snowpack.Type do
   end
 
   def encode(value, _) when is_integer(value) do
-    encoded = to_encoded_string(value)
+    encoded = to_string(value)
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
 
   def encode(value, _) when is_float(value) do
-    encoded = to_encoded_string(value)
+    encoded = to_string(value)
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
 
   def encode(%Decimal{} = value, _) do
-    string = Decimal.to_string(value, :normal)
-    encoded = to_encoded_string(string)
+    encoded = Decimal.to_string(value, :normal)
 
     precision = Decimal.Context.get().precision
     scale = calculate_decimal_scale(value)
 
-    odbc_data_type = {:sql_decimal, precision, scale}
-    {odbc_data_type, [encoded]}
+    {{:sql_decimal, precision, scale}, [encoded]}
   end
 
   def encode(value, _) when is_binary(value) do
@@ -140,9 +143,30 @@ defmodule Snowpack.Type do
   @spec decode(:odbc.value(), opts :: Keyword.t()) :: return_value()
   def decode(:null, _), do: nil
 
-  def decode(value, _opts), do: value
+  def decode(value, _) when is_float(value), do: value
+  def decode(value, _) when is_boolean(value), do: value
+  def decode(value, _) when is_integer(value), do: value
 
-  defp to_encoded_string(data), do: to_string(data)
+  def decode({{_year, _month, _day}, {_hour, _minute, _sec}} = value, _) do
+    case NaiveDateTime.from_erl(value) do
+      {:ok, datetime} -> datetime
+      {:error, _error} -> value
+    end
+  end
+
+  def decode(value, _) when is_binary(value) do
+    parse_funcs = [&Integer.parse/1, &DateTimeParser.parse/1]
+
+    Enum.find_value(parse_funcs, value, fn func ->
+      case Kernel.apply(func, [value]) do
+        {integer, ""} -> integer
+        {:ok, result} -> result
+        _ -> false
+      end
+    end)
+  end
+
+  def decode(value, _opts), do: value
 
   defp calculate_decimal_scale(dec) do
     coef_size = dec.coef |> Integer.digits() |> Enum.count()

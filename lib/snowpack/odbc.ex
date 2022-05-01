@@ -43,7 +43,8 @@ defmodule Snowpack.ODBC do
     {~r/DATE/, :date},
     {~r/TIME/, :time},
     {~r/OBJECT/, :json},
-    {~r/ARRAY/, :array}
+    {~r/ARRAY/, :array},
+    {~r/VARIANT/, :variant}
   ]
 
   ## Public API
@@ -260,23 +261,21 @@ defmodule Snowpack.ODBC do
   end
 
   defp build_type_tuples({_, columns, rows}) do
-    index_of_name =
-      Enum.find_index(columns, fn element ->
-        List.to_string(element) |> String.downcase() |> String.equivalent?("name")
-      end)
-
-    index_of_type =
-      Enum.find_index(columns, fn element ->
-        List.to_string(element) |> String.downcase() |> String.equivalent?("type")
-      end)
-
     Enum.map(rows, fn row ->
-      {_, type} =
-        Enum.find(@data_types, {nil, :default}, fn {reg, _type} ->
-          String.match?(elem(row, index_of_type), reg)
-        end)
-
-      {elem(row, index_of_name), type}
+      columns
+      |> Enum.zip_reduce(Tuple.to_list(row), %{}, fn name, value, acc ->
+        Map.put(acc, to_string(name), value)
+      end)
+      |> Kernel.then(&data_type_from_column_metadata/1)
     end)
+  end
+
+  defp data_type_from_column_metadata(%{"name" => name, "type" => col_type}) do
+    {_, type} =
+      Enum.find(@data_types, {nil, :default}, fn {reg, _type} ->
+        String.match?(col_type, reg)
+      end)
+
+    {name, type}
   end
 end
