@@ -34,6 +34,11 @@ jobs:
           otp-version: ${{matrix.pair.otp}}
           elixir-version: ${{matrix.pair.elixir}}
 
+      - name: Install unixODBC
+        run: |
+          sudo apt-get update
+          sudo apt-get install unixodbc
+
       - name: Install Snowflake Driver
         run: |
           curl --output snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz \
@@ -42,7 +47,8 @@ jobs:
           gunzip snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz
           tar -xvf snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tar
 
-          cd snowflake_odbc && ./unixodbc_setup.sh
+          cd snowflake_odbc
+          sudo ./unixodbc_setup.sh
 
           cat /etc/odbc.ini
           cat /etc/odbcinst.ini
