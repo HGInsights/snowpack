@@ -42,8 +42,10 @@ jobs:
           gunzip snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz
           tar -xvf snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tar
 
-          ls ./
-          pwd
+          cd snowflake_odbc && ./unixodbc_setup.sh
+
+          cat /etc/odbc.ini
+          cat /etc/odbcinst.ini
 
       - uses: actions/cache@v2
         with:
