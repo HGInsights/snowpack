@@ -9,7 +9,7 @@ defmodule Snowpack.MixProject do
     [
       app: :snowpack,
       version: @version,
-      elixir: "~> 1.11",
+      elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
       name: @name,
