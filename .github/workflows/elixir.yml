@@ -8,67 +8,76 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  otp-version: '24.1.7'
-  elixir-version: '1.13.1'
-  snowflake-version: '2.24.7'
+  SNOWPACK_SERVER: ${{ secrets.SNOWPACK_SERVER }}
+  SNOWPACK_PRIV_KEY: ${{ secrets.SNOWPACK_PRIV_KEY }}
 
 jobs:
-  tests:
-    name: Tests
+  test:
+    name: Build & Test
     runs-on: ubuntu-latest
     env:
-      FORCE_COLOR: 1
-
+      MIX_ENV: test
     strategy:
-      fail-fast: true
-      max-parallel: 1
+      fail-fast: false
       matrix:
         include:
-          - elixir: '1.12.0'
-            otp: '23.3.2'
-            ubuntu: 'focal-20210325'
-          - elixir: '1.13.1'
-            otp: '24.1.7'
-            ubuntu: 'focal-20210325'
-
+          - pair:
+              elixir: '1.12'
+              otp: 24
+              driver: '2.24.7'
+            lint: lint
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.6.0
+      - uses: actions/checkout@v2
+
+      - uses: erlef/setup-beam@v1
         with:
-          access_token: ${{ github.token }}
+          otp-version: ${{matrix.pair.otp}}
+          elixir-version: ${{matrix.pair.elixir}}
 
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Download released earthly
-        run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
-
-      - name: Execute Static Code Analysis & Tests
+      - name: Install Snowflake Driver
         run: |
-          earthly --ci \
-            --build-arg ELIXIR=${{ matrix.elixir }} \
-            --build-arg OTP=${{ matrix.otp }} \
-            --build-arg UBUNTU=${{ matrix.ubuntu }} \
-            --build-arg SNOWFLAKE_VERSION=${{ env.snowflake-version }} \
-            --secret SNOWPACK_SERVER="${{ secrets.SNOWPACK_SERVER }}" \
-            --secret SNOWPACK_PRIV_KEY="${{ secrets.SNOWPACK_PRIV_KEY }}" \
-            +all
+          curl --output snowflake-odbc-${{matrix.pair.driver}}.x86_64.deb \
+            https://sfc-repo.snowflakecomputing.com/odbc/linux/${{matrix.pair.driver}}/snowflake-odbc-${{matrix.pair.driver}}.x86_64.deb \
+            && dpkg -i snowflake-odbc-${{matrix.pair.driver}}.x86_64.deb || true
+
+          apt-get update && yes N | apt-get -fy --no-install-recommends install && rm -r /var/lib/apt/lists/* /var/cache/*
+
+      - uses: actions/cache@v2
+        with:
+          path: deps
+          key: mix-deps-${{ hashFiles('**/mix.lock') }}
+
+      - run: mix deps.get
+
+      - run: mix format --check-formatted
+        if: ${{ matrix.lint }}
+
+      - run: mix deps.unlock --check-unused
+        if: ${{ matrix.lint }}
+
+      - run: mix deps.compile
+
+      - run: mix compile --warnings-as-errors
+        if: ${{ matrix.lint }}
+
+      - run: mix credo --strict
+        if: ${{ matrix.lint }}
+
+      - run: mix test
+        if: ${{ ! matrix.lint }}
+
+      - run: mix test --warnings-as-errors
+        if: ${{ matrix.lint }}
 
   semantic_release:
     name: Semantic Release
+    needs: test
     runs-on: ubuntu-latest
-    needs:
-      - tests
     outputs:
-      next-version: ${{ steps.get_next_version.outputs.next-version }}
+      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
+      last_release_version: ${{ steps.semantic.outputs.last_release_version }}
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.6.0
-        with:
-          access_token: ${{ github.token }}
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -76,6 +85,7 @@ jobs:
           persist-credentials: false
 
       - name: Semantic Release
+        id: semantic
         uses: hgdata/semantic-release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_REPO_TOKEN }}
@@ -84,61 +94,4 @@ jobs:
           extends: |
             @hgdata/semantic-release-config
 
-      - name: Output Next Release Version
-        id: get_next_version
-        run: |
-          if [ -f "version" ]; then
-            VERSION=`cat version`
-            echo "::set-output name=next-version::$VERSION"
-          else
-            VERSION=''
-            echo "Next release version not set. No release."
-          fi
-          echo "::set-output name=next-version::$VERSION"
 
-  docs:
-    name: Documentation
-    runs-on: ubuntu-latest
-    needs:
-      - tests
-      - semantic_release
-    if: ${{ github.ref == 'refs/heads/main' && needs.semantic_release.outputs.next-version != '' }}
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.6.0
-        with:
-          access_token: ${{ github.token }}
-
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Setup
-        uses: erlef/setup-elixir@v1
-        with:
-          otp-version: ${{ env.otp-version }}
-          elixir-version: ${{ env.elixir-version }}
-
-      - name: Retrieve Cached Dependencies
-        uses: actions/cache@v2
-        id: mix-cache
-        with:
-          path: |
-            deps
-            _build
-            priv/plts
-          key: ${{ runner.os }}-${{ env.otp-version }}-${{ env.elixir-version }}-${{ hashFiles('mix.lock') }}
-
-      - name: Generate Docs
-        run: |
-          mix local.rebar --force
-          mix local.hex --force
-          mix deps.get
-          mix docs
-
-      - name: Deploy Docs
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doc
