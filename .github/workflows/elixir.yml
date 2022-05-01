@@ -40,7 +40,7 @@ jobs:
             https://sfc-repo.snowflakecomputing.com/odbc/linux/${{matrix.pair.driver}}/snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz \
 
           gunzip snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz
-          tar -xvf snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz
+          tar -xvf snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tar
 
           ls ./
           pwd
