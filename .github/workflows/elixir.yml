@@ -36,11 +36,14 @@ jobs:
 
       - name: Install Snowflake Driver
         run: |
-          curl --output snowflake-odbc-${{matrix.pair.driver}}.x86_64.deb \
-            https://sfc-repo.snowflakecomputing.com/odbc/linux/${{matrix.pair.driver}}/snowflake-odbc-${{matrix.pair.driver}}.x86_64.deb \
-            && dpkg -i snowflake-odbc-${{matrix.pair.driver}}.x86_64.deb || true
+          curl --output snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz \
+            https://sfc-repo.snowflakecomputing.com/odbc/linux/${{matrix.pair.driver}}/snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz \
 
-          apt-get update && yes N | apt-get -fy --no-install-recommends install && rm -r /var/lib/apt/lists/* /var/cache/*
+          gunzip snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz
+          tar -xvf snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tgz
+
+          ls ./
+          pwd
 
       - uses: actions/cache@v2
         with:
