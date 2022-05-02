@@ -36,10 +36,10 @@ jobs:
           otp-version: ${{matrix.pair.otp}}
           elixir-version: ${{matrix.pair.elixir}}
 
-      - name: Install unixODBC
+      - name: Install iODBC
         run: |
           sudo apt-get update
-          sudo apt-get install unixodbc
+          sudo apt-get install libiodbc2 iodbc
 
       - name: Install Snowflake Driver
         run: |
@@ -50,7 +50,7 @@ jobs:
           tar -xvf snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tar
 
           cd snowflake_odbc
-          sudo ./unixodbc_setup.sh
+          sudo ./iodbc_setup.sh
 
       - name: Put Private Key in File
         run: |
