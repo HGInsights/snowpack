@@ -77,10 +77,10 @@ jobs:
       - run: mix credo --strict
         if: ${{ matrix.lint }}
 
-      - run: mix test
+      - run: mix test --exclude ciskip:true
         if: ${{ ! matrix.lint }}
 
-      - run: mix test --warnings-as-errors
+      - run: mix test --exclude ciskip:true --warnings-as-errors
         if: ${{ matrix.lint }}
 
   semantic_release:
