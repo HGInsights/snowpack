@@ -9,6 +9,7 @@ defmodule TypeParsingTest do
   describe "type parsing" do
     setup [:connect]
 
+    @tag ciskip: true
     test "works for basic types", %{pid: pid} do
       {:ok, _result} =
         Snowpack.query(
