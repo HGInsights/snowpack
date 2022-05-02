@@ -7,8 +7,6 @@ defmodule TypeParsingTest do
   @query "SELECT * from #{@table} LIMIT 1;"
 
   describe "type parsing" do
-    @describetag integration: true
-
     setup [:connect]
 
     test "works for basic types", %{pid: pid} do
@@ -41,7 +39,7 @@ defmodule TypeParsingTest do
           [
             123,
             1.23,
-            "varchar",
+            "これはテスト文字列です",
             "c",
             "text",
             Base.encode16("binary"),
@@ -79,7 +77,7 @@ defmodule TypeParsingTest do
                   [
                     123,
                     1.23,
-                    "varchar",
+                    "これはテスト文字列です",
                     "c",
                     "text",
                     "62696E617279",
