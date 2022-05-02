@@ -32,7 +32,8 @@ defmodule Snowpack.Protocol do
 
   @type opts :: Keyword.t()
   @type query :: Snowpack.Query.t()
-  @type params :: [{:odbc.odbc_data_type(), :odbc.value()}]
+  @type value :: :null | term()
+  @type params :: [{atom(), [value()]}] | [{atom(), atom(), [value()]}]
   @type result :: Result.t()
   @type status :: :idle | :error
 

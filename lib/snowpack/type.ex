@@ -34,11 +34,12 @@ defmodule Snowpack.Type do
   @typedoc "Datetime"
   @type datetime :: {date(), time()}
 
+  @type value :: :null | term()
+
   @doc """
   Transforms input params into `:odbc` params.
   """
-  @spec encode(value :: param(), opts :: Keyword.t()) ::
-          {:odbc.odbc_data_type(), [:odbc.value()]}
+  @spec encode(value :: param(), opts :: Keyword.t()) :: {atom(), [nil | term()]}
   def encode(value, _) when is_boolean(value) do
     {:sql_bit, [value]}
   end
@@ -140,7 +141,7 @@ defmodule Snowpack.Type do
   @doc """
   Transforms `:odbc` return values to Elixir representations.
   """
-  @spec decode(:odbc.value(), opts :: Keyword.t()) :: return_value()
+  @spec decode(value(), opts :: Keyword.t()) :: return_value()
   def decode(:null, _), do: nil
 
   def decode(value, _) when is_float(value), do: value

@@ -142,7 +142,14 @@ defmodule Snowpack.ODBC do
     {:ok, %{backoff: :backoff.init(2, 60), state: :not_connected}}
   end
 
-  @spec handle_call(request :: term(), term(), state :: term()) :: term()
+  @spec handle_call(request :: term(), term(), state :: term()) ::
+          {:noreply, term()}
+          | {:noreply, term(), :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
+          | {:reply, term(), term()}
+          | {:stop, term(), term()}
+          | {:reply, term(), term(),
+             :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
+          | {:stop, term(), term(), term()}
   def handle_call({:query, _query}, _from, %{state: :not_connected} = state) do
     {:reply, {:error, :not_connected}, state}
   end
@@ -230,7 +237,10 @@ defmodule Snowpack.ODBC do
     :odbc.disconnect(pid)
   end
 
-  @spec handle_info(msg :: :timeout | term(), state :: term()) :: term()
+  @spec handle_info(msg :: :timeout | term(), state :: term()) ::
+          {:noreply, term()}
+          | {:noreply, term(), :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
+          | {:stop, term(), term()}
   def handle_info({:start, opts}, %{backoff: backoff} = _state) do
     connect_opts =
       opts

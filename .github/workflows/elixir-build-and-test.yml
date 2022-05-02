@@ -1,10 +1,12 @@
-name: CI
+name: Build and Test
 
 on:
-  pull_request:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - '*'
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -15,26 +17,29 @@ env:
 
 jobs:
   test:
-    name: Build & Test
+    name: Build and Test
     runs-on: ubuntu-latest
     env:
       MIX_ENV: test
     strategy:
-      fail-fast: false
       matrix:
         include:
           - pair:
-              elixir: '1.12'
-              otp: 24
-              driver: '2.24.7'
+              elixir: "1.13.3"
+              otp: "24.0.5"
+              driver: "2.24.7"
             lint: lint
-    steps:
-      - uses: actions/checkout@v2
 
-      - uses: erlef/setup-beam@v1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Elixir Project
+        uses: ./.github/actions/elixir-setup
         with:
-          otp-version: ${{matrix.pair.otp}}
-          elixir-version: ${{matrix.pair.elixir}}
+          elixir-version: ${{ matrix.pair.elixir }}
+          otp-version: ${{ matrix.pair.otp }}
+          build-flags: --all-warnings --warnings-as-errors
 
       - name: Install iODBC
         run: |
@@ -56,32 +61,9 @@ jobs:
         run: |
           echo "${{ secrets.SNOWPACK_PRIV_KEY }}" >> /tmp/rsa_key.p8
 
-      - uses: actions/cache@v2
-        with:
-          path: deps
-          key: mix-deps-${{ hashFiles('**/mix.lock') }}
-
-      - run: mix deps.get
-
-      - run: mix format --check-formatted
-        if: ${{ matrix.lint }}
-
-      - run: mix deps.unlock --check-unused
-        if: ${{ matrix.lint }}
-
-      - run: mix deps.compile
-
-      - run: mix compile --warnings-as-errors
-        if: ${{ matrix.lint }}
-
-      - run: mix credo --strict
-        if: ${{ matrix.lint }}
-
-      - run: mix test --exclude ciskip:true
-        if: ${{ ! matrix.lint }}
-
-      - run: mix test --exclude ciskip:true --warnings-as-errors
-        if: ${{ matrix.lint }}
+      - name: Run Tests
+        run: mix test --exclude ciskip:true --warnings-as-errors
+        if: always()
 
   semantic_release:
     name: Semantic Release
@@ -92,7 +74,7 @@ jobs:
       new_release_version: ${{ steps.semantic.outputs.new_release_version }}
       last_release_version: ${{ steps.semantic.outputs.last_release_version }}
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -117,28 +99,18 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' && needs.semantic_release.outputs.new_release_published == 'true' }}
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          persist-credentials: false
 
-      - uses: erlef/setup-beam@v1
+      - name: Setup Elixir Project
+        uses: ./.github/actions/elixir-setup
         with:
-          otp-version: 24
-          elixir-version: '1.13'
-
-      - uses: actions/cache@v2
-        with:
-          path: deps
-          key: mix-deps-${{ hashFiles('**/mix.lock') }}
+          elixir-version: "1.13.3"
+          otp-version: "24.0.5"
+          build-app: false
 
       - name: Generate Docs
-        run: |
-          mix local.rebar --force
-          mix local.hex --force
-          mix deps.get
-          mix docs
+        run: mix docs
 
       - name: Deploy Docs
         uses: peaceiris/actions-gh-pages@v3
