@@ -41,10 +41,10 @@ jobs:
           otp-version: ${{ matrix.pair.otp }}
           build-flags: --all-warnings --warnings-as-errors
 
-      - name: Install iODBC
+      - name: Install unixODBC
         run: |
           sudo apt-get update
-          sudo apt-get install libiodbc2 iodbc
+          sudo apt-get install unixodbc
 
       - name: Install Snowflake Driver
         run: |
@@ -55,7 +55,7 @@ jobs:
           tar -xvf snowflake_linux_x8664_odbc-${{matrix.pair.driver}}.tar
 
           cd snowflake_odbc
-          sudo ./iodbc_setup.sh
+          sudo ./unixodbc_setup.sh
 
       - name: Put Private Key in File
         run: |
