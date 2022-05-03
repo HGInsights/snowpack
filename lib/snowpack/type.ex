@@ -129,9 +129,6 @@ defmodule Snowpack.Type do
 
   def encode(nil, _), do: {:sql_integer, [:null]}
 
-  def encode(values, v) when is_list(values),
-    do: Enum.map(values, &encode(&1, v))
-
   def encode(value, _) do
     raise %Snowpack.Error{
       message: "could not parse param #{inspect(value)} of unrecognised type."
