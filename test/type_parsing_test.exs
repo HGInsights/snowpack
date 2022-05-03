@@ -6,11 +6,12 @@ defmodule TypeParsingTest do
   @table "SNOWPACK.PUBLIC.TYPES_TABLE"
   @query "SELECT * from #{@table} LIMIT 1;"
 
+  @moduletag ciskip: true
+
   describe "type parsing" do
     setup [:connect]
 
-    @tag ciskip: true
-    test "works for basic types", %{pid: pid} do
+    test "works for basic column types", %{pid: pid} do
       {:ok, _result} =
         Snowpack.query(
           pid,
@@ -96,18 +97,23 @@ defmodule TypeParsingTest do
     end
 
     # TODO: research support for custom Snowflake types.
+    # ARRAY, OBJECT, VARIANT
     # https://docs.snowflake.com/en/user-guide/odbc-api.html#custom-sql-data-types
-    #
-    # test "works Snowflake custom type columns", %{pid: pid} do
+
+    # test "works for Snowflake ARRAY column type", %{pid: pid} do
     #   {:ok, _result} =
     #     Snowpack.query(
     #       pid,
-    #       "CREATE OR REPLACE TABLE #{@table} (ARRAY ARRAY, OBJECT OBJECT, VARIANT VARIANT)"
+    #       "CREATE OR REPLACE TABLE #{@table} (COL_ARRAY ARRAY)"
     #     )
 
-    #   # insert array, object, variant
+    #   # # TODO: figure out how to encode arrays as params for ODBC
+    #   # {:ok, _result} =
+    #   #   Snowpack.query(pid, "INSERT INTO #{@table} (ARRAY) VALUES (?)", [
+    #   #     [123, "one", "two", true]
+    #   #   ])
 
-    #   assert {:ok, _result} = Snowpack.query(pid, @query)
+    #   assert {:ok, _result} = Snowpack.query(pid, @query) |> IO.inspect(label: :query)
     # end
   end
 
