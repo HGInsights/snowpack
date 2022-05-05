@@ -1,3 +1,15 @@
+## [0.5.9](https://github.com/HGInsights/snowpack/compare/v0.5.8...v0.5.9) (2022-05-05)
+
+
+### Bug Fixes
+
+* clean up docs and add tests (#23) ([a3ae744](https://github.com/HGInsights/snowpack/commit/a3ae744d1ed2093d85250f0aec261a0d3a531c8f)), closes [#23](https://github.com/HGInsights/snowpack/issues/23)
+
+
+### Chores
+
+* **ci:** update ci to test with latest Snowflake driver (#22) ([dd7577e](https://github.com/HGInsights/snowpack/commit/dd7577e2dce8b2584e4dd27e7291f73fd53d2287)), closes [#22](https://github.com/HGInsights/snowpack/issues/22)
+
 ## [0.5.8](https://github.com/HGInsights/snowpack/compare/v0.5.7...v0.5.8) (2022-04-28)
 
 
