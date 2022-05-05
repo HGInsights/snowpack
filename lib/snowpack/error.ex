@@ -13,6 +13,7 @@ defmodule Snowpack.Error do
   @not_allowed_in_transaction_messages [226, 574]
 
   @type t :: %__MODULE__{
+          :__exception__ => true,
           message: binary(),
           odbc_code: atom() | binary(),
           constraint_violations: Keyword.t()
@@ -53,8 +54,6 @@ defmodule Snowpack.Error do
         :unknown
     end
   end
-
-  defp get_code(_), do: :unknown
 
   defp translate("42S01"), do: :base_table_or_view_already_exists
   defp translate("42S02"), do: :base_table_or_view_not_found

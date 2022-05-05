@@ -1,12 +1,14 @@
 defmodule Snowpack do
+  @external_resource "README.md"
+
   @moduledoc "README.md"
              |> File.read!()
              |> String.split("<!-- MDOC !-->")
              |> Enum.fetch!(1)
 
-  # The amount of time in milliseconds that a heartbeat
-  # will be sent to the server (default: 5 min)
-  @default_session_keepalive 5 * 60 * 1000
+  # The amount of time in milliseconds between heartbeats
+  # that will be sent to the server (default: 5 min)
+  @default_session_keepalive :timer.minutes(5)
 
   @type conn() :: DBConnection.conn()
 
@@ -153,7 +155,7 @@ defmodule Snowpack do
   end
 
   @doc """
-  Prepares a query to be later executed.
+  Prepares a query to be executed later.
 
   To execute the query, call `execute/4`. To close the query, call `close/3`.
   If a name is given, the name must be unique per query, as the name is cached

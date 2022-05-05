@@ -13,7 +13,7 @@ Documentation: <https://hginsights.github.io/snowpack>
 - Automatic decoding and encoding of Elixir values to and from Snowflake's ODBC driver formats
 - Supports transactions, prepared queries, streaming, pooling and more via
   [DBConnection](https://github.com/elixir-ecto/db_connection)
-- Supports Snowflake ODBC Drivers 2.22.5
+- Supports Snowflake ODBC Drivers 2.24.7+
 
 ## Usage
 
@@ -22,7 +22,7 @@ Add `:snowpack` to your dependencies:
 ```elixir
 def deps() do
   [
-    {:snowpack, "~> 0.1.0"}
+    {:snowpack, "~> 0.5.0"}
   ]
 end
 ```
@@ -84,7 +84,7 @@ NULL                 nil
 bool                 true | false
 int                  42
 float                42.0
-decimal              42.0
+decimal              42.0 # (1)
 date                 ~D[2013-10-12]
 time                 ~T[00:37:14]
 datetime             ~N[2013-10-12 00:37:14]  # (2)
@@ -101,7 +101,7 @@ Notes:
 
 1. See [Decimal](https://github.com/ericmj/decimal)
 
-2. Datetime fields are represented as `NaiveDateTime`, however a UTC `DateTime` can be used for encoding as well
+2. Datetime fields are represented as `NaiveDateTime`, however a UTC `DateTime` can be used for encoding as well.
 
 <!-- MDOC !-->
 
@@ -130,7 +130,7 @@ earthly --secret SNOWPACK_SERVER="my-account.snowflakecomputing.com" --secret-fi
 
 The source code is under Apache License 2.0.
 
-Copyright (c) 2021 HG Insights
+Copyright (c) 2022 HG Insights
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
 License. You may obtain a copy of the License at

@@ -9,16 +9,18 @@ defmodule Snowpack.MixProject do
     [
       app: :snowpack,
       version: @version,
-      elixir: "~> 1.11",
+      elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
       name: @name,
       description: "Snowflake driver for Elixir",
       source_url: @source_url,
+      test_coverage: [tool: ExCoveralls],
       package: package(),
       docs: docs(),
       deps: deps(),
       preferred_cli_env: preferred_cli_env(),
+      bless_suite: bless_suite(),
       dialyzer: dialyzer(),
       aliases: aliases()
     ]
@@ -63,15 +65,28 @@ defmodule Snowpack.MixProject do
       {:mentat, "~> 0.7.1"},
       {:telemetry, "~> 0.4 or ~> 1.0"},
       {:jason, "~> 1.2"},
-      {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
-      {:mix_test_watch, "~> 1.0.2", only: [:test, :dev], runtime: false}
+      {:bless, "~> 1.2", only: [:dev, :test], optional: true},
+      {:excoveralls, "~> 0.14.4", only: [:dev, :test], optional: true},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false, optional: true},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false, optional: true},
+      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false, optional: true},
+      {:mix_test_watch, "~> 1.0.2", only: [:test, :dev], optional: true},
+      {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false, optional: true}
     ]
   end
 
-  defp preferred_cli_env, do: [qc: :test, credo: :test, dialyzer: :test]
+  defp preferred_cli_env,
+    do: [bless: :test, coveralls: :test, "coveralls.html": :test, credo: :test, dialyzer: :test]
+
+  defp bless_suite do
+    [
+      compile: ["--warnings-as-errors", "--force"],
+      "coveralls.html": [],
+      format: ["--check-formatted"],
+      credo: [],
+      "deps.unlock": ["--check-unused"]
+    ]
+  end
 
   defp dialyzer do
     [

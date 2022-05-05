@@ -6,7 +6,9 @@ defmodule Snowpack.Telemetry do
 
   Snowpack executes the following events:
 
-  * `[:snowpack, :query, :start]` - Executed at the start of each query sent to Snowflake.
+  ### Query Start
+
+  `[:snowpack, :query, :start]` - Executed at the start of each query sent to Snowflake.
 
   #### Measurements
 
@@ -17,7 +19,9 @@ defmodule Snowpack.Telemetry do
     * `:query` - The query sent to the database as a string
     * `:params` - The query parameters
 
-  * `[:snowpack, :query, :stop]` - Executed at the end of each query sent to Snowflake.
+  ### Query Stop
+
+  `[:snowpack, :query, :stop]` - Executed at the end of each query sent to Snowflake.
 
   #### Measurements
 
@@ -31,7 +35,9 @@ defmodule Snowpack.Telemetry do
     * `:num_rows` - The number of rows effected by the query
     * `:error` - Present if any error occurred while processing the query. (optional)
 
-  * `[:snowpack, :query, :exception]` - Executed if executing a query throws an exception.
+  ### Query Exception
+
+  `[:snowpack, :query, :exception]` - Executed if executing a query throws an exception.
 
   #### Measurements
 

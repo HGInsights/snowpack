@@ -32,7 +32,31 @@ defmodule Snowpack.Protocol do
 
   @type opts :: Keyword.t()
   @type query :: Snowpack.Query.t()
-  @type params :: [{:odbc.odbc_data_type(), :odbc.value()}]
+
+  @type value :: :null | term()
+  @type precision :: integer()
+  @type scale :: integer()
+  @type size :: integer()
+
+  @type odbc_data_type ::
+          :sql_integer
+          | :sql_smallint
+          | :sql_tinyint
+          | {:sql_decimal, precision(), scale()}
+          | {:sql_numeric, precision(), scale()}
+          | {:sql_char, size()}
+          | {:sql_wchar, size()}
+          | {:sql_varchar, size()}
+          | {:sql_wvarchar, size()}
+          | {:sql_float, precision()}
+          | {:sql_wlongvarchar, size()}
+          | {:sql_float, precision()}
+          | :sql_real
+          | :sql_double
+          | :sql_bit
+          | atom()
+
+  @type params :: [{odbc_data_type(), value()}]
   @type result :: Result.t()
   @type status :: :idle | :error
 

@@ -8,15 +8,6 @@ defmodule Snowpack.Result do
     * `:num_rows` - The number of fetched or affected rows;
     * `:rows` - The result set. A list of tuples, each inner tuple corresponding to a
       row, each element in the inner tuple corresponds to a column;
-
-  ## Warnings
-
-  Depending on SQL MODE, a given query may error or just return warnings.
-  If `result.num_warnings` is non-zero it means there were warnings and they can be
-  retrieved by making another query:
-
-      Snowpack.query!(conn, "SHOW WARNINGS")
-
   """
 
   defstruct [
