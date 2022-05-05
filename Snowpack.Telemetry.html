@@ -10,7 +10,7 @@
     <title>Snowpack.Telemetry — Snowpack v0.5.4</title>
     <link rel="stylesheet" href="dist/elixir-784c12ef29cae13371ff.css" />
 
-    <script src="dist/sidebar_items-91c8293a36.js"></script>
+    <script src="dist/sidebar_items-bd7da18cac.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -98,7 +98,19 @@ Snowpack
 
 
   <section id="moduledoc">
-<p>Telemetry integration.</p><p>Unless specified, all time's are in <code class="inline">:native</code> units.</p><p>Snowpack executes the following events:</p><ul><li><code class="inline">[:snowpack, :query, :start]</code> - Executed at the start of each query sent to Snowflake.</li></ul><h4>Measurements</h4><ul><li><code class="inline">:system_time</code> - The time the query started</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">[:snowpack, :query, :stop]</code> - Executed at the end of each query sent to Snowflake.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:duration</code> - The time spent executing the query</li></ul><h4>Metadata:</h4><ul><li><p><code class="inline">:query</code> - The query sent to the database as a string</p></li><li><p><code class="inline">:params</code> - The query parameters</p></li><li><p><code class="inline">:result</code> - The query result (selected, updated)</p></li><li><p><code class="inline">:num_rows</code> - The number of rows effected by the query</p></li><li><p><code class="inline">:error</code> - Present if any error occurred while processing the query. (optional)</p></li><li><p><code class="inline">[:snowpack, :query, :exception]</code> - Executed if executing a query throws an exception.</p></li></ul><h4>Measurements</h4><ul><li><code class="inline">:duration</code> - The time spent executing the query</li></ul><h4>Metadata</h4><ul><li><code class="inline">:kind</code> - The type of exception.</li><li><code class="inline">:error</code> - Error description or error data.</li><li><code class="inline">:stacktrace</code> - The stacktrace</li></ul>
+<p>Telemetry integration.</p><p>Unless specified, all time's are in <code class="inline">:native</code> units.</p><p>Snowpack executes the following events:</p><h3 id="module-query-start" class="section-heading">
+  <a href="#module-query-start" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
+  Query Start
+</h3>
+<p><code class="inline">[:snowpack, :query, :start]</code> - Executed at the start of each query sent to Snowflake.</p><h4>Measurements</h4><ul><li><code class="inline">:system_time</code> - The time the query started</li></ul><h4>Metadata:</h4><ul><li><code class="inline">:query</code> - The query sent to the database as a string</li><li><code class="inline">:params</code> - The query parameters</li></ul><h3 id="module-query-stop" class="section-heading">
+  <a href="#module-query-stop" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
+  Query Stop
+</h3>
+<p><code class="inline">[:snowpack, :query, :stop]</code> - Executed at the end of each query sent to Snowflake.</p><h4>Measurements</h4><ul><li><code class="inline">:duration</code> - The time spent executing the query</li></ul><h4>Metadata:</h4><ul><li><code class="inline">:query</code> - The query sent to the database as a string</li><li><code class="inline">:params</code> - The query parameters</li><li><code class="inline">:result</code> - The query result (selected, updated)</li><li><code class="inline">:num_rows</code> - The number of rows effected by the query</li><li><code class="inline">:error</code> - Present if any error occurred while processing the query. (optional)</li></ul><h3 id="module-query-exception" class="section-heading">
+  <a href="#module-query-exception" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
+  Query Exception
+</h3>
+<p><code class="inline">[:snowpack, :query, :exception]</code> - Executed if executing a query throws an exception.</p><h4>Measurements</h4><ul><li><code class="inline">:duration</code> - The time spent executing the query</li></ul><h4>Metadata</h4><ul><li><code class="inline">:kind</code> - The type of exception.</li><li><code class="inline">:error</code> - Error description or error data.</li><li><code class="inline">:stacktrace</code> - The stacktrace</li></ul>
   </section>
 
 

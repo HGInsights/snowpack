@@ -10,7 +10,7 @@
     <title>Snowpack.Type — Snowpack v0.5.4</title>
     <link rel="stylesheet" href="dist/elixir-784c12ef29cae13371ff.css" />
 
-    <script src="dist/sidebar_items-91c8293a36.js"></script>
+    <script src="dist/sidebar_items-bd7da18cac.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -167,6 +167,14 @@ Snowpack
 
       </div>
 
+      <div class="summary-row">
+        <div class="summary-signature">
+          <a href="#t:value/0" translate="no">value()</a>
+
+        </div>
+
+      </div>
+
   </div>
 
   <div class="summary-functions summary">
@@ -186,7 +194,7 @@ Snowpack
 
       <div class="summary-row">
         <div class="summary-signature">
-          <a href="#encode/2" translate="no">encode(value, v)</a>
+          <a href="#encode/2" translate="no">encode(value, _)</a>
 
         </div>
 
@@ -353,6 +361,35 @@ Types
 <p>Time as <code class="inline">{hour, minute, sec, usec}</code></p>
   </section>
 </section>
+<section class="detail" id="t:value/0">
+
+  <div class="detail-header">
+    <a href="#t:value/0" class="detail-link" title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">value()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/type.ex#L37" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre translate="no">value() :: :null | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
 
     </div>
   </section>
@@ -375,7 +412,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">decode(value, arg2)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/type.ex#L141" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/type.ex#L142" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -388,7 +425,7 @@ Functions
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre translate="no">decode(:odbc.value(), opts :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: <a href="#t:return_value/0">return_value</a>()</pre>
+          <pre translate="no">decode(<a href="#t:value/0">value</a>(), opts :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: <a href="#t:return_value/0">return_value</a>()</pre>
 
       </div>
 
@@ -402,9 +439,9 @@ Functions
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">encode(value, v)</h1>
+    <h1 class="signature" translate="no">encode(value, _)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/type.ex#L42" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/type.ex#L43" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -417,8 +454,7 @@ Functions
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre translate="no">encode(value :: <a href="#t:param/0">param</a>(), opts :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) ::
-  {:odbc.odbc_data_type(), [:odbc.value()]}</pre>
+          <pre translate="no">encode(value :: <a href="#t:param/0">param</a>(), opts :: <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: {<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), [nil | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()]}</pre>
 
       </div>
 

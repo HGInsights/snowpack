@@ -10,7 +10,7 @@
     <title>Snowpack — Snowpack v0.5.4</title>
     <link rel="stylesheet" href="dist/elixir-784c12ef29cae13371ff.css" />
 
-    <script src="dist/sidebar_items-91c8293a36.js"></script>
+    <script src="dist/sidebar_items-bd7da18cac.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -103,45 +103,45 @@ Snowpack
   Features
 </h2>
 <ul><li>Automatic decoding and encoding of Elixir values to and from Snowflake's ODBC driver formats</li><li>Supports transactions, prepared queries, streaming, pooling and more via
-<a href="https://github.com/elixir-ecto/db_connection">DBConnection</a></li><li>Supports Snowflake ODBC Drivers 2.22.5</li></ul><h2 id="module-usage" class="section-heading">
+<a href="https://github.com/elixir-ecto/db_connection">DBConnection</a></li><li>Supports Snowflake ODBC Drivers 2.24.7+</li></ul><h2 id="module-usage" class="section-heading">
   <a href="#module-usage" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
   Usage
 </h2>
-<p>Add <code class="inline">:snowpack</code> to your dependencies:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="p" data-group-id="1468081935-1">(</span><span class="p" data-group-id="1468081935-1">)</span><span class="w"> </span><span class="k" data-group-id="1468081935-2">do</span><span class="w">
-  </span><span class="p" data-group-id="1468081935-3">[</span><span class="w">
-    </span><span class="p" data-group-id="1468081935-4">{</span><span class="ss">:snowpack</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.1.0&quot;</span><span class="p" data-group-id="1468081935-4">}</span><span class="w">
-  </span><span class="p" data-group-id="1468081935-3">]</span><span class="w">
-</span><span class="k" data-group-id="1468081935-2">end</span></code></pre><p>Make sure you are using the latest version!</p><pre><code class="makeup elixir" translate="no"><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6961233205-1">[</span><span class="w">
-  </span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6961233205-2">[</span><span class="w">
+<p>Add <code class="inline">:snowpack</code> to your dependencies:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">deps</span><span class="p" data-group-id="1732278596-1">(</span><span class="p" data-group-id="1732278596-1">)</span><span class="w"> </span><span class="k" data-group-id="1732278596-2">do</span><span class="w">
+  </span><span class="p" data-group-id="1732278596-3">[</span><span class="w">
+    </span><span class="p" data-group-id="1732278596-4">{</span><span class="ss">:snowpack</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~&gt; 0.5.0&quot;</span><span class="p" data-group-id="1732278596-4">}</span><span class="w">
+  </span><span class="p" data-group-id="1732278596-3">]</span><span class="w">
+</span><span class="k" data-group-id="1732278596-2">end</span></code></pre><p>Make sure you are using the latest version!</p><pre><code class="makeup elixir" translate="no"><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="3671325076-1">[</span><span class="w">
+  </span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3671325076-2">[</span><span class="w">
     </span><span class="ss">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DEV&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="ss">warehouse</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="6961233205-3">(</span><span class="s">&quot;SNOWFLAKE_WH&quot;</span><span class="p" data-group-id="6961233205-3">)</span><span class="p">,</span><span class="w">
-    </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="6961233205-4">(</span><span class="s">&quot;SNOWFLAKE_UID&quot;</span><span class="p" data-group-id="6961233205-4">)</span><span class="p">,</span><span class="w">
-    </span><span class="ss">pwd</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="6961233205-5">(</span><span class="s">&quot;SNOWFLAKE_PWD&quot;</span><span class="p" data-group-id="6961233205-5">)</span><span class="w">
-  </span><span class="p" data-group-id="6961233205-2">]</span><span class="w">
-</span><span class="p" data-group-id="6961233205-1">]</span><span class="w">
+    </span><span class="ss">warehouse</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="3671325076-3">(</span><span class="s">&quot;SNOWFLAKE_WH&quot;</span><span class="p" data-group-id="3671325076-3">)</span><span class="p">,</span><span class="w">
+    </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="3671325076-4">(</span><span class="s">&quot;SNOWFLAKE_UID&quot;</span><span class="p" data-group-id="3671325076-4">)</span><span class="p">,</span><span class="w">
+    </span><span class="ss">pwd</span><span class="p">:</span><span class="w"> </span><span class="nc">System</span><span class="o">.</span><span class="n">get_env</span><span class="p" data-group-id="3671325076-5">(</span><span class="s">&quot;SNOWFLAKE_PWD&quot;</span><span class="p" data-group-id="3671325076-5">)</span><span class="w">
+  </span><span class="p" data-group-id="3671325076-2">]</span><span class="w">
+</span><span class="p" data-group-id="3671325076-1">]</span><span class="w">
 
-</span><span class="p" data-group-id="6961233205-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="6961233205-6">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="6961233205-7">(</span><span class="n">opts</span><span class="p" data-group-id="6961233205-7">)</span><span class="w">
-</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="6961233205-8">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;select current_user()&quot;</span><span class="p" data-group-id="6961233205-8">)</span><span class="w">
+</span><span class="p" data-group-id="3671325076-6">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="3671325076-6">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="3671325076-7">(</span><span class="n">opts</span><span class="p" data-group-id="3671325076-7">)</span><span class="w">
+</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="3671325076-8">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;select current_user()&quot;</span><span class="p" data-group-id="3671325076-8">)</span><span class="w">
 
-</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query</span><span class="p" data-group-id="6961233205-9">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT * FROM data&quot;</span><span class="p" data-group-id="6961233205-9">)</span><span class="w">
-</span><span class="p" data-group-id="6961233205-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w">
- </span><span class="p" data-group-id="6961233205-11">%</span><span class="nc" data-group-id="6961233205-11">Snowpack.Result</span><span class="p" data-group-id="6961233205-11">{</span><span class="w">
-   </span><span class="ss">columns</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6961233205-12">[</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;title&quot;</span><span class="p" data-group-id="6961233205-12">]</span><span class="p">,</span><span class="w">
+</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query</span><span class="p" data-group-id="3671325076-9">(</span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT * FROM data&quot;</span><span class="p" data-group-id="3671325076-9">)</span><span class="w">
+</span><span class="p" data-group-id="3671325076-10">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w">
+ </span><span class="p" data-group-id="3671325076-11">%</span><span class="nc" data-group-id="3671325076-11">Snowpack.Result</span><span class="p" data-group-id="3671325076-11">{</span><span class="w">
+   </span><span class="ss">columns</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3671325076-12">[</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;title&quot;</span><span class="p" data-group-id="3671325076-12">]</span><span class="p">,</span><span class="w">
    </span><span class="ss">num_rows</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-   </span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6961233205-13">[</span><span class="p" data-group-id="6961233205-14">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 1&quot;</span><span class="p" data-group-id="6961233205-14">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6961233205-15">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 2&quot;</span><span class="p" data-group-id="6961233205-15">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6961233205-16">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 3&quot;</span><span class="p" data-group-id="6961233205-16">]</span><span class="p" data-group-id="6961233205-13">]</span><span class="w">
- </span><span class="p" data-group-id="6961233205-11">}</span><span class="p" data-group-id="6961233205-10">}</span></code></pre><p>It's recommended to start Snowpack under a supervision tree:</p><pre><code class="makeup elixir" translate="no"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">MyApp.Application</span><span class="w"> </span><span class="k" data-group-id="0604778926-1">do</span><span class="w">
+   </span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3671325076-13">[</span><span class="p" data-group-id="3671325076-14">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 1&quot;</span><span class="p" data-group-id="3671325076-14">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3671325076-15">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 2&quot;</span><span class="p" data-group-id="3671325076-15">]</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3671325076-16">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data 3&quot;</span><span class="p" data-group-id="3671325076-16">]</span><span class="p" data-group-id="3671325076-13">]</span><span class="w">
+ </span><span class="p" data-group-id="3671325076-11">}</span><span class="p" data-group-id="3671325076-10">}</span></code></pre><p>It's recommended to start Snowpack under a supervision tree:</p><pre><code class="makeup elixir" translate="no"><span class="kd">defmodule</span><span class="w"> </span><span class="nc">MyApp.Application</span><span class="w"> </span><span class="k" data-group-id="6842687692-1">do</span><span class="w">
   </span><span class="kn">use</span><span class="w"> </span><span class="nc">Application</span><span class="w">
 
-  </span><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="0604778926-2">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="0604778926-2">)</span><span class="w"> </span><span class="k" data-group-id="0604778926-3">do</span><span class="w">
-    </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="0604778926-4">[</span><span class="w">
-      </span><span class="p" data-group-id="0604778926-5">{</span><span class="nc">Snowpack</span><span class="p">,</span><span class="w"> </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snowflake-uid&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="ss">:snowpack</span><span class="p" data-group-id="0604778926-5">}</span><span class="w">
-    </span><span class="p" data-group-id="0604778926-4">]</span><span class="w">
+  </span><span class="kd">def</span><span class="w"> </span><span class="nf">start</span><span class="p" data-group-id="6842687692-2">(</span><span class="c">_type</span><span class="p">,</span><span class="w"> </span><span class="c">_args</span><span class="p" data-group-id="6842687692-2">)</span><span class="w"> </span><span class="k" data-group-id="6842687692-3">do</span><span class="w">
+    </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6842687692-4">[</span><span class="w">
+      </span><span class="p" data-group-id="6842687692-5">{</span><span class="nc">Snowpack</span><span class="p">,</span><span class="w"> </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snowflake-uid&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="ss">:snowpack</span><span class="p" data-group-id="6842687692-5">}</span><span class="w">
+    </span><span class="p" data-group-id="6842687692-4">]</span><span class="w">
 
-    </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="0604778926-6">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyApp.Supervisor</span><span class="p" data-group-id="0604778926-6">]</span><span class="w">
-    </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="0604778926-7">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="0604778926-7">)</span><span class="w">
-  </span><span class="k" data-group-id="0604778926-3">end</span><span class="w">
-</span><span class="k" data-group-id="0604778926-1">end</span></code></pre><p>and then we can refer to it by its <code class="inline">:name</code>:</p><pre><code class="makeup elixir" translate="no"><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="8143739584-1">(</span><span class="ss">:snowpack</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT NOW()&quot;</span><span class="p" data-group-id="8143739584-1">)</span><span class="o">.</span><span class="n">rows</span><span class="w">
-</span><span class="p" data-group-id="8143739584-2">[</span><span class="p" data-group-id="8143739584-3">[</span><span class="ld">~N[2018-12-28 13:42:31]</span><span class="p" data-group-id="8143739584-3">]</span><span class="p" data-group-id="8143739584-2">]</span></code></pre><h2 id="module-data-representation" class="section-heading">
+    </span><span class="n">opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p" data-group-id="6842687692-6">[</span><span class="ss">strategy</span><span class="p">:</span><span class="w"> </span><span class="ss">:one_for_one</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">MyApp.Supervisor</span><span class="p" data-group-id="6842687692-6">]</span><span class="w">
+    </span><span class="nc">Supervisor</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="6842687692-7">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">opts</span><span class="p" data-group-id="6842687692-7">)</span><span class="w">
+  </span><span class="k" data-group-id="6842687692-3">end</span><span class="w">
+</span><span class="k" data-group-id="6842687692-1">end</span></code></pre><p>and then we can refer to it by its <code class="inline">:name</code>:</p><pre><code class="makeup elixir" translate="no"><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="7454782967-1">(</span><span class="ss">:snowpack</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT NOW()&quot;</span><span class="p" data-group-id="7454782967-1">)</span><span class="o">.</span><span class="n">rows</span><span class="w">
+</span><span class="p" data-group-id="7454782967-2">[</span><span class="p" data-group-id="7454782967-3">[</span><span class="ld">~N[2018-12-28 13:42:31]</span><span class="p" data-group-id="7454782967-3">]</span><span class="p" data-group-id="7454782967-2">]</span></code></pre><h2 id="module-data-representation" class="section-heading">
   <a href="#module-data-representation" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
   Data representation
 </h2>
@@ -151,17 +151,17 @@ Snowpack
 </span><span class="n">bool</span><span class="w">                 </span><span class="no">true</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">false</span><span class="w">
 </span><span class="n">int</span><span class="w">                  </span><span class="mi">42</span><span class="w">
 </span><span class="n">float</span><span class="w">                </span><span class="mf">42.0</span><span class="w">
-</span><span class="n">decimal</span><span class="w">              </span><span class="mf">42.0</span><span class="w">
+</span><span class="n">decimal</span><span class="w">              </span><span class="mf">42.0</span><span class="w"> </span><span class="c1"># (1)</span><span class="w">
 </span><span class="n">date</span><span class="w">                 </span><span class="ld">~D[2013-10-12]</span><span class="w">
 </span><span class="n">time</span><span class="w">                 </span><span class="ld">~T[00:37:14]</span><span class="w">
 </span><span class="n">datetime</span><span class="w">             </span><span class="ld">~N[2013-10-12 00:37:14]</span><span class="w">  </span><span class="c1"># (2)</span><span class="w">
 </span><span class="n">timestamp</span><span class="w">            </span><span class="ld">~U[2013-10-12 00:37:14Z]</span><span class="w"> </span><span class="c1"># (2)</span><span class="w">
 </span><span class="n">char</span><span class="w">                 </span><span class="s">&quot;é&quot;</span><span class="w">
 </span><span class="n">text</span><span class="w">                 </span><span class="s">&quot;snowpack&quot;</span><span class="w">
-</span><span class="n">binary</span><span class="w">               </span><span class="p" data-group-id="2178134779-1">&lt;&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2178134779-1">&gt;&gt;</span><span class="w">
-</span><span class="n">bit</span><span class="w">                  </span><span class="p" data-group-id="2178134779-2">&lt;&lt;</span><span class="mi">1</span><span class="o">::</span><span class="n">size</span><span class="p" data-group-id="2178134779-3">(</span><span class="mi">1</span><span class="p" data-group-id="2178134779-3">)</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">::</span><span class="n">size</span><span class="p" data-group-id="2178134779-4">(</span><span class="mi">1</span><span class="p" data-group-id="2178134779-4">)</span><span class="p" data-group-id="2178134779-2">&gt;&gt;</span><span class="w">
-</span><span class="n">array</span><span class="w">                </span><span class="p" data-group-id="2178134779-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2178134779-5">]</span><span class="w">
-</span><span class="n">object</span><span class="w">               </span><span class="p" data-group-id="2178134779-6">%{</span><span class="ss">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p" data-group-id="2178134779-6">}</span></code></pre><p>Notes:</p><ol><li><p>See <a href="https://github.com/ericmj/decimal">Decimal</a></p></li><li><p>Datetime fields are represented as <a href="https://hexdocs.pm/elixir/NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a>, however a UTC <a href="https://hexdocs.pm/elixir/DateTime.html"><code class="inline">DateTime</code></a> can be used for encoding as well</p></li></ol>
+</span><span class="n">binary</span><span class="w">               </span><span class="p" data-group-id="9779920151-1">&lt;&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9779920151-1">&gt;&gt;</span><span class="w">
+</span><span class="n">bit</span><span class="w">                  </span><span class="p" data-group-id="9779920151-2">&lt;&lt;</span><span class="mi">1</span><span class="o">::</span><span class="n">size</span><span class="p" data-group-id="9779920151-3">(</span><span class="mi">1</span><span class="p" data-group-id="9779920151-3">)</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">::</span><span class="n">size</span><span class="p" data-group-id="9779920151-4">(</span><span class="mi">1</span><span class="p" data-group-id="9779920151-4">)</span><span class="p" data-group-id="9779920151-2">&gt;&gt;</span><span class="w">
+</span><span class="n">array</span><span class="w">                </span><span class="p" data-group-id="9779920151-5">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9779920151-5">]</span><span class="w">
+</span><span class="n">object</span><span class="w">               </span><span class="p" data-group-id="9779920151-6">%{</span><span class="ss">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p" data-group-id="9779920151-6">}</span></code></pre><p>Notes:</p><ol><li><p>See <a href="https://github.com/ericmj/decimal">Decimal</a></p></li><li><p>Datetime fields are represented as <a href="https://hexdocs.pm/elixir/NaiveDateTime.html"><code class="inline">NaiveDateTime</code></a>, however a UTC <a href="https://hexdocs.pm/elixir/DateTime.html"><code class="inline">DateTime</code></a> can be used for encoding as well.</p></li></ol>
   </section>
 
 
@@ -264,7 +264,7 @@ Snowpack
 
         </div>
 
-          <div class="summary-synopsis"><p>Prepares a query to be later executed.</p></div>
+          <div class="summary-synopsis"><p>Prepares a query to be executed later.</p></div>
 
       </div>
 
@@ -351,7 +351,7 @@ Types
     </a>
     <h1 class="signature" translate="no">conn()</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L11" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L13" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -380,7 +380,7 @@ Types
     </a>
     <h1 class="signature" translate="no">option()</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L32" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L34" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -409,7 +409,7 @@ Types
     </a>
     <h1 class="signature" translate="no">snowflake_conn_option()</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L13" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L15" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -451,7 +451,7 @@ Types
     </a>
     <h1 class="signature" translate="no">start_option()</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L28" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L30" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -494,7 +494,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">child_spec(opts)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L44" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L46" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -525,7 +525,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">close(conn, query, opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L281" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L283" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -561,7 +561,7 @@ all available options.</p>
     </a>
     <h1 class="signature" translate="no">execute(conn, query, params, opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L258" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L260" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -588,10 +588,10 @@ all available options.</p><h2 id="execute/4-examples" class="section-heading">
   <a href="#execute/4-examples" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
   Examples
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="2410369124-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p" data-group-id="2410369124-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare</span><span class="p" data-group-id="2410369124-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p" data-group-id="2410369124-2">)</span><span class="w">
-</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="2410369124-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2410369124-4">%</span><span class="nc" data-group-id="2410369124-4">Snowpack.Result</span><span class="p" data-group-id="2410369124-4">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2410369124-5">[</span><span class="n">row</span><span class="p" data-group-id="2410369124-5">]</span><span class="p" data-group-id="2410369124-4">}</span><span class="p" data-group-id="2410369124-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">execute</span><span class="p" data-group-id="2410369124-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2410369124-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="2410369124-7">]</span><span class="p" data-group-id="2410369124-6">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9515265119-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p" data-group-id="9515265119-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare</span><span class="p" data-group-id="9515265119-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p" data-group-id="9515265119-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9515265119-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9515265119-4">%</span><span class="nc" data-group-id="9515265119-4">Snowpack.Result</span><span class="p" data-group-id="9515265119-4">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9515265119-5">[</span><span class="n">row</span><span class="p" data-group-id="9515265119-5">]</span><span class="p" data-group-id="9515265119-4">}</span><span class="p" data-group-id="9515265119-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">execute</span><span class="p" data-group-id="9515265119-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9515265119-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="9515265119-7">]</span><span class="p" data-group-id="9515265119-6">)</span><span class="w">
 </span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
-</span><span class="p" data-group-id="2410369124-8">[</span><span class="mi">6</span><span class="p" data-group-id="2410369124-8">]</span></code></pre>
+</span><span class="p" data-group-id="9515265119-8">[</span><span class="mi">6</span><span class="p" data-group-id="9515265119-8">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="execute!/4">
@@ -605,7 +605,7 @@ all available options.</p><h2 id="execute/4-examples" class="section-heading">
     </a>
     <h1 class="signature" translate="no">execute!(conn, query, params, opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L268" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L270" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -636,7 +636,7 @@ all available options.</p><h2 id="execute/4-examples" class="section-heading">
     </a>
     <h1 class="signature" translate="no">prepare(conn, name, statement, opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L178" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L180" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -654,7 +654,7 @@ all available options.</p><h2 id="execute/4-examples" class="section-heading">
 
       </div>
 
-<p>Prepares a query to be later executed.</p><p>To execute the query, call <a href="#execute/4"><code class="inline">execute/4</code></a>. To close the query, call <a href="#close/3"><code class="inline">close/3</code></a>.
+<p>Prepares a query to be executed later.</p><p>To execute the query, call <a href="#execute/4"><code class="inline">execute/4</code></a>. To close the query, call <a href="#close/3"><code class="inline">close/3</code></a>.
 If a name is given, the name must be unique per query, as the name is cached
 but the statement isn't. If a new statement is given to an old name, the old
 statement will be the one effectively used.</p><h2 id="prepare/4-options" class="section-heading">
@@ -666,10 +666,10 @@ all available options.</p><h2 id="prepare/4-examples" class="section-heading">
   <a href="#prepare/4-examples" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
   Examples
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7093895596-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p" data-group-id="7093895596-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare</span><span class="p" data-group-id="7093895596-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p" data-group-id="7093895596-2">)</span><span class="w">
-</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="7093895596-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7093895596-4">%</span><span class="nc" data-group-id="7093895596-4">Snowpack.Result</span><span class="p" data-group-id="7093895596-4">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="7093895596-5">[</span><span class="n">row</span><span class="p" data-group-id="7093895596-5">]</span><span class="p" data-group-id="7093895596-4">}</span><span class="p" data-group-id="7093895596-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">execute</span><span class="p" data-group-id="7093895596-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7093895596-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="7093895596-7">]</span><span class="p" data-group-id="7093895596-6">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1629934634-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p" data-group-id="1629934634-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare</span><span class="p" data-group-id="1629934634-2">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p" data-group-id="1629934634-2">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1629934634-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1629934634-4">%</span><span class="nc" data-group-id="1629934634-4">Snowpack.Result</span><span class="p" data-group-id="1629934634-4">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1629934634-5">[</span><span class="n">row</span><span class="p" data-group-id="1629934634-5">]</span><span class="p" data-group-id="1629934634-4">}</span><span class="p" data-group-id="1629934634-3">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">execute</span><span class="p" data-group-id="1629934634-6">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1629934634-7">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="1629934634-7">]</span><span class="p" data-group-id="1629934634-6">)</span><span class="w">
 </span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
-</span><span class="p" data-group-id="7093895596-8">[</span><span class="mi">6</span><span class="p" data-group-id="7093895596-8">]</span></code></pre>
+</span><span class="p" data-group-id="1629934634-8">[</span><span class="mi">6</span><span class="p" data-group-id="1629934634-8">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="prepare!/4">
@@ -683,7 +683,7 @@ all available options.</p><h2 id="prepare/4-examples" class="section-heading">
     </a>
     <h1 class="signature" translate="no">prepare!(conn, name, statement, opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L191" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L193" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -716,7 +716,7 @@ all available options.</p><h2 id="prepare/4-examples" class="section-heading">
     </a>
     <h1 class="signature" translate="no">prepare_execute(conn, name, statement, params \\ [], opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L218" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L220" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -748,9 +748,9 @@ all available options.</p><h2 id="prepare_execute/5-examples" class="section-hea
   <a href="#prepare_execute/5-examples" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
   Examples
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4054108814-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="c">_query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4054108814-2">%</span><span class="nc" data-group-id="4054108814-2">Snowpack.Result</span><span class="p" data-group-id="4054108814-2">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4054108814-3">[</span><span class="n">row</span><span class="p" data-group-id="4054108814-3">]</span><span class="p" data-group-id="4054108814-2">}</span><span class="p" data-group-id="4054108814-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare_execute</span><span class="p" data-group-id="4054108814-4">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4054108814-5">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="4054108814-5">]</span><span class="p" data-group-id="4054108814-4">)</span><span class="w">
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="8278959214-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="c">_query</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8278959214-2">%</span><span class="nc" data-group-id="8278959214-2">Snowpack.Result</span><span class="p" data-group-id="8278959214-2">{</span><span class="ss">rows</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="8278959214-3">[</span><span class="n">row</span><span class="p" data-group-id="8278959214-3">]</span><span class="p" data-group-id="8278959214-2">}</span><span class="p" data-group-id="8278959214-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">prepare_execute</span><span class="p" data-group-id="8278959214-4">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT ? * ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="8278959214-5">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p" data-group-id="8278959214-5">]</span><span class="p" data-group-id="8278959214-4">)</span><span class="w">
 </span><span class="gp unselectable">iex&gt; </span><span class="n">row</span><span class="w">
-</span><span class="p" data-group-id="4054108814-6">[</span><span class="mi">6</span><span class="p" data-group-id="4054108814-6">]</span></code></pre>
+</span><span class="p" data-group-id="8278959214-6">[</span><span class="mi">6</span><span class="p" data-group-id="8278959214-6">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="prepare_execute!/5">
@@ -766,7 +766,7 @@ all available options.</p><h2 id="prepare_execute/5-examples" class="section-hea
     </a>
     <h1 class="signature" translate="no">prepare_execute!(conn, name, statement, params \\ [], opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L234" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L236" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -801,7 +801,7 @@ an error.</p><p>See: <a href="#prepare_execute/5"><code class="inline">prepare_e
     </a>
     <h1 class="signature" translate="no">query(conn, statement, params \\ [], options \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L133" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L135" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -823,8 +823,8 @@ an error.</p><p>See: <a href="#prepare_execute/5"><code class="inline">prepare_e
   <a href="#query/4-examples" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
   Examples
 </h2>
-<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query</span><span class="p" data-group-id="2151907680-1">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT * FROM posts&quot;</span><span class="p" data-group-id="2151907680-1">)</span><span class="w">
-</span><span class="p" data-group-id="2151907680-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2151907680-3">%</span><span class="nc" data-group-id="2151907680-3">Snowpack.Result</span><span class="p" data-group-id="2151907680-3">{</span><span class="p" data-group-id="2151907680-3">}</span><span class="p" data-group-id="2151907680-2">}</span></code></pre>
+<pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query</span><span class="p" data-group-id="4088677922-1">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT * FROM posts&quot;</span><span class="p" data-group-id="4088677922-1">)</span><span class="w">
+</span><span class="p" data-group-id="4088677922-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4088677922-3">%</span><span class="nc" data-group-id="4088677922-3">Snowpack.Result</span><span class="p" data-group-id="4088677922-3">{</span><span class="p" data-group-id="4088677922-3">}</span><span class="p" data-group-id="4088677922-2">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="query!/4">
@@ -840,7 +840,7 @@ an error.</p><p>See: <a href="#prepare_execute/5"><code class="inline">prepare_e
     </a>
     <h1 class="signature" translate="no">query!(conn, statement, params \\ [], opts \\ [])</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L148" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L150" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -869,7 +869,7 @@ an error.</p><p>See: <a href="#prepare_execute/5"><code class="inline">prepare_e
     </a>
     <h1 class="signature" translate="no">start_link(opts)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L116" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack.ex#L118" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -904,10 +904,10 @@ documented below:</p><ul><li><p><code class="inline">:after_connect</code> - A f
   <a href="#start_link/1-examples" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
   Examples
 </h2>
-<p>Start connection using basic User / Pass configuration:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="9014763991-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="9014763991-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="9014763991-2">(</span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="9014763991-3">[</span><span class="ss">server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;account-id.snowflakecomputing.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">pwd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PASS&quot;</span><span class="p" data-group-id="9014763991-3">]</span><span class="p" data-group-id="9014763991-2">)</span><span class="w">
-</span><span class="p" data-group-id="9014763991-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9014763991-5">#</span><span class="nc" data-group-id="9014763991-5">PID</span><span class="p" data-group-id="9014763991-5">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">69</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="9014763991-5">&gt;</span><span class="p" data-group-id="9014763991-4">}</span></code></pre><p>Start connection using DNS configuration:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1616729745-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="1616729745-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="1616729745-2">(</span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1616729745-3">[</span><span class="ss">dsn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snowflake&quot;</span><span class="p" data-group-id="1616729745-3">]</span><span class="p" data-group-id="1616729745-2">)</span><span class="w">
-</span><span class="p" data-group-id="1616729745-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1616729745-5">#</span><span class="nc" data-group-id="1616729745-5">PID</span><span class="p" data-group-id="1616729745-5">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">69</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="1616729745-5">&gt;</span><span class="p" data-group-id="1616729745-4">}</span></code></pre><p>Run a query after connection has been established:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="4065240554-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="4065240554-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="4065240554-2">(</span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4065240554-3">[</span><span class="ss">dsn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snowflake&quot;</span><span class="p" data-group-id="4065240554-3">]</span><span class="p">,</span><span class="w"> </span><span class="ss">after_connect</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="4065240554-4">(</span><span class="ni">&amp;1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SET time_zone = &#39;+00:00&#39;&quot;</span><span class="p" data-group-id="4065240554-4">)</span><span class="p" data-group-id="4065240554-2">)</span><span class="w">
-</span><span class="p" data-group-id="4065240554-5">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4065240554-6">#</span><span class="nc" data-group-id="4065240554-6">PID</span><span class="p" data-group-id="4065240554-6">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">69</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="4065240554-6">&gt;</span><span class="p" data-group-id="4065240554-5">}</span></code></pre>
+<p>Start connection using basic User / Pass configuration:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="1082422467-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="1082422467-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="1082422467-2">(</span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="1082422467-3">[</span><span class="ss">server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;account-id.snowflakecomputing.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">uid</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">pwd</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PASS&quot;</span><span class="p" data-group-id="1082422467-3">]</span><span class="p" data-group-id="1082422467-2">)</span><span class="w">
+</span><span class="p" data-group-id="1082422467-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="1082422467-5">#</span><span class="nc" data-group-id="1082422467-5">PID</span><span class="p" data-group-id="1082422467-5">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">69</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="1082422467-5">&gt;</span><span class="p" data-group-id="1082422467-4">}</span></code></pre><p>Start connection using DNS configuration:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="0684116475-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="0684116475-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="0684116475-2">(</span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="0684116475-3">[</span><span class="ss">dsn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snowflake&quot;</span><span class="p" data-group-id="0684116475-3">]</span><span class="p" data-group-id="0684116475-2">)</span><span class="w">
+</span><span class="p" data-group-id="0684116475-4">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="0684116475-5">#</span><span class="nc" data-group-id="0684116475-5">PID</span><span class="p" data-group-id="0684116475-5">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">69</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="0684116475-5">&gt;</span><span class="p" data-group-id="0684116475-4">}</span></code></pre><p>Run a query after connection has been established:</p><pre><code class="makeup elixir" translate="no"><span class="gp unselectable">iex&gt; </span><span class="p" data-group-id="6327701506-1">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p" data-group-id="6327701506-1">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">start_link</span><span class="p" data-group-id="6327701506-2">(</span><span class="ss">connection</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="6327701506-3">[</span><span class="ss">dsn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;snowflake&quot;</span><span class="p" data-group-id="6327701506-3">]</span><span class="p">,</span><span class="w"> </span><span class="ss">after_connect</span><span class="p">:</span><span class="w"> </span><span class="o">&amp;</span><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="6327701506-4">(</span><span class="ni">&amp;1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SET time_zone = &#39;+00:00&#39;&quot;</span><span class="p" data-group-id="6327701506-4">)</span><span class="p" data-group-id="6327701506-2">)</span><span class="w">
+</span><span class="p" data-group-id="6327701506-5">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="6327701506-6">#</span><span class="nc" data-group-id="6327701506-6">PID</span><span class="p" data-group-id="6327701506-6">&lt;</span><span class="mi">0</span><span class="o">.</span><span class="mi">69</span><span class="o">.</span><span class="mi">0</span><span class="p" data-group-id="6327701506-6">&gt;</span><span class="p" data-group-id="6327701506-5">}</span></code></pre>
   </section>
 </section>
 

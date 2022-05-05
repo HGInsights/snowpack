@@ -10,7 +10,7 @@
     <title>Snowpack.Result — Snowpack v0.5.4</title>
     <link rel="stylesheet" href="dist/elixir-784c12ef29cae13371ff.css" />
 
-    <script src="dist/sidebar_items-91c8293a36.js"></script>
+    <script src="dist/sidebar_items-bd7da18cac.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -99,13 +99,7 @@ Snowpack
 
   <section id="moduledoc">
 <p>Result struct returned from any successful query.</p><p>Its public fields are:</p><ul><li><code class="inline">:columns</code> - The column names;</li><li><code class="inline">:num_rows</code> - The number of fetched or affected rows;</li><li><code class="inline">:rows</code> - The result set. A list of tuples, each inner tuple corresponding to a
-row, each element in the inner tuple corresponds to a column;</li></ul><h2 id="module-warnings" class="section-heading">
-  <a href="#module-warnings" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a>
-  Warnings
-</h2>
-<p>Depending on SQL MODE, a given query may error or just return warnings.
-If <code class="inline">result.num_warnings</code> is non-zero it means there were warnings and they can be
-retrieved by making another query:</p><pre><code class="makeup elixir" translate="no"><span class="nc">Snowpack</span><span class="o">.</span><span class="n">query!</span><span class="p" data-group-id="3597254609-1">(</span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SHOW WARNINGS&quot;</span><span class="p" data-group-id="3597254609-1">)</span></code></pre>
+row, each element in the inner tuple corresponds to a column;</li></ul>
   </section>
 
 
@@ -154,7 +148,7 @@ Types
     </a>
     <h1 class="signature" translate="no">t()</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/result.ex#L28" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/result.ex#L19" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>

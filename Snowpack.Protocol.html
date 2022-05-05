@@ -10,7 +10,7 @@
     <title>Snowpack.Protocol — Snowpack v0.5.4</title>
     <link rel="stylesheet" href="dist/elixir-784c12ef29cae13371ff.css" />
 
-    <script src="dist/sidebar_items-91c8293a36.js"></script>
+    <script src="dist/sidebar_items-bd7da18cac.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -120,6 +120,14 @@ other <a href="Snowpack.html"><code class="inline">Snowpack</code></a> modules o
 
       <div class="summary-row">
         <div class="summary-signature">
+          <a href="#t:odbc_data_type/0" translate="no">odbc_data_type()</a>
+
+        </div>
+
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-signature">
           <a href="#t:opts/0" translate="no">opts()</a>
 
         </div>
@@ -129,6 +137,14 @@ other <a href="Snowpack.html"><code class="inline">Snowpack</code></a> modules o
       <div class="summary-row">
         <div class="summary-signature">
           <a href="#t:params/0" translate="no">params()</a>
+
+        </div>
+
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-signature">
+          <a href="#t:precision/0" translate="no">precision()</a>
 
         </div>
 
@@ -152,6 +168,22 @@ other <a href="Snowpack.html"><code class="inline">Snowpack</code></a> modules o
 
       <div class="summary-row">
         <div class="summary-signature">
+          <a href="#t:scale/0" translate="no">scale()</a>
+
+        </div>
+
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-signature">
+          <a href="#t:size/0" translate="no">size()</a>
+
+        </div>
+
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-signature">
           <a href="#t:state/0" translate="no">state()</a>
 
         </div>
@@ -163,6 +195,14 @@ other <a href="Snowpack.html"><code class="inline">Snowpack</code></a> modules o
       <div class="summary-row">
         <div class="summary-signature">
           <a href="#t:status/0" translate="no">status()</a>
+
+        </div>
+
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-signature">
+          <a href="#t:value/0" translate="no">value()</a>
 
         </div>
 
@@ -361,6 +401,51 @@ other <a href="Snowpack.html"><code class="inline">Snowpack</code></a> modules o
 Types
     </h1>
     <div class="types-list">
+<section class="detail" id="t:odbc_data_type/0">
+
+  <div class="detail-header">
+    <a href="#t:odbc_data_type/0" class="detail-link" title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">odbc_data_type()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L41" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre translate="no">odbc_data_type() ::
+  :sql_integer
+  | :sql_smallint
+  | :sql_tinyint
+  | {:sql_decimal, <a href="#t:precision/0">precision</a>(), <a href="#t:scale/0">scale</a>()}
+  | {:sql_numeric, <a href="#t:precision/0">precision</a>(), <a href="#t:scale/0">scale</a>()}
+  | {:sql_char, <a href="#t:size/0">size</a>()}
+  | {:sql_wchar, <a href="#t:size/0">size</a>()}
+  | {:sql_varchar, <a href="#t:size/0">size</a>()}
+  | {:sql_wvarchar, <a href="#t:size/0">size</a>()}
+  | {:sql_float, <a href="#t:precision/0">precision</a>()}
+  | {:sql_wlongvarchar, <a href="#t:size/0">size</a>()}
+  | {:sql_float, <a href="#t:precision/0">precision</a>()}
+  | :sql_real
+  | :sql_double
+  | :sql_bit
+  | <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
 <section class="detail" id="t:opts/0">
 
   <div class="detail-header">
@@ -399,7 +484,7 @@ Types
     </a>
     <h1 class="signature" translate="no">params()</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L35" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L59" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -412,7 +497,36 @@ Types
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre translate="no">params() :: [{:odbc.odbc_data_type(), :odbc.value()}]</pre>
+          <pre translate="no">params() :: [{<a href="#t:odbc_data_type/0">odbc_data_type</a>(), <a href="#t:value/0">value</a>()}]</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:precision/0">
+
+  <div class="detail-header">
+    <a href="#t:precision/0" class="detail-link" title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">precision()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L37" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre translate="no">precision() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()</pre>
 
       </div>
 
@@ -457,7 +571,7 @@ Types
     </a>
     <h1 class="signature" translate="no">result()</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L36" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L60" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -471,6 +585,64 @@ Types
       <div class="specs">
 
           <pre translate="no">result() :: <a href="Snowpack.Result.html#t:t/0">Snowpack.Result.t</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:scale/0">
+
+  <div class="detail-header">
+    <a href="#t:scale/0" class="detail-link" title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">scale()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L38" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre translate="no">scale() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:size/0">
+
+  <div class="detail-header">
+    <a href="#t:size/0" class="detail-link" title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">size()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L39" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre translate="no">size() :: <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">integer</a>()</pre>
 
       </div>
 
@@ -519,7 +691,7 @@ Types
     </a>
     <h1 class="signature" translate="no">status()</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L37" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L61" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -533,6 +705,35 @@ Types
       <div class="specs">
 
           <pre translate="no">status() :: :idle | :error</pre>
+
+      </div>
+
+
+  </section>
+</section>
+<section class="detail" id="t:value/0">
+
+  <div class="detail-header">
+    <a href="#t:value/0" class="detail-link" title="Link to this type">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this type</span>
+    </a>
+    <h1 class="signature" translate="no">value()</h1>
+
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L36" class="view-source" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <h2>Specs</h2>
+      <div class="specs">
+
+          <pre translate="no">value() :: :null | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()</pre>
 
       </div>
 
@@ -561,7 +762,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">checkin(state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L79" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L103" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -590,7 +791,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">checkout(state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L72" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L96" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -619,7 +820,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">connect(opts)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L40" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L64" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -648,7 +849,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">disconnect(err, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L59" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L83" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -677,7 +878,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_begin(opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L125" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L149" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -709,7 +910,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_close(query, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L99" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L123" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -738,7 +939,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_commit(opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L133" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L157" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -770,7 +971,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_deallocate(query, cursor, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L161" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L185" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -799,7 +1000,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_declare(query, params, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L146" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L170" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -828,7 +1029,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_execute(query, params, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L93" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L117" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -859,7 +1060,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_fetch(query, cursor, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L166" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L190" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -888,7 +1089,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_first(query, cursor, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L151" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L175" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -917,7 +1118,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_next(query, cursor, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L156" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L180" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -946,7 +1147,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_prepare(query, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L86" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L110" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -976,7 +1177,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_rollback(opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L141" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L165" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1008,7 +1209,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_status(_, s)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L117" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L141" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1037,7 +1238,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">ping(state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L106" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L130" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1067,7 +1268,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">reconnect(new_opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L64" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L88" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
