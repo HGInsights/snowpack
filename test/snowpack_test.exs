@@ -5,6 +5,17 @@ defmodule SnowpackTest do
 
   alias Snowpack.Result
 
+  describe "child_spec/1" do
+    test "returns a child_spec woth given opts" do
+      assert %{
+               id: DBConnection.ConnectionPool,
+               start:
+                 {DBConnection.ConnectionPool, :start_link,
+                  [{Snowpack.Protocol, [connection: [dsn: "snowpack"], pool_size: 1]}]}
+             } = Snowpack.child_spec(odbc_ini_opts())
+    end
+  end
+
   describe "connect" do
     @tag ciskip: true
     test "using ODBC.ini" do
@@ -45,6 +56,20 @@ defmodule SnowpackTest do
     end
   end
 
+  describe "query!/4" do
+    setup [:connect]
+
+    test "returns result on success", %{pid: pid} do
+      assert %Result{columns: ["1"], num_rows: 1, rows: [[1]]} = Snowpack.query!(pid, "SELECT 1")
+    end
+
+    test "raises on error", %{pid: pid} do
+      assert_raise Snowpack.Error, fn ->
+        Snowpack.query!(pid, "BAD QUERY")
+      end
+    end
+  end
+
   describe "snowflake sample db query" do
     setup [:connect]
 
@@ -82,6 +107,70 @@ defmodule SnowpackTest do
       {:ok, _query, %Snowpack.Result{rows: [row]}} = Snowpack.execute(pid, query, [2, 3])
 
       assert row == [6]
+    end
+  end
+
+  describe "prepare! & execute!" do
+    setup [:connect]
+
+    test "succeeds", %{pid: pid} do
+      query = Snowpack.prepare!(pid, "times", "SELECT ? * ?")
+
+      %Snowpack.Result{rows: [row]} = Snowpack.execute!(pid, query, [2, 3])
+
+      assert row == [6]
+    end
+  end
+
+  describe "prepare_execute/4" do
+    setup [:connect]
+
+    test "returns result on success", %{pid: pid} do
+      {:ok, %Snowpack.Query{name: "times"}, %Snowpack.Result{rows: [row]}} =
+        Snowpack.prepare_execute(pid, "times", "SELECT ? * ?", [2, 3])
+
+      assert row == [6]
+    end
+
+    test "returns exception on error", %{pid: pid} do
+      {:error, %Snowpack.Error{odbc_code: "22018"}} =
+        Snowpack.prepare_execute(pid, "times", "SELECT ? * ?", ["bad", "data"])
+    end
+  end
+
+  describe "prepare_execute!/4" do
+    setup [:connect]
+
+    test "returns result on success", %{pid: pid} do
+      {%Snowpack.Query{name: "times"}, %Snowpack.Result{rows: [row]}} =
+        Snowpack.prepare_execute!(pid, "times", "SELECT ? * ?", [2, 3])
+
+      assert row == [6]
+    end
+
+    test "raises exception on error", %{pid: pid} do
+      assert_raise Snowpack.Error, fn ->
+        Snowpack.prepare_execute!(pid, "times", "SELECT ? * ?", ["bad", "data"])
+      end
+    end
+  end
+
+  describe "prepare!/4" do
+    setup [:connect]
+
+    test "returns result on success", %{pid: pid} do
+      %Snowpack.Query{name: "times", statement: "SELECT ? * ?"} =
+        Snowpack.prepare!(pid, "times", "SELECT ? * ?")
+    end
+  end
+
+  describe "close/3" do
+    setup [:connect]
+
+    test "succeeds", %{pid: pid} do
+      {:ok, query} = Snowpack.prepare(pid, "times", "SELECT ? * ?")
+
+      assert :ok = Snowpack.close(pid, query)
     end
   end
 
