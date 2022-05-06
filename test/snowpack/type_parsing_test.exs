@@ -1,4 +1,4 @@
-defmodule TypeParsingTest do
+defmodule Snowpack.TypeParsingTest do
   use ExUnit.Case, async: false
 
   import Snowpack.TestHelper

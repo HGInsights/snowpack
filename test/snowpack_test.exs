@@ -41,7 +41,7 @@ defmodule SnowpackTest do
     end
   end
 
-  describe "simple query" do
+  describe "query/4" do
     setup [:connect]
 
     test "default protocol", %{pid: pid} do
@@ -67,33 +67,6 @@ defmodule SnowpackTest do
       assert_raise Snowpack.Error, fn ->
         Snowpack.query!(pid, "BAD QUERY")
       end
-    end
-  end
-
-  describe "snowflake sample db query" do
-    setup [:connect]
-
-    test "with params and rows", context do
-      rows = query("SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;", [5])
-
-      assert length(rows) == 5
-    end
-
-    test "with join, custom column, where like, and date", context do
-      assert [first_row, _second_row] =
-               query(
-                 """
-                 SELECT ord.O_ORDERKEY, ord.O_ORDERSTATUS, ord.O_ORDERDATE, item.L_PARTKEY, 9 as number
-                  FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS ord
-                  INNER JOIN SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM item ON ord.O_ORDERKEY = item.L_ORDERKEY
-                  WHERE ord.O_COMMENT LIKE ?
-                  LIMIT ? OFFSET ?;
-                 """,
-                 ["%he carefully stealthy deposits.%", 2, 0]
-               )
-
-      assert %Date{} = Enum.at(first_row, 2)
-      assert Enum.at(first_row, 4) == 9
     end
   end
 

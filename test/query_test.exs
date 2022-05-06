@@ -40,6 +40,29 @@ defmodule QueryTest do
                query("SELECT ?", ["this_is_a_really_really_long_string"])
     end
 
+    test "with params and rows", context do
+      rows = query("SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;", [5])
+
+      assert length(rows) == 5
+    end
+
+    test "with join, custom column, where like, and date", context do
+      assert [first_row, _second_row] =
+               query(
+                 """
+                 SELECT ord.O_ORDERKEY, ord.O_ORDERSTATUS, ord.O_ORDERDATE, item.L_PARTKEY, 9 as number
+                  FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS ord
+                  INNER JOIN SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM item ON ord.O_ORDERKEY = item.L_ORDERKEY
+                  WHERE ord.O_COMMENT LIKE ?
+                  LIMIT ? OFFSET ?;
+                 """,
+                 ["%he carefully stealthy deposits.%", 2, 0]
+               )
+
+      assert %Date{} = Enum.at(first_row, 2)
+      assert Enum.at(first_row, 4) == 9
+    end
+
     test "column type parsing is cached on first call", context do
       statement = "SELECT C_CUSTKEY FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;"
       key = Snowpack.TypeCache.key_from_statement(statement)

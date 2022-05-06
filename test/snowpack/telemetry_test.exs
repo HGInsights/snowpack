@@ -1,4 +1,4 @@
-defmodule TelemetryTest do
+defmodule Snowpack.TelemetryTest do
   use ExUnit.Case, async: false
 
   import Snowpack.TestHelper

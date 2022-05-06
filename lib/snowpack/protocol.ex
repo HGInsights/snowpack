@@ -197,7 +197,7 @@ defmodule Snowpack.Protocol do
     start_time = Telemetry.start(:query, metadata)
 
     try do
-      result = get_column_types(query, params, opts, state)
+      result = type_aware_query(query, params, opts, state)
 
       case result do
         {:error, %Snowpack.Error{odbc_code: :connection_exception} = error} ->
@@ -253,7 +253,7 @@ defmodule Snowpack.Protocol do
     end
   end
 
-  defp get_column_types(query, params, opts, state) do
+  defp type_aware_query(query, params, opts, state) do
     case TypeCache.get_column_types(query.statement) do
       {:ok, column_types} ->
         query_result = ODBC.query(state.pid, query.statement, params, opts)
