@@ -76,7 +76,7 @@ defmodule Snowpack.MixProject do
   end
 
   defp preferred_cli_env,
-    do: [bless: :test, coveralls: :test, "coveralls.html": :test, credo: :test, dialyzer: :test]
+    do: [bless: :test, coveralls: :test, "coveralls.html": :test, credo: :test, dialyzer: :test, qc: :test]
 
   defp bless_suite do
     [

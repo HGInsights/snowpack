@@ -118,7 +118,7 @@ defmodule Snowpack.TypeParserTest do
 
     test "parses OBJECT column" do
       assert [[%{"key1" => 2, "key2" => "two"}]] =
-               TypeParser.parse_rows(%{"COL_NAME" => :json}, ['COL_NAME'], [{"{\"key1\" : 2, \"key2\" : \"two\"}"}])
+               TypeParser.parse_rows(%{"COL_NAME" => :json}, ['COL_NAME'], [{~s<{"key1" : 2, "key2" : "two"}>}])
     end
 
     test "parses empty OBJECT column" do
@@ -131,7 +131,7 @@ defmodule Snowpack.TypeParserTest do
 
     test "parses VARIANT column when JSON" do
       assert [[%{"key1" => 2, "key2" => "two"}]] =
-               TypeParser.parse_rows(%{"COL_NAME" => :variant}, ['COL_NAME'], [{"{\"key1\" : 2, \"key2\" : \"two\"}"}])
+               TypeParser.parse_rows(%{"COL_NAME" => :variant}, ['COL_NAME'], [{~s<{"key1" : 2, "key2" : "two"}>}])
     end
 
     test "parses empty VARIANT column when JSON" do
