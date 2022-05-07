@@ -35,6 +35,7 @@ defmodule Snowpack.ODBC do
     {~r/INTEGER\([0-9]+,[1-9]+\)/, :float},
     {~r/BIGINT\([0-9]+,[1-9]+\)/, :float},
     {~r/SMALLINT\([0-9]+,[1-9]+\)/, :float},
+    {~r/BOOLEAN/, :boolean},
     {~r/FLOAT/, :float},
     {~r/DOUBLE/, :float},
     {~r/REAL/, :float},
@@ -90,8 +91,7 @@ defmodule Snowpack.ODBC do
 
       GenServer.call(
         pid,
-        {:query,
-         %{statement: statement, params: params, with_query_id: with_query_id, timeout: timeout}},
+        {:query, %{statement: statement, params: params, with_query_id: with_query_id, timeout: timeout}},
         call_timeout
       )
     else
@@ -147,8 +147,7 @@ defmodule Snowpack.ODBC do
           | {:noreply, term(), :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
           | {:reply, term(), term()}
           | {:stop, term(), term()}
-          | {:reply, term(), term(),
-             :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
+          | {:reply, term(), term(), :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
           | {:stop, term(), term(), term()}
   def handle_call({:query, _query}, _from, %{state: :not_connected} = state) do
     {:reply, {:error, :not_connected}, state}

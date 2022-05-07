@@ -21,23 +21,20 @@ defmodule SnowpackTest do
     test "using ODBC.ini" do
       {:ok, pid} = Snowpack.start_link(odbc_ini_opts())
 
-      assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} =
-               Snowpack.query(pid, "SELECT 1")
+      assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} = Snowpack.query(pid, "SELECT 1")
     end
 
     test "using SNOWFLAKE_JWT key pair" do
       {:ok, pid} = Snowpack.start_link(key_pair_opts())
 
-      assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} =
-               Snowpack.query(pid, "SELECT 1")
+      assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} = Snowpack.query(pid, "SELECT 1")
     end
 
     @tag ciskip: true
     test "using Okta Authenticator" do
       {:ok, pid} = Snowpack.start_link(okta_opts())
 
-      assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} =
-               Snowpack.query(pid, "SELECT 1")
+      assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} = Snowpack.query(pid, "SELECT 1")
     end
   end
 
@@ -132,8 +129,7 @@ defmodule SnowpackTest do
     setup [:connect]
 
     test "returns result on success", %{pid: pid} do
-      %Snowpack.Query{name: "times", statement: "SELECT ? * ?"} =
-        Snowpack.prepare!(pid, "times", "SELECT ? * ?")
+      %Snowpack.Query{name: "times", statement: "SELECT ? * ?"} = Snowpack.prepare!(pid, "times", "SELECT ? * ?")
     end
   end
 

@@ -36,8 +36,7 @@ defmodule QueryTest do
     end
 
     test "long string param", context do
-      assert [["this_is_a_really_really_long_string"]] =
-               query("SELECT ?", ["this_is_a_really_really_long_string"])
+      assert [["this_is_a_really_really_long_string"]] = query("SELECT ?", ["this_is_a_really_really_long_string"])
     end
 
     test "with params and rows", context do
