@@ -38,6 +38,16 @@ defmodule Snowpack.Error do
     }
   end
 
+  @spec message(t()) :: String.t()
+  def message(%{message: message}), do: message
+
   defp translate_odbc_code("08" <> _), do: :connection_exception
   defp translate_odbc_code(code), do: code
+
+  defimpl String.Chars do
+    @spec to_string(Snowpack.Error.t()) :: binary
+    def to_string(error) do
+      Snowpack.Error.message(error)
+    end
+  end
 end

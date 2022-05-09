@@ -28,4 +28,10 @@ defmodule Snowpack.ErrorTest do
              } = Error.exception({"08004", "333", :bad})
     end
   end
+
+  test "to_string" do
+    error = %Snowpack.Error{message: "bad stuff!"}
+
+    assert to_string(error) == "bad stuff!"
+  end
 end
