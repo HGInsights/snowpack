@@ -30,12 +30,15 @@ jobs:
 
       - name: Check for unused deps
         run: mix deps.unlock --check-unused
+
       - name: Check code formatting
         run: mix format --check-formatted
         if: always()
+
       - name: Run Credo
-        run: mix credo suggest --min-priority=normal
+        run: mix credo suggest --strict
         if: always()
+
       - name: Check for compile-time dependencies
         run: mix xref graph --label compile-connected --fail-above 0
         if: always()

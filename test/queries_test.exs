@@ -1,4 +1,4 @@
-defmodule QueryTest do
+defmodule QueriesTest do
   use ExUnit.Case, async: true
 
   import Snowpack.TestHelper
@@ -74,6 +74,21 @@ defmodule QueryTest do
       assert length(rows) == 7
 
       assert {:ok, _column_types} = Snowpack.TypeCache.get_column_types(statement)
+    end
+  end
+
+  describe "DDL queries" do
+    setup [:connect]
+
+    test "can create and drop table", %{pid: pid} do
+      assert {:ok, %Snowpack.Result{columns: nil, num_rows: 0, rows: nil}} =
+               Snowpack.query(
+                 pid,
+                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)"
+               )
+
+      assert {:ok, %Snowpack.Result{columns: nil, num_rows: 0, rows: nil}} =
+               Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE")
     end
   end
 

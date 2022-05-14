@@ -1,6 +1,13 @@
 Code.put_compiler_option(:warnings_as_errors, true)
 Vapor.load!([%Vapor.Provider.Dotenv{}])
 
+Application.ensure_all_started(:mimic)
+
+Mimic.copy(Snowpack.Protocol)
+Mimic.copy(Snowpack.TypeCache)
+Mimic.copy(Snowpack.ODBC)
+Mimic.copy(:odbc)
+
 ExUnit.start(exclude: [skip: true])
 
 defmodule Snowpack.TestHelper do

@@ -292,4 +292,12 @@ defmodule Snowpack do
         # coveralls-ignore-stop
     end
   end
+
+  @doc """
+  Return the transaction status of a connection.
+  """
+  @spec status(conn(), opts :: Keyword.t()) :: DBConnection.status()
+  def status(conn, opts \\ []) do
+    DBConnection.status(conn, opts)
+  end
 end

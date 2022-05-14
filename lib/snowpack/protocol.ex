@@ -69,7 +69,7 @@ defmodule Snowpack.Protocol do
         acc <> "#{key}=#{value};"
       end)
 
-    {:ok, pid} = ODBC.start_link(conn_str, opts)
+    {:ok, pid} = ODBC.start_link([{:conn_str, :binary.bin_to_list(conn_str)} | opts])
 
     {:ok,
      %__MODULE__{
@@ -79,28 +79,19 @@ defmodule Snowpack.Protocol do
      }}
   end
 
+  # TODO: figure out how to test this correctly
+  # coveralls-ignore-start
   @spec disconnect(err :: String.t() | Exception.t(), state) :: :ok
   def disconnect(_err, %{pid: pid} = _state) do
     :ok = ODBC.disconnect(pid)
   end
 
-  @spec reconnect(opts, state) :: {:ok, state}
-  def reconnect(new_opts, state) do
-    disconnect("Reconnecting", state)
-    connect(new_opts)
-  end
+  # coveralls-ignore-stop
 
   @spec checkout(state) ::
           {:ok, state}
           | {:disconnect, Exception.t(), state}
   def checkout(state) do
-    {:ok, state}
-  end
-
-  @spec checkin(state) ::
-          {:ok, state}
-          | {:disconnect, Exception.t(), state}
-  def checkin(state) do
     {:ok, state}
   end
 
@@ -124,6 +115,10 @@ defmodule Snowpack.Protocol do
     {:ok, %Result{}, state}
   end
 
+  # coveralls-ignore-start
+  #
+  # Called when the connection has been idle for a period of time.
+  # Return {:ok, state} to continue or {:disconnect, exception, state} to disconnect.
   @spec ping(state :: any()) ::
           {:ok, new_state :: any()}
           | {:disconnect, Exception.t(), new_state :: any()}
@@ -137,11 +132,13 @@ defmodule Snowpack.Protocol do
     end
   end
 
+  # coveralls-ignore-stop
+
   @spec handle_status(opts, state) :: {DBConnection.status(), state}
-  def handle_status(_, %{snowflake: {status, _}} = s), do: {status, s}
   def handle_status(_, %{snowflake: status} = s), do: {status, s}
 
-  # NOT IMPLEMENTED
+  # NOT IMPLEMENTED YET
+  # coveralls-ignore-start
   @spec handle_begin(opts, state) ::
           {:ok, result, state}
           | {status, state}
@@ -191,6 +188,8 @@ defmodule Snowpack.Protocol do
     throw("not implemeted")
   end
 
+  # coveralls-ignore-stop
+
   defp _query(query, params, opts, state) do
     metadata = %{params: params, query: query.statement}
 
@@ -230,17 +229,12 @@ defmodule Snowpack.Protocol do
              num_rows: num_rows
            }, state}
 
-        {:updated, num_rows} ->
-          metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
-          Telemetry.stop(:query, start_time, metadata)
-          {:ok, %Result{num_rows: num_rows}, state}
-
-        {:updated, :undefined, [{_query_id}]} ->
+        {:updated, :undefined, _col_types} ->
           metadata = Map.merge(metadata, %{result: :updated, num_rows: 1})
           Telemetry.stop(:query, start_time, metadata)
-          {:ok, %Result{num_rows: 1}, state}
+          {:ok, %Result{num_rows: 0}, state}
 
-        {:updated, num_rows, [{_query_id}]} ->
+        {:updated, num_rows, _} ->
           metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
           Telemetry.stop(:query, start_time, metadata)
           {:ok, %Result{num_rows: num_rows}, state}
@@ -256,7 +250,7 @@ defmodule Snowpack.Protocol do
   defp type_aware_query(query, params, opts, state) do
     case TypeCache.get_column_types(query.statement) do
       {:ok, column_types} ->
-        query_result = ODBC.query(state.pid, query.statement, params, opts)
+        query_result = ODBC.query(state.pid, query.statement, params, opts, false)
         Tuple.append(query_result, %{column_types: column_types})
 
       nil ->
@@ -267,10 +261,6 @@ defmodule Snowpack.Protocol do
           {:selected, columns, rows, %{column_types: column_types}}
         end
     end
-  end
-
-  defp execute_return(status, _query, message, state, mode: _savepoint) do
-    {status, message, state}
   end
 
   defp execute_return(status, query, message, state, _opts) do

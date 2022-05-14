@@ -1,11 +1,15 @@
 defmodule Snowpack.TelemetryTest do
   use ExUnit.Case, async: false
 
+  use Mimic
+
   import Snowpack.TestHelper
 
   describe "telemetry" do
     setup do
-      {:ok, pid} = Snowpack.start_link(key_pair_opts())
+      Mimic.set_mimic_global()
+
+      {:ok, pid} = start_supervised({Snowpack, key_pair_opts()})
 
       {:ok, [pid: pid]}
     end
@@ -40,14 +44,13 @@ defmodule Snowpack.TelemetryTest do
         to_string(test_name),
         [
           [:snowpack, :query, :start],
-          [:snowpack, :query, :stop],
-          [:snowpack, :query, :exception]
+          [:snowpack, :query, :stop]
         ],
         handler,
         nil
       )
 
-      _rows = query("SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;", [3])
+      _rows = query("SELECT ?;", [3])
 
       assert_receive {^ref, :start}, 1_000
       assert_receive {^ref, :stop}, 1_000
@@ -85,14 +88,17 @@ defmodule Snowpack.TelemetryTest do
         to_string(test_name),
         [
           [:snowpack, :query, :start],
-          [:snowpack, :query, :stop],
-          [:snowpack, :query, :exception]
+          [:snowpack, :query, :stop]
         ],
         handler,
         nil
       )
 
-      _rows = query("SELECT * FROM SNOWFLAKE_SAMPLE_DATA.BAD_SCHEMA.CUSTOMER LIMIT ?;", [3])
+      expect(Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        {:error, %Snowpack.Error{message: "SQL compilation error"}}
+      end)
+
+      _rows = query("SELECT * FROM BAD_TABLE LIMIT ?;", [3])
 
       assert_receive {^ref, :start}, 1_000
       assert_receive {^ref, :stop}, 1_000
@@ -100,23 +106,19 @@ defmodule Snowpack.TelemetryTest do
       :telemetry.detach(to_string(test_name))
     end
 
-    # can't force exception in query so just testing emmitting an exception event
-    test "reports query exceptions" do
+    test "reports query exceptions", context do
       {test_name, _arity} = __ENV__.function
 
       parent = self()
       ref = make_ref()
 
-      metadata = %{params: [1], query: "select ?;"}
-      start_time = System.monotonic_time()
-
       handler = fn event, measurements, meta, _config ->
         case event do
           [:snowpack, :query, :exception] ->
             assert is_integer(measurements.duration)
-            assert is_binary(meta.query)
+            assert meta.query == "SELECT ?;"
             assert is_list(meta.params)
-            assert is_atom(meta.kind)
+            assert :error = meta.kind
             assert %RuntimeError{} = meta.error
             assert is_list(meta.stacktrace)
             send(parent, {ref, :exception})
@@ -135,10 +137,13 @@ defmodule Snowpack.TelemetryTest do
         nil
       )
 
-      {:current_stacktrace, stacktrace} = Process.info(self(), :current_stacktrace)
-      error = RuntimeError.exception("test")
+      expect(Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        raise("failed!")
+      end)
 
-      Snowpack.Telemetry.exception(:query, start_time, :exit, error, stacktrace, metadata)
+      assert_raise RuntimeError, fn ->
+        _rows = query("SELECT ?;", [3])
+      end
 
       assert_receive {^ref, :exception}, 1_000
 
@@ -176,7 +181,7 @@ defmodule Snowpack.TelemetryTest do
         nil
       )
 
-      {:current_stacktrace, stacktrace} = Process.info(self(), :current_stacktrace)
+      stacktrace = []
       error = RuntimeError.exception("test")
 
       Snowpack.Telemetry.exception(:query, start_time, :exit, error, stacktrace)

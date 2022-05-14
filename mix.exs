@@ -20,7 +20,6 @@ defmodule Snowpack.MixProject do
       docs: docs(),
       deps: deps(),
       preferred_cli_env: preferred_cli_env(),
-      bless_suite: bless_suite(),
       dialyzer: dialyzer(),
       aliases: aliases()
     ]
@@ -71,22 +70,13 @@ defmodule Snowpack.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false, optional: true},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false, optional: true},
       {:mix_test_watch, "~> 1.0.2", only: [:test, :dev], optional: true},
+      {:mimic, "~> 1.7", only: [:dev, :test], optional: true},
       {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false, optional: true}
     ]
   end
 
   defp preferred_cli_env,
     do: [bless: :test, coveralls: :test, "coveralls.html": :test, credo: :test, dialyzer: :test, qc: :test]
-
-  defp bless_suite do
-    [
-      compile: ["--warnings-as-errors", "--force"],
-      "coveralls.html": [],
-      format: ["--check-formatted"],
-      credo: [],
-      "deps.unlock": ["--check-unused"]
-    ]
-  end
 
   defp dialyzer do
     [

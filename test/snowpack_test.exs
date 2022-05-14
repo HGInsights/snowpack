@@ -17,22 +17,22 @@ defmodule SnowpackTest do
   end
 
   describe "connect" do
-    @tag ciskip: true
+    @tag skip_ci: true
     test "using ODBC.ini" do
-      {:ok, pid} = Snowpack.start_link(odbc_ini_opts())
+      {:ok, pid} = start_supervised({Snowpack, odbc_ini_opts()})
 
       assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} = Snowpack.query(pid, "SELECT 1")
     end
 
     test "using SNOWFLAKE_JWT key pair" do
-      {:ok, pid} = Snowpack.start_link(key_pair_opts())
+      {:ok, pid} = start_supervised({Snowpack, key_pair_opts()})
 
       assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} = Snowpack.query(pid, "SELECT 1")
     end
 
-    @tag ciskip: true
+    @tag skip_ci: true
     test "using Okta Authenticator" do
-      {:ok, pid} = Snowpack.start_link(okta_opts())
+      {:ok, pid} = start_supervised({Snowpack, okta_opts()})
 
       assert {:ok, %Result{columns: ["1"], num_rows: 1, rows: [[1]]}} = Snowpack.query(pid, "SELECT 1")
     end
@@ -143,23 +143,16 @@ defmodule SnowpackTest do
     end
   end
 
-  describe "create objects" do
+  describe "status/2" do
     setup [:connect]
 
-    test "can create and drop table", %{pid: pid} do
-      assert {:ok, %Result{columns: nil, num_rows: 1, rows: nil}} =
-               Snowpack.query(
-                 pid,
-                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)"
-               )
-
-      assert {:ok, %Result{columns: nil, num_rows: 1, rows: nil}} =
-               Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE")
+    test "returns :idle when not in a transaction", %{pid: pid} do
+      assert Snowpack.status(pid) == :idle
     end
   end
 
   defp connect(_context) do
-    {:ok, pid} = Snowpack.start_link(key_pair_opts())
+    {:ok, pid} = start_supervised({Snowpack, key_pair_opts()})
 
     {:ok, [pid: pid]}
   end
