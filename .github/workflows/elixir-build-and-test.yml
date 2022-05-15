@@ -27,7 +27,7 @@ jobs:
           - pair:
               elixir: "1.13.3"
               otp: "24.0.5"
-              driver: "2.24.7"
+              driver: "2.25.0"
             lint: lint
 
     steps:
