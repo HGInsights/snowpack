@@ -153,7 +153,7 @@ defmodule Snowpack.TypeParserTest do
   end
 
   describe "type parsing" do
-    @describetag integration: true
+    @describetag skip_ci: true
 
     @table "SNOWPACK.PUBLIC.TYPES_TABLE"
     @query "SELECT * from #{@table} LIMIT 1;"

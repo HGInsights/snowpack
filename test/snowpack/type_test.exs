@@ -26,6 +26,7 @@ defmodule Snowpack.TypeTest do
     end
 
     test "datetime" do
+      assert {{:sql_varchar, 24}, ["2015-01-13T13:00:07.123Z"]} = Type.encode(~U[2015-01-13T13:00:07.123Z], [])
       assert {{:sql_varchar, 19}, ["2015-01-13T13:00:07"]} = Type.encode(~N[2015-01-13T13:00:07], [])
       assert {{:sql_varchar, 23}, ["2015-01-13T13:00:07.123"]} = Type.encode(~N[2015-01-13T13:00:07.123], [])
 

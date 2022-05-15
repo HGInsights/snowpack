@@ -234,7 +234,7 @@ defmodule Snowpack.Protocol do
           Telemetry.stop(:query, start_time, metadata)
           {:ok, %Result{num_rows: 0}, state}
 
-        {:updated, num_rows, _} ->
+        {:updated, num_rows, _rows} ->
           metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
           Telemetry.stop(:query, start_time, metadata)
           {:ok, %Result{num_rows: num_rows}, state}
