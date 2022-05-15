@@ -37,3 +37,6 @@ snowpack-*.tar
 *.p8
 *.pem
 
+# VS Code Elixir Language Server
+/.elixir_ls/
+
