@@ -33,12 +33,6 @@ defmodule Snowpack.TypeParser do
   defp parse([]), do: []
   defp parse([head | tail]), do: [parse(head) | parse(tail)]
 
-  # defp parse({[] = _types, data}), do: List.wrap(data)
-
-  # defp parse({types, data}) when is_list(types) do
-  #   Enum.map(types, fn type -> parse({type, data}) end)
-  # end
-
   defp parse({:time, data}), do: DateTimeParser.parse_time!(data)
 
   defp parse({:date, data}), do: DateTimeParser.parse_date!(data)
