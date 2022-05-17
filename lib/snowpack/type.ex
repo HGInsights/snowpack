@@ -64,6 +64,9 @@ defmodule Snowpack.Type do
     {{:sql_varchar, String.length(encoded)}, [encoded]}
   end
 
+  def encode({{year, month, day}, {hour, minute, sec}}, opts),
+    do: encode({{year, month, day}, {hour, minute, sec, 0}}, opts)
+
   def encode({{year, month, day}, {hour, minute, sec, usec}}, _) do
     precision = if usec == 0, do: 0, else: 6
 
@@ -141,9 +144,9 @@ defmodule Snowpack.Type do
   @spec decode(value(), opts :: Keyword.t()) :: return_value()
   def decode(:null, _), do: nil
 
-  def decode(value, _) when is_float(value), do: value
   def decode(value, _) when is_boolean(value), do: value
   def decode(value, _) when is_integer(value), do: value
+  def decode(value, _) when is_float(value), do: value
 
   def decode({{_year, _month, _day}, {_hour, _minute, _sec}} = value, _) do
     case NaiveDateTime.from_erl(value) do

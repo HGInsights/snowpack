@@ -35,6 +35,7 @@ defmodule Snowpack.ODBC do
     {~r/INTEGER\([0-9]+,[1-9]+\)/, :float},
     {~r/BIGINT\([0-9]+,[1-9]+\)/, :float},
     {~r/SMALLINT\([0-9]+,[1-9]+\)/, :float},
+    {~r/BOOLEAN/, :boolean},
     {~r/FLOAT/, :float},
     {~r/DOUBLE/, :float},
     {~r/REAL/, :float},
@@ -55,9 +56,9 @@ defmodule Snowpack.ODBC do
   `conn_str` should be a connection string in the format required by your ODBC driver.
   `opts` will be passed verbatim to `:odbc.connect/2`.
   """
-  @spec start_link(binary(), Keyword.t()) :: {:ok, pid()}
-  def start_link(conn_str, opts) do
-    GenServer.start_link(__MODULE__, [{:conn_str, :binary.bin_to_list(conn_str)} | opts])
+  @spec start_link(Keyword.t()) :: {:ok, pid()}
+  def start_link(opts) do
+    GenServer.start_link(__MODULE__, opts)
   end
 
   @doc """
@@ -90,24 +91,9 @@ defmodule Snowpack.ODBC do
 
       GenServer.call(
         pid,
-        {:query,
-         %{statement: statement, params: params, with_query_id: with_query_id, timeout: timeout}},
+        {:query, %{statement: statement, params: params, with_query_id: with_query_id, timeout: timeout}},
         call_timeout
       )
-    else
-      {:error, %Error{message: :no_connection}}
-    end
-  end
-
-  @doc """
-  Describes the given table.
-  """
-  @spec describe(pid(), iodata()) ::
-          {:selected, [binary()], [tuple()]}
-          | {:error, Error.t()}
-  def describe(pid, table) do
-    if Process.alive?(pid) do
-      GenServer.call(pid, {:describe, table})
     else
       {:error, %Error{message: :no_connection}}
     end
@@ -129,10 +115,14 @@ defmodule Snowpack.ODBC do
 
   `pid` is the `:odbc` process id
   """
+  # TODO: figure out how to test this correctly
+  # coveralls-ignore-start
   @spec disconnect(pid()) :: :ok
   def disconnect(pid) do
     GenServer.stop(pid, :normal)
   end
+
+  # coveralls-ignore-stop
 
   ## GenServer callbacks
 
@@ -147,8 +137,7 @@ defmodule Snowpack.ODBC do
           | {:noreply, term(), :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
           | {:reply, term(), term()}
           | {:stop, term(), term()}
-          | {:reply, term(), term(),
-             :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
+          | {:reply, term(), term(), :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
           | {:stop, term(), term(), term()}
   def handle_call({:query, _query}, _from, %{state: :not_connected} = state) do
     {:reply, {:error, :not_connected}, state}
@@ -196,22 +185,10 @@ defmodule Snowpack.ODBC do
     end
   end
 
-  def handle_call({:describe, table}, _from, %{pid: pid} = state) do
-    case :odbc.describe_table(pid, :binary.bin_to_list(table)) do
-      {:error, reason} ->
-        error = Error.exception(reason)
-        Logger.warn("Unable to describe #{table}: #{error.message}")
-
-        {:reply, {:error, error}, state}
-
-      result ->
-        {:reply, result, state}
-    end
-  end
-
   def handle_call({:describe_result, query_id}, _from, %{pid: pid} = state) do
     case :odbc.sql_query(pid, :binary.bin_to_list("DESCRIBE RESULT '#{query_id}'")) do
       {:error, reason} ->
+        # coveralls-ignore-start
         error = Error.exception(reason)
         Logger.warn("Unable to describe #{query_id}: #{error.message}")
 
@@ -224,17 +201,12 @@ defmodule Snowpack.ODBC do
             {:reply, {:error, error}, state}
         end
 
+      # coveralls-ignore-stop
+
       result ->
         # parse name, type
         {:reply, build_type_tuples(result), state}
     end
-  end
-
-  @spec terminate(term(), state :: term()) :: term()
-  def terminate(_reason, %{state: :not_connected} = _state), do: :ok
-
-  def terminate(_reason, %{pid: pid} = _state) do
-    :odbc.disconnect(pid)
   end
 
   @spec handle_info(msg :: :timeout | term(), state :: term()) ::
@@ -255,6 +227,7 @@ defmodule Snowpack.ODBC do
         {:noreply, %{pid: pid, backoff: :backoff.succeed(backoff), state: :connected}}
 
       {:error, reason} ->
+        # coveralls-ignore-start
         error = Error.exception(reason)
 
         Logger.warn("Unable to connect to snowflake: #{error.message}")
@@ -267,8 +240,16 @@ defmodule Snowpack.ODBC do
 
         {_, new_backoff} = :backoff.fail(backoff)
         {:noreply, %{backoff: new_backoff, state: :not_connected}}
+        # coveralls-ignore-stop
     end
   end
+
+  # TODO: figure out how to test this correctly
+  # coveralls-ignore-start
+  @spec terminate(term(), state :: term()) :: term()
+  def terminate(_reason, %{state: :not_connected} = _state), do: :ok
+  def terminate(_reason, %{pid: pid} = _state), do: :odbc.disconnect(pid)
+  # coveralls-ignore-stop
 
   defp build_type_tuples({_, columns, rows}) do
     Enum.map(rows, fn row ->

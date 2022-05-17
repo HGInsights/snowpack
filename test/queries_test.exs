@@ -1,4 +1,4 @@
-defmodule QueryTest do
+defmodule QueriesTest do
   use ExUnit.Case, async: true
 
   import Snowpack.TestHelper
@@ -36,8 +36,30 @@ defmodule QueryTest do
     end
 
     test "long string param", context do
-      assert [["this_is_a_really_really_long_string"]] =
-               query("SELECT ?", ["this_is_a_really_really_long_string"])
+      assert [["this_is_a_really_really_long_string"]] = query("SELECT ?", ["this_is_a_really_really_long_string"])
+    end
+
+    test "with params and rows", context do
+      rows = query("SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER LIMIT ?;", [5])
+
+      assert length(rows) == 5
+    end
+
+    test "with join, custom column, where like, and date", context do
+      assert [first_row, _second_row] =
+               query(
+                 """
+                 SELECT ord.O_ORDERKEY, ord.O_ORDERSTATUS, ord.O_ORDERDATE, item.L_PARTKEY, 9 as number
+                  FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS ord
+                  INNER JOIN SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.LINEITEM item ON ord.O_ORDERKEY = item.L_ORDERKEY
+                  WHERE ord.O_COMMENT LIKE ?
+                  LIMIT ? OFFSET ?;
+                 """,
+                 ["%he carefully stealthy deposits.%", 2, 0]
+               )
+
+      assert %Date{} = Enum.at(first_row, 2)
+      assert Enum.at(first_row, 4) == 9
     end
 
     test "column type parsing is cached on first call", context do
@@ -52,6 +74,21 @@ defmodule QueryTest do
       assert length(rows) == 7
 
       assert {:ok, _column_types} = Snowpack.TypeCache.get_column_types(statement)
+    end
+  end
+
+  describe "DDL queries" do
+    setup [:connect]
+
+    test "can create and drop table", %{pid: pid} do
+      assert {:ok, %Snowpack.Result{columns: nil, num_rows: 0, rows: nil}} =
+               Snowpack.query(
+                 pid,
+                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)"
+               )
+
+      assert {:ok, %Snowpack.Result{columns: nil, num_rows: 0, rows: nil}} =
+               Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE")
     end
   end
 

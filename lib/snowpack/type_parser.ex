@@ -5,7 +5,15 @@ defmodule Snowpack.TypeParser do
 
   require Logger
 
-  @spec parse_rows(any, any, any) :: list
+  @type column_types :: map()
+  @type columns :: list(charlist())
+  @type row :: tuple()
+  @type rows :: list(row())
+
+  @type result_row :: list(any())
+  @type result_rows :: list(result_row())
+
+  @spec parse_rows(column_types(), columns(), rows()) :: result_rows()
   def parse_rows(column_types, queried_columns, rows) do
     parse(column_types, queried_columns, rows)
   end
@@ -24,14 +32,6 @@ defmodule Snowpack.TypeParser do
 
   defp parse([]), do: []
   defp parse([head | tail]), do: [parse(head) | parse(tail)]
-
-  defp parse({[] = _types, data}), do: List.wrap(data)
-
-  defp parse({_, :null}), do: :null
-
-  defp parse({types, data}) when is_list(types) do
-    Enum.map(types, fn type -> parse({type, data}) end)
-  end
 
   defp parse({:time, data}), do: DateTimeParser.parse_time!(data)
 
@@ -54,6 +54,9 @@ defmodule Snowpack.TypeParser do
   defp parse({:integer, data}) when is_integer(data), do: data
   defp parse({:integer, data}) when is_binary(data), do: String.to_integer(data)
 
+  defp parse({:boolean, data}) when is_boolean(data), do: data
+  defp parse({:boolean, data}) when is_binary(data), do: "true" == data
+
   defp parse({:array, :null}), do: []
   defp parse({:array, data}), do: Jason.decode!(data)
 
@@ -65,7 +68,7 @@ defmodule Snowpack.TypeParser do
   defp parse({:variant, data}) do
     case Jason.decode(data) do
       {:ok, json} -> json
-      {:error, error} -> return_raw(:variant, data, error)
+      {:error, _error} -> data
     end
   end
 
@@ -77,13 +80,7 @@ defmodule Snowpack.TypeParser do
   end
 
   defp return_raw(type, data, error) do
-    error_msg =
-      case error do
-        %{__exception__: true} = exception -> Exception.message(exception)
-        _ -> error
-      end
-
-    Logger.warn("TypeParser.parse/1: failed decode of '#{type}' type: #{error_msg}")
+    Logger.warn("TypeParser.parse/1: failed decode of '#{type}' type: #{error}")
     data
   end
 end

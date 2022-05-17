@@ -279,14 +279,25 @@ defmodule Snowpack do
   Options are passed to `DBConnection.close/3`, see it's documentation for
   all available options.
   """
-  @spec close(conn(), Snowpack.Query.t(), [option()]) :: :ok
+  @spec close(conn(), Snowpack.Query.t(), [option()]) :: :ok | {:error, Exception.t()}
   def close(conn, %Snowpack.Query{} = query, opts \\ []) do
     case DBConnection.close(conn, query, opts) do
       {:ok, _} ->
         :ok
 
-      {:error, _} = error ->
+      # coveralls-ignore-start
+      # handle_close is a noop. no db resources to free.
+      error ->
         error
+        # coveralls-ignore-stop
     end
+  end
+
+  @doc """
+  Return the transaction status of a connection.
+  """
+  @spec status(conn(), opts :: Keyword.t()) :: DBConnection.status()
+  def status(conn, opts \\ []) do
+    DBConnection.status(conn, opts)
   end
 end

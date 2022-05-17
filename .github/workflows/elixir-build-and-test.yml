@@ -27,7 +27,7 @@ jobs:
           - pair:
               elixir: "1.13.3"
               otp: "24.0.5"
-              driver: "2.24.7"
+              driver: "2.25.0"
             lint: lint
 
     steps:
@@ -62,7 +62,7 @@ jobs:
           echo "${{ secrets.SNOWPACK_PRIV_KEY }}" >> /tmp/rsa_key.p8
 
       - name: Run Tests
-        run: mix test --exclude ciskip:true --warnings-as-errors
+        run: mix coveralls --raise --exclude skip_ci:true
         if: always()
 
   semantic_release:
