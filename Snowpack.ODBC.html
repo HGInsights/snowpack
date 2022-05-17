@@ -10,7 +10,7 @@
     <title>Snowpack.ODBC — Snowpack v0.5.4</title>
     <link rel="stylesheet" href="dist/elixir-784c12ef29cae13371ff.css" />
 
-    <script src="dist/sidebar_items-bd7da18cac.js"></script>
+    <script src="dist/sidebar_items-83ee2a9c0e.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -130,16 +130,6 @@ accessed directly.</p>
 
       <div class="summary-row">
         <div class="summary-signature">
-          <a href="#describe/2" translate="no">describe(pid, table)</a>
-
-        </div>
-
-          <div class="summary-synopsis"><p>Describes the given table.</p></div>
-
-      </div>
-
-      <div class="summary-row">
-        <div class="summary-signature">
           <a href="#describe_result/2" translate="no">describe_result(pid, query_id)</a>
 
         </div>
@@ -178,7 +168,7 @@ accessed directly.</p>
 
       <div class="summary-row">
         <div class="summary-signature">
-          <a href="#start_link/2" translate="no">start_link(conn_str, opts)</a>
+          <a href="#start_link/1" translate="no">start_link(opts)</a>
 
         </div>
 
@@ -222,36 +212,6 @@ Functions
 <p>Returns a specification to start this module under a supervisor.</p><p>See <a href="https://hexdocs.pm/elixir/Supervisor.html"><code class="inline">Supervisor</code></a>.</p>
   </section>
 </section>
-<section class="detail" id="describe/2">
-
-  <div class="detail-header">
-    <a href="#describe/2" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">describe(pid, table)</h1>
-
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L108" class="view-source" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
-
-  </div>
-
-  <section class="docstring">
-
-      <h2>Specs</h2>
-      <div class="specs">
-
-          <pre translate="no">describe(<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">iodata</a>()) ::
-  {:selected, [<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()], [<a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">tuple</a>()]} | {:error, <a href="Snowpack.Error.html#t:t/0">Snowpack.Error.t</a>()}</pre>
-
-      </div>
-
-<p>Describes the given table.</p>
-  </section>
-</section>
 <section class="detail" id="describe_result/2">
 
   <div class="detail-header">
@@ -261,7 +221,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">describe_result(pid, query_id)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L119" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L105" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -291,7 +251,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">disconnect(pid)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L133" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L121" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -320,7 +280,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">init(opts)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L140" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L130" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -351,7 +311,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">query(pid, statement, params, opts, with_query_id \\ false)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L82" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L83" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -377,16 +337,16 @@ Functions
 for usage details and examples.</p><ul><li><code class="inline">pid</code> is the <code class="inline">:odbc</code> process id</li><li><code class="inline">statement</code> is the SQL query string</li><li><code class="inline">params</code> are the parameters to send with the SQL query</li><li><code class="inline">opts</code> are options to be passed on to <code class="inline">:odbc</code><ul><li><code class="inline">timeout</code> in millisecods (defaults to 2 minutes)</li></ul></li><li><code class="inline">with_query_id</code> runs query in transaction and selects LAST_QUERY_ID()</li></ul>
   </section>
 </section>
-<section class="detail" id="start_link/2">
+<section class="detail" id="start_link/1">
 
   <div class="detail-header">
-    <a href="#start_link/2" class="detail-link" title="Link to this function">
+    <a href="#start_link/1" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">start_link(conn_str, opts)</h1>
+    <h1 class="signature" translate="no">start_link(opts)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L59" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/odbc.ex#L60" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -399,7 +359,7 @@ for usage details and examples.</p><ul><li><code class="inline">pid</code> is th
       <h2>Specs</h2>
       <div class="specs">
 
-          <pre translate="no">start_link(<a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>(), <a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}</pre>
+          <pre translate="no">start_link(<a href="https://hexdocs.pm/elixir/Keyword.html#t:t/0">Keyword.t</a>()) :: {:ok, <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">pid</a>()}</pre>
 
       </div>
 

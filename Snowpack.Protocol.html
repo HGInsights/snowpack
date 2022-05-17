@@ -10,7 +10,7 @@
     <title>Snowpack.Protocol — Snowpack v0.5.4</title>
     <link rel="stylesheet" href="dist/elixir-784c12ef29cae13371ff.css" />
 
-    <script src="dist/sidebar_items-bd7da18cac.js"></script>
+    <script src="dist/sidebar_items-83ee2a9c0e.js"></script>
 
       <script src="docs_config.js"></script>
 
@@ -217,14 +217,6 @@ other <a href="Snowpack.html"><code class="inline">Snowpack</code></a> modules o
 
       <div class="summary-row">
         <div class="summary-signature">
-          <a href="#checkin/1" translate="no">checkin(state)</a>
-
-        </div>
-
-      </div>
-
-      <div class="summary-row">
-        <div class="summary-signature">
           <a href="#checkout/1" translate="no">checkout(state)</a>
 
         </div>
@@ -376,14 +368,6 @@ other <a href="Snowpack.html"><code class="inline">Snowpack</code></a> modules o
         </div>
 
           <div class="summary-synopsis"><p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.4.1/DBConnection.html#c:ping/1"><code class="inline">DBConnection.ping/1</code></a>.</p></div>
-
-      </div>
-
-      <div class="summary-row">
-        <div class="summary-signature">
-          <a href="#reconnect/2" translate="no">reconnect(new_opts, state)</a>
-
-        </div>
 
       </div>
 
@@ -753,35 +737,6 @@ Types
 Functions
     </h1>
     <div class="functions-list">
-<section class="detail" id="checkin/1">
-
-  <div class="detail-header">
-    <a href="#checkin/1" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">checkin(state)</h1>
-
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L103" class="view-source" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
-
-  </div>
-
-  <section class="docstring">
-
-      <h2>Specs</h2>
-      <div class="specs">
-
-          <pre translate="no">checkin(<a href="#t:state/0">state</a>()) :: {:ok, <a href="#t:state/0">state</a>()} | {:disconnect, <a href="https://hexdocs.pm/elixir/Exception.html#t:t/0">Exception.t</a>(), <a href="#t:state/0">state</a>()}</pre>
-
-      </div>
-
-
-  </section>
-</section>
 <section class="detail" id="checkout/1">
 
   <div class="detail-header">
@@ -791,7 +746,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">checkout(state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L96" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L94" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -849,7 +804,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">disconnect(err, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L83" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L85" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -878,7 +833,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_begin(opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L149" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L146" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -910,7 +865,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_close(query, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L123" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L114" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -939,7 +894,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_commit(opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L157" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L154" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -971,7 +926,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_deallocate(query, cursor, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L185" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L182" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1000,7 +955,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_declare(query, params, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L170" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L167" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1029,7 +984,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_execute(query, params, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L117" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L108" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1060,7 +1015,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_fetch(query, cursor, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L190" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L187" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1089,7 +1044,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_first(query, cursor, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L175" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L172" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1118,7 +1073,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_next(query, cursor, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L180" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L177" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1147,7 +1102,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_prepare(query, opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L110" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L101" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1177,7 +1132,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_rollback(opts, state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L165" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L162" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1209,7 +1164,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">handle_status(_, s)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L141" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L138" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1238,7 +1193,7 @@ Functions
     </a>
     <h1 class="signature" translate="no">ping(state)</h1>
 
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L130" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L125" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -1257,35 +1212,6 @@ Functions
       </div>
 
 <p>Callback implementation for <a href="https://hexdocs.pm/db_connection/2.4.1/DBConnection.html#c:ping/1"><code class="inline">DBConnection.ping/1</code></a>.</p>
-  </section>
-</section>
-<section class="detail" id="reconnect/2">
-
-  <div class="detail-header">
-    <a href="#reconnect/2" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">reconnect(new_opts, state)</h1>
-
-      <a href="https://github.com/HGInsights/snowpack/blob/v0.5.4/lib/snowpack/protocol.ex#L88" class="view-source" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
-
-  </div>
-
-  <section class="docstring">
-
-      <h2>Specs</h2>
-      <div class="specs">
-
-          <pre translate="no">reconnect(<a href="#t:opts/0">opts</a>(), <a href="#t:state/0">state</a>()) :: {:ok, <a href="#t:state/0">state</a>()}</pre>
-
-      </div>
-
-
   </section>
 </section>
 
