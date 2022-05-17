@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/HGInsights/snowpack/compare/v0.5.9...v0.6.0) (2022-05-17)
+
+
+### Features
+
+* added lots of tests, code clean up, docs (#28) ([dd2df43](https://github.com/HGInsights/snowpack/commit/dd2df43e3734598a47be9fbdcc730f3688f61c4c)), closes [#28](https://github.com/HGInsights/snowpack/issues/28)
+
 ## [0.5.9](https://github.com/HGInsights/snowpack/compare/v0.5.8...v0.5.9) (2022-05-05)
 
 
