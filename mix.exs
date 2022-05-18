@@ -2,13 +2,12 @@ defmodule Snowpack.MixProject do
   use Mix.Project
 
   @name "Snowpack"
-  @version "0.5.4"
   @source_url "https://github.com/HGInsights/snowpack"
 
   def project do
     [
       app: :snowpack,
-      version: @version,
+      version: app_version(),
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -45,7 +44,7 @@ defmodule Snowpack.MixProject do
 
   defp docs do
     [
-      source_ref: "v#{@version}",
+      source_ref: "v#{app_version()}",
       source_url: @source_url,
       main: @name,
       extras: ["CHANGELOG.md"],
@@ -64,24 +63,25 @@ defmodule Snowpack.MixProject do
       {:mentat, "~> 0.7.1"},
       {:telemetry, "~> 0.4 or ~> 1.0"},
       {:jason, "~> 1.2"},
-      {:bless, "~> 1.2", only: [:dev, :test], optional: true},
-      {:excoveralls, "~> 0.14.4", only: [:dev, :test], optional: true},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false, optional: true},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false, optional: true},
-      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false, optional: true},
-      {:mix_test_watch, "~> 1.0.2", only: [:test, :dev], optional: true},
-      {:mimic, "~> 1.7", only: [:dev, :test], optional: true},
-      {:vapor, "~> 0.10.0", only: [:dev, :test], runtime: false, optional: true}
+      {:bless, "~> 1.2", only: [:dev, :test]},
+      {:excoveralls, "~> 0.14.4", only: [:dev, :test]},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test, :docs], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: [:docs], runtime: false},
+      {:mix_test_watch, "~> 1.0.2", only: [:test, :dev]},
+      {:mimic, "~> 1.7", only: [:dev, :test]},
+      {:vapor, "~> 0.10.0", only: [:dev, :test, :docs], runtime: false}
     ]
   end
 
   defp preferred_cli_env,
-    do: [bless: :test, coveralls: :test, "coveralls.html": :test, credo: :test, dialyzer: :test, qc: :test]
+    do: [bless: :test, coveralls: :test, "coveralls.html": :test, credo: :test, docs: :docs, dialyzer: :test, qc: :test]
 
   defp dialyzer do
     [
       plt_add_apps: [:ex_unit, :mix],
-      ignore_warnings: "dialyzer.ignore-warnings"
+      ignore_warnings: "dialyzer.ignore-warnings",
+      list_unused_filters: true
     ]
   end
 
@@ -89,5 +89,10 @@ defmodule Snowpack.MixProject do
     [
       qc: ["format", "credo --strict", "test"]
     ]
+  end
+
+  defp app_version do
+    System.get_env("APP_VERSION", "v0.0.0")
+    |> String.trim_leading("v")
   end
 end
