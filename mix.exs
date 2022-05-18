@@ -19,6 +19,7 @@ defmodule Snowpack.MixProject do
       docs: docs(),
       deps: deps(),
       preferred_cli_env: preferred_cli_env(),
+      bless_suite: bless_suite(),
       dialyzer: dialyzer(),
       aliases: aliases()
     ]
@@ -76,6 +77,16 @@ defmodule Snowpack.MixProject do
 
   defp preferred_cli_env,
     do: [bless: :test, coveralls: :test, "coveralls.html": :test, credo: :test, docs: :docs, dialyzer: :test, qc: :test]
+
+  defp bless_suite do
+    [
+      compile: ["--warnings-as-errors", "--force"],
+      format: ["--check-formatted"],
+      credo: ["--strict"],
+      "deps.unlock": ["--check-unused"],
+      coveralls: ["--exclude", "skip_ci"]
+    ]
+  end
 
   defp dialyzer do
     [
