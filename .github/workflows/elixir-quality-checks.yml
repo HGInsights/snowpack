@@ -1,12 +1,10 @@
 name: Elixir Quality Checks
 
 on:
+  pull_request:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - '*'
 
 jobs:
   quality_checks:
