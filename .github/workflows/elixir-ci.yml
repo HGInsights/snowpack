@@ -109,11 +109,10 @@ jobs:
           otp-version: "24.0.5"
           build-app: false
 
-      - name: Generate documentation
-        run: mix docs
+      - name: Write version to .version
+        run: echo ${{ needs.semantic-release.outputs.new_release_version }} > .version
 
       - name: Publish library
         run: mix hex.publish --yes
         env:
-          APP_VERSION: ${{ needs.semantic-release.outputs.new_release_version }}
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
