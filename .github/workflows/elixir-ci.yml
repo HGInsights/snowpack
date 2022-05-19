@@ -94,11 +94,10 @@ jobs:
   publish-hex-package:
     name: Publish Hex Package ⬆️☁️
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: semantic-release
+    if: github.ref == 'refs/heads/main' && needs.semantic-release.outputs.new_release_published == 'true'
     env:
       MIX_ENV: docs
-    needs:
-      - test
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -113,13 +112,8 @@ jobs:
       - name: Generate documentation
         run: mix docs
 
-      - name: Determine the tag version
-        env:
-          GITHUB_REF: ${{ github.ref }}
-        run: echo "TAG=$(echo "$GITHUB_REF" | awk -F / '{print $3}')" >> $GITHUB_ENV
-
       - name: Publish library
         run: mix hex.publish --yes
         env:
-          APP_VERSION: ${{ env.TAG }}
+          APP_VERSION: ${{ needs.semantic-release.outputs.new_release_version }}
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
