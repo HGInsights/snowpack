@@ -1,6 +1,6 @@
 # Snowpack
 
-[![CI](https://github.com/HGInsights/snowpack/workflows/CI/badge.svg)](https://github.com/HGInsights/snowpack/actions/workflows/elixir.yml)
+[![CI](https://github.com/HGInsights/snowpack/actions/workflows/elixir-ci.yml/badge.svg)](https://github.com/HGInsights/snowpack/actions/workflows/elixir-ci.yml)
 
 <!-- MDOC !-->
 
