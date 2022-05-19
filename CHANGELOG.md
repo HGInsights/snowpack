@@ -1,3 +1,10 @@
+## [0.6.1](https://github.com/HGInsights/snowpack/compare/v0.6.0...v0.6.1) (2022-05-19)
+
+
+### Bug Fixes
+
+* **ci:** updates for publishing to hex (#30) ([2f831f3](https://github.com/HGInsights/snowpack/commit/2f831f3760ea4a1eff4a9b8563c436856f317f72)), closes [#30](https://github.com/HGInsights/snowpack/issues/30)
+
 # [0.6.0](https://github.com/HGInsights/snowpack/compare/v0.5.9...v0.6.0) (2022-05-17)
 
 
