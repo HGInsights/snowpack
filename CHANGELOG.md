@@ -1,3 +1,10 @@
+## [0.6.4](https://github.com/HGInsights/snowpack/compare/v0.6.3...v0.6.4) (2022-05-19)
+
+
+### Bug Fixes
+
+* **ci:** no v in semantic version (#33) ([5be6c84](https://github.com/HGInsights/snowpack/commit/5be6c84686c085b3dc8150d0368ee63bd27dee47)), closes [#33](https://github.com/HGInsights/snowpack/issues/33)
+
 ## [0.6.3](https://github.com/HGInsights/snowpack/compare/v0.6.2...v0.6.3) (2022-05-19)
 
 
