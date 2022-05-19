@@ -4,10 +4,17 @@ defmodule Snowpack.MixProject do
   @name "Snowpack"
   @source_url "https://github.com/HGInsights/snowpack"
 
+  @version_file Path.join(__DIR__, ".version")
+  @external_resource @version_file
+  @version (case Regex.run(~r/^v([\d\.\w-]+)/, File.read!(@version_file), capture: :all_but_first) do
+              [version] -> version
+              nil -> "0.0.0"
+            end)
+
   def project do
     [
       app: :snowpack,
-      version: app_version(),
+      version: @version,
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -38,6 +45,7 @@ defmodule Snowpack.MixProject do
 
   defp package() do
     [
+      files: ~w(lib .formatter.exs mix.exs README* LICENSE* CHANGELOG* .version),
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => @source_url}
     ]
@@ -45,7 +53,7 @@ defmodule Snowpack.MixProject do
 
   defp docs do
     [
-      source_ref: "v#{app_version()}",
+      source_ref: "v#{@version}",
       source_url: @source_url,
       main: @name,
       extras: ["CHANGELOG.md"],
@@ -100,10 +108,5 @@ defmodule Snowpack.MixProject do
     [
       qc: ["format", "credo --strict", "test"]
     ]
-  end
-
-  defp app_version do
-    System.get_env("APP_VERSION", "v0.0.0")
-    |> String.trim_leading("v")
   end
 end
