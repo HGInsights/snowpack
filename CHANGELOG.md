@@ -1,3 +1,10 @@
+## [0.6.2](https://github.com/HGInsights/snowpack/compare/v0.6.1...v0.6.2) (2022-05-19)
+
+
+### Bug Fixes
+
+* **ci:** use semantic release outputs for version (#31) ([99c8e37](https://github.com/HGInsights/snowpack/commit/99c8e3757b4191c9d2d1f6c2494be7c813559bdd)), closes [#31](https://github.com/HGInsights/snowpack/issues/31)
+
 ## [0.6.1](https://github.com/HGInsights/snowpack/compare/v0.6.0...v0.6.1) (2022-05-19)
 
 
