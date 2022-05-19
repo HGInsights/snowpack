@@ -69,7 +69,7 @@ defmodule Snowpack.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test, :docs], runtime: false},
       {:ex_doc, ">= 0.0.0", only: [:docs], runtime: false},
-      {:mix_test_watch, "~> 1.0.2", only: [:test, :dev]},
+      {:mix_test_watch, "~> 1.1.0", only: [:test, :dev]},
       {:mimic, "~> 1.7", only: [:dev, :test]},
       {:vapor, "~> 0.10.0", only: [:dev, :test, :docs], runtime: false}
     ]
