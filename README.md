@@ -1,19 +1,24 @@
 # Snowpack
 
 [![CI](https://github.com/HGInsights/snowpack/actions/workflows/elixir-ci.yml/badge.svg)](https://github.com/HGInsights/snowpack/actions/workflows/elixir-ci.yml)
+[![hex.pm version](https://img.shields.io/hexpm/v/snowpack.svg)](https://hex.pm/packages/snowpack)
+[![hex.pm license](https://img.shields.io/hexpm/l/snowpack.svg)](https://github.com/HGInsights/snowpack/blob/main/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/HGInsights/snowpack.svg)](https://github.com/HGInsights/snowpack/commits/main)
+
 
 <!-- MDOC !-->
 
 Snowflake driver for Elixir.
 
-Documentation: <https://hginsights.github.io/snowpack>
-
 ## Features
 
 - Automatic decoding and encoding of Elixir values to and from Snowflake's ODBC driver formats
-- Supports transactions, prepared queries, streaming, pooling and more via
-  [DBConnection](https://github.com/elixir-ecto/db_connection)
+- Supports transactions, prepared queries, pooling and more via [DBConnection](https://github.com/elixir-ecto/db_connection)
 - Supports Snowflake ODBC Drivers 2.24.7+
+
+## TODO
+
+- Support streaming via [DBConnection](https://github.com/elixir-ecto/db_connection)
 
 ## Usage
 
@@ -22,7 +27,7 @@ Add `:snowpack` to your dependencies:
 ```elixir
 def deps() do
   [
-    {:snowpack, "~> 0.5.0"}
+    {:snowpack, "~> 0.6.0"}
   ]
 end
 ```
@@ -105,37 +110,16 @@ Notes:
 
 <!-- MDOC !-->
 
+## Documentation
+
+Documentation is automatically published to
+[hexdocs.pm](https://hexdocs.pm/snowpack) on release. You may build the
+documentation locally with
+
+```
+MIX_ENV=docs mix docs
+```
+
 ## Contributing
 
-Run tests:
-
-```
-git clone git@github.com:HGInsights/snowpack.git
-cd snowpack
-mix deps.get
-mix test
-```
-
-Working with [Earthly](https://earthly.dev/) for CI
-
-```
-brew install earthly
-
-earthly +static-code-analysis
-
-earthly --secret SNOWPACK_SERVER="my-account.snowflakecomputing.com" --secret-file SNOWPACK_PRIV_KEY=./rsa_key.p8 +test
-```
-
-## License
-
-The source code is under Apache License 2.0.
-
-Copyright (c) 2022 HG Insights
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
-License. You may obtain a copy of the License at
-[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
+Issues and PRs are welcome! See our organization [CONTRIBUTING.md](https://github.com/HGInsights/.github/blob/main/CONTRIBUTING.md) for more information about best-practices and passing CI.
