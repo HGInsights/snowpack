@@ -73,11 +73,11 @@ defmodule Snowpack.MixProject do
       {:telemetry, "~> 0.4 or ~> 1.0"},
       {:jason, "~> 1.2"},
       {:bless, "~> 1.2", only: [:dev, :test]},
-      {:excoveralls, "~> 0.14.4", only: [:dev, :test]},
+      {:excoveralls, "~> 0.14.5", only: [:dev, :test]},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test, :docs], runtime: false},
       {:ex_doc, ">= 0.0.0", only: [:docs], runtime: false},
-      {:mix_test_watch, "~> 1.0.2", only: [:test, :dev]},
+      {:mix_test_watch, "~> 1.1.0", only: [:test, :dev]},
       {:mimic, "~> 1.7", only: [:dev, :test]},
       {:vapor, "~> 0.10.0", only: [:dev, :test, :docs], runtime: false}
     ]
