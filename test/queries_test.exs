@@ -75,20 +75,41 @@ defmodule QueriesTest do
 
       assert {:ok, _column_types} = Snowpack.TypeCache.get_column_types(statement)
     end
+
+    test "without parsing results", %{pid: pid} do
+      assert {:ok, %Snowpack.Result{columns: ["?"], num_rows: 1, rows: [[1]]}} =
+               Snowpack.query(pid, "SELECT ?;", [1], parse_results: false)
+    end
   end
 
-  describe "DDL queries" do
+  describe "other queries" do
     setup [:connect]
 
     test "can create and drop table", %{pid: pid} do
       assert {:ok, %Snowpack.Result{columns: nil, num_rows: 0, rows: nil}} =
                Snowpack.query(
                  pid,
-                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)"
+                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)",
+                 [],
+                 parse_results: false
                )
 
       assert {:ok, %Snowpack.Result{columns: nil, num_rows: 0, rows: nil}} =
-               Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE")
+               Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
+    end
+
+    test "can insert", %{pid: pid} do
+      assert {:ok, _result} =
+               Snowpack.query(
+                 pid,
+                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)",
+                 [],
+                 parse_results: false
+               )
+
+      assert {:ok, _result} = Snowpack.insert(pid, "INSERT INTO SNOWPACK.PUBLIC.TEST_TABLE (amount) VALUES(?)", [333])
+
+      assert {:ok, _result} = Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
     end
   end
 

@@ -89,7 +89,7 @@ defmodule Snowpack.MixProject do
   defp bless_suite do
     [
       compile: ["--warnings-as-errors", "--force"],
-      format: ["--check-formatted"],
+      format: [],
       credo: ["--strict"],
       "deps.unlock": ["--check-unused"],
       coveralls: ["--exclude", "skip_ci"]

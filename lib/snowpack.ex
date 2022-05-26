@@ -124,6 +124,17 @@ defmodule Snowpack do
   @doc """
   Runs a query.
 
+  ## Options
+
+  Options are passed to `DBConnection.prepare/3`, see it's documentation for
+  all available options.
+
+  ## Additional Options
+
+    * `:parse_results` - Wether or not to do type parsing on the results. Requires
+    execution to be performed inside a transaction and an extra `DESCRIBE RESULT` to
+    get the types of the columns in the result. Only important for `SELECT` queries. Default true.
+
   ## Examples
 
       iex> Snowpack.query(conn, "SELECT * FROM posts")
@@ -155,6 +166,27 @@ defmodule Snowpack do
   end
 
   @doc """
+  Runs an insert statement.
+
+  ## Options
+
+  Options are passed to `DBConnection.prepare/3`, see it's documentation for
+  all available options.
+
+  ## Examples
+
+      iex> Snowpack.insert(conn, "INSERT INTO TABEL (ROW1, ROW2) VALUES(1, 2)")
+      {:ok, %Snowpack.Result{}}
+
+  """
+  @spec insert(conn, iodata, list, [option()]) ::
+          {:ok, Snowpack.Result.t()} | {:error, Exception.t()}
+  def insert(conn, statement, params \\ [], options \\ []) when is_iodata(statement) do
+    options = Keyword.merge(options, parse_results: false)
+    query(conn, statement, params, options)
+  end
+
+  @doc """
   Prepares a query to be executed later.
 
   To execute the query, call `execute/4`. To close the query, call `close/3`.
@@ -166,6 +198,12 @@ defmodule Snowpack do
 
   Options are passed to `DBConnection.prepare/3`, see it's documentation for
   all available options.
+
+  ## Additional Options
+
+    * `:parse_results` - Wether or not to do type parsing on the results. Requires
+    execution to be performed inside a transaction and an extra `DESCRIBE RESULT` to
+    get the types of the columns in the result. Only important for `SELECT` queries. Default true.
 
   ## Examples
 
@@ -207,6 +245,12 @@ defmodule Snowpack do
 
   Options are passed to `DBConnection.prepare_execute/4`, see it's documentation for
   all available options.
+
+  ## Additional Options
+
+    * `:parse_results` - Wether or not to do type parsing on the results. Requires
+    execution to be performed inside a transaction and an extra `DESCRIBE RESULT` to
+    get the types of the columns in the result. Only important for `SELECT` queries. Default true.
 
   ## Examples
 

@@ -190,55 +190,75 @@ defmodule Snowpack.Protocol do
 
   # coveralls-ignore-stop
 
+  # credo:disable-for-lines:75 Credo.Check.Refactor.CyclomaticComplexity
   defp _query(query, params, opts, state) do
     metadata = %{params: params, query: query.statement}
-
     start_time = Telemetry.start(:query, metadata)
 
     try do
-      result = type_aware_query(query, params, opts, state)
+      parse_results = Keyword.get(opts, :parse_results, true)
+      query_result = maybe_query_with_type_parsing(parse_results, query, params, opts, state)
 
-      case result do
-        {:error, %Snowpack.Error{odbc_code: :connection_exception} = error} ->
-          metadata = Map.put(metadata, :error, error)
-          Telemetry.stop(:query, start_time, metadata)
-          {:disconnect, error, state}
+      {result, metadata} =
+        case query_result do
+          {:error, %Snowpack.Error{odbc_code: :connection_exception} = error} ->
+            metadata = Map.put(metadata, :error, error)
+            {{:disconnect, error, state}, metadata}
 
-        {:error, error, _column_types} ->
-          metadata = Map.put(metadata, :error, error)
-          Telemetry.stop(:query, start_time, metadata)
-          {:error, error, state}
+          {:error, error, _column_types} ->
+            metadata = Map.put(metadata, :error, error)
+            {{:error, error, state}, metadata}
 
-        {:error, error} ->
-          metadata = Map.put(metadata, :error, error)
-          Telemetry.stop(:query, start_time, metadata)
-          {:error, error, state}
+          {:error, error} ->
+            metadata = Map.put(metadata, :error, error)
+            {{:error, error, state}, metadata}
 
-        {:selected, columns, rows, %{column_types: column_types}} ->
-          typed_rows = TypeParser.parse_rows(column_types, columns, rows)
-          num_rows = Enum.count(typed_rows)
+          {:selected, columns, rows} ->
+            result_cols = Enum.map(columns, &to_string/1)
+            result_rows = Enum.map(rows, &Tuple.to_list/1)
+            num_rows = Enum.count(result_rows)
+            metadata = Map.merge(metadata, %{result: :selected, num_rows: num_rows})
 
-          metadata = Map.merge(metadata, %{result: :selected, num_rows: num_rows})
+            {{:ok,
+              %Result{
+                columns: result_cols,
+                rows: result_rows,
+                num_rows: num_rows
+              }, state}, metadata}
 
-          Telemetry.stop(:query, start_time, metadata)
+          {:selected, columns, rows, %{column_types: column_types}} ->
+            result_cols = Enum.map(columns, &to_string/1)
+            result_rows = TypeParser.parse_rows(column_types, columns, rows)
+            num_rows = Enum.count(result_rows)
+            metadata = Map.merge(metadata, %{result: :selected, num_rows: num_rows})
 
-          {:ok,
-           %Result{
-             columns: Enum.map(columns, &to_string(&1)),
-             rows: typed_rows,
-             num_rows: num_rows
-           }, state}
+            {{:ok,
+              %Result{
+                columns: result_cols,
+                rows: result_rows,
+                num_rows: num_rows
+              }, state}, metadata}
 
-        {:updated, :undefined, _col_types} ->
-          metadata = Map.merge(metadata, %{result: :updated, num_rows: 1})
-          Telemetry.stop(:query, start_time, metadata)
-          {:ok, %Result{num_rows: 0}, state}
+          {:updated, :undefined, _query_id} ->
+            metadata = Map.merge(metadata, %{result: :updated, num_rows: 0})
+            {{:ok, %Result{num_rows: 0}, state}, metadata}
 
-        {:updated, num_rows, _rows} ->
-          metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
-          Telemetry.stop(:query, start_time, metadata)
-          {:ok, %Result{num_rows: num_rows}, state}
-      end
+          {:updated, :undefined} ->
+            metadata = Map.merge(metadata, %{result: :updated, num_rows: 0})
+            {{:ok, %Result{num_rows: 0}, state}, metadata}
+
+          {:updated, num_rows, _query_id} ->
+            metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
+            {{:ok, %Result{num_rows: num_rows}, state}, metadata}
+
+          {:updated, num_rows} ->
+            metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
+            {{:ok, %Result{num_rows: num_rows}, state}, metadata}
+        end
+
+      Telemetry.stop(:query, start_time, metadata)
+
+      result
     catch
       kind, error ->
         Telemetry.exception(:query, start_time, kind, error, __STACKTRACE__, metadata)
@@ -247,7 +267,7 @@ defmodule Snowpack.Protocol do
     end
   end
 
-  defp type_aware_query(query, params, opts, state) do
+  defp maybe_query_with_type_parsing(true, query, params, opts, state) do
     case TypeCache.get_column_types(query.statement) do
       {:ok, column_types} ->
         query_result = ODBC.query(state.pid, query.statement, params, opts, false)
@@ -261,6 +281,10 @@ defmodule Snowpack.Protocol do
           {:selected, columns, rows, %{column_types: column_types}}
         end
     end
+  end
+
+  defp maybe_query_with_type_parsing(false, query, params, opts, state) do
+    ODBC.query(state.pid, query.statement, params, opts, false)
   end
 
   defp execute_return(status, query, message, state, _opts) do
