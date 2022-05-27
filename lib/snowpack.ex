@@ -141,10 +141,10 @@ defmodule Snowpack do
 
   ## Examples
 
-      iex> Snowpack.query(conn, "SELECT * FROM TABEL")
+      iex> Snowpack.query(conn, "SELECT * FROM RECORDS")
       {:ok, %Snowpack.Result{}}
 
-      iex> Snowpack.query(conn, "INSERT INTO TABEL (ROW1, ROW2) VALUES(?, ?)", [1, 2], parse_results: false)
+      iex> Snowpack.query(conn, "INSERT INTO RECORDS (ROW1, ROW2) VALUES(?, ?)", [1, 2], parse_results: false)
 
   """
   @spec query(conn, iodata, list, [query_option()]) ::
