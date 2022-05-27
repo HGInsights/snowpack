@@ -1,3 +1,15 @@
+# [0.7.0](https://github.com/HGInsights/snowpack/compare/v0.6.4...v0.7.0) (2022-05-27)
+
+
+### Chores
+
+* **docs:** update readme with badges (#34) ([88f4351](https://github.com/HGInsights/snowpack/commit/88f435155d112e5f02dc0a8feab6afe0d73f01d9)), closes [#34](https://github.com/HGInsights/snowpack/issues/34)
+
+
+### Features
+
+* added option to skip parsing of results (#35) ([4cf42ee](https://github.com/HGInsights/snowpack/commit/4cf42eec6fbf0b2603bf95eff051d21df6e76146)), closes [#35](https://github.com/HGInsights/snowpack/issues/35)
+
 ## [0.6.4](https://github.com/HGInsights/snowpack/compare/v0.6.3...v0.6.4) (2022-05-19)
 
 
