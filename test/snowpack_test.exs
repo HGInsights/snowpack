@@ -31,6 +31,7 @@ defmodule SnowpackTest do
     end
 
     @tag skip_ci: true
+    @tag :capture_log
     test "using Okta Authenticator" do
       {:ok, pid} = start_supervised({Snowpack, okta_opts()})
 
@@ -60,6 +61,7 @@ defmodule SnowpackTest do
       assert %Result{columns: ["1"], num_rows: 1, rows: [[1]]} = Snowpack.query!(pid, "SELECT 1")
     end
 
+    @tag :capture_log
     test "raises on error", %{pid: pid} do
       assert_raise Snowpack.Error, fn ->
         Snowpack.query!(pid, "BAD QUERY")
@@ -102,6 +104,7 @@ defmodule SnowpackTest do
       assert row == [6]
     end
 
+    @tag :capture_log
     test "returns exception on error", %{pid: pid} do
       {:error, %Snowpack.Error{odbc_code: "22018"}} =
         Snowpack.prepare_execute(pid, "times", "SELECT ? * ?", ["bad", "data"])
@@ -118,6 +121,7 @@ defmodule SnowpackTest do
       assert row == [6]
     end
 
+    @tag :capture_log
     test "raises exception on error", %{pid: pid} do
       assert_raise Snowpack.Error, fn ->
         Snowpack.prepare_execute!(pid, "times", "SELECT ? * ?", ["bad", "data"])

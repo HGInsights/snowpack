@@ -44,6 +44,7 @@ defmodule Snowpack.TypeParserTest do
       assert [[^decimal]] = TypeParser.parse_rows(%{"COL_NAME" => :float}, ['COL_NAME'], [{"12.33"}])
     end
 
+    @tag :capture_log
     test "parses bad DECIMAL column" do
       assert [["pi"]] = TypeParser.parse_rows(%{"COL_NAME" => :float}, ['COL_NAME'], [{"pi"}])
     end
@@ -147,6 +148,7 @@ defmodule Snowpack.TypeParserTest do
                TypeParser.parse_rows(%{"COL_NAME" => :variant}, ['COL_NAME'], [{"<xml>stuff</xml>"}])
     end
 
+    @tag :capture_log
     test "parses UNKNOWN type column" do
       assert [["stuff"]] = TypeParser.parse_rows(%{"COL_NAME" => :unknown}, ['COL_NAME'], [{"stuff"}])
     end

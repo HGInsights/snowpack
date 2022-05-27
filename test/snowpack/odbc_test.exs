@@ -5,6 +5,7 @@ defmodule Snowpack.ODBCTest do
 
   import Snowpack.TestHelper
 
+  @tag :capture_log
   test "handle_call/2 query when not_connected" do
     Mimic.set_mimic_global()
 
@@ -15,6 +16,7 @@ defmodule Snowpack.ODBCTest do
     assert {:error, :not_connected} = Snowpack.query(pid, "select 1")
   end
 
+  @tag :capture_log
   test "handle_call/2 query when with_query_id: false and error" do
     Mimic.set_mimic_global()
 
