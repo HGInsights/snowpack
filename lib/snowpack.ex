@@ -33,6 +33,10 @@ defmodule Snowpack do
 
   @type option() :: DBConnection.option()
 
+  @type query_option() ::
+          {:parse_results, boolean()}
+          | DBConnection.option()
+
   defmacrop is_iodata(data) do
     quote do
       is_list(unquote(data)) or is_binary(unquote(data))
@@ -137,11 +141,13 @@ defmodule Snowpack do
 
   ## Examples
 
-      iex> Snowpack.query(conn, "SELECT * FROM posts")
+      iex> Snowpack.query(conn, "SELECT * FROM TABEL")
       {:ok, %Snowpack.Result{}}
 
+      iex> Snowpack.query(conn, "INSERT INTO TABEL (ROW1, ROW2) VALUES(?, ?)", [1, 2], parse_results: false)
+
   """
-  @spec query(conn, iodata, list, [option()]) ::
+  @spec query(conn, iodata, list, [query_option()]) ::
           {:ok, Snowpack.Result.t()} | {:error, Exception.t()}
   def query(conn, statement, params \\ [], options \\ []) when is_iodata(statement) do
     case prepare_execute(conn, "", statement, params, options) do
@@ -157,33 +163,12 @@ defmodule Snowpack do
 
   See `query/4`.
   """
-  @spec query!(conn, iodata, list, [option()]) :: Snowpack.Result.t()
+  @spec query!(conn, iodata, list, [query_option()]) :: Snowpack.Result.t()
   def query!(conn, statement, params \\ [], opts \\ []) do
     case query(conn, statement, params, opts) do
       {:ok, result} -> result
       {:error, exception} -> raise exception
     end
-  end
-
-  @doc """
-  Runs an insert statement.
-
-  ## Options
-
-  Options are passed to `DBConnection.prepare/3`, see it's documentation for
-  all available options.
-
-  ## Examples
-
-      iex> Snowpack.insert(conn, "INSERT INTO TABEL (ROW1, ROW2) VALUES(1, 2)")
-      {:ok, %Snowpack.Result{}}
-
-  """
-  @spec insert(conn, iodata, list, [option()]) ::
-          {:ok, Snowpack.Result.t()} | {:error, Exception.t()}
-  def insert(conn, statement, params \\ [], options \\ []) when is_iodata(statement) do
-    options = Keyword.merge(options, parse_results: false)
-    query(conn, statement, params, options)
   end
 
   @doc """
@@ -213,7 +198,7 @@ defmodule Snowpack do
       [6]
 
   """
-  @spec prepare(conn(), iodata(), iodata(), [option()]) ::
+  @spec prepare(conn(), iodata(), iodata(), [query_option()]) ::
           {:ok, Snowpack.Query.t()} | {:error, Exception.t()}
   def prepare(conn, name, statement, opts \\ []) when is_iodata(name) and is_iodata(statement) do
     query = %Snowpack.Query{name: name, statement: statement}
@@ -227,7 +212,7 @@ defmodule Snowpack do
 
   See `prepare/4`.
   """
-  @spec prepare!(conn(), iodata(), iodata(), [option()]) :: Snowpack.Query.t()
+  @spec prepare!(conn(), iodata(), iodata(), [query_option()]) :: Snowpack.Query.t()
   def prepare!(conn, name, statement, opts \\ []) when is_iodata(name) and is_iodata(statement) do
     query = %Snowpack.Query{name: name, statement: statement}
     DBConnection.prepare!(conn, query, opts)
@@ -275,7 +260,7 @@ defmodule Snowpack do
 
   See: `prepare_execute/5`.
   """
-  @spec prepare_execute!(conn, iodata, iodata, list, [option()]) ::
+  @spec prepare_execute!(conn, iodata, iodata, list, [query_option()]) ::
           {Snowpack.Query.t(), Snowpack.Result.t()}
   def prepare_execute!(conn, name, statement, params \\ [], opts \\ [])
       when is_iodata(name) and is_iodata(statement) do
@@ -299,7 +284,7 @@ defmodule Snowpack do
       [6]
 
   """
-  @spec execute(conn(), Snowpack.Query.t(), list(), [option()]) ::
+  @spec execute(conn(), Snowpack.Query.t(), list(), [query_option()]) ::
           {:ok, Snowpack.Query.t(), Snowpack.Result.t()} | {:error, Exception.t()}
   defdelegate execute(conn, query, params, opts \\ []), to: DBConnection
 
