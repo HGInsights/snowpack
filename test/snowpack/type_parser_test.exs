@@ -65,8 +65,16 @@ defmodule Snowpack.TypeParserTest do
       assert [[~D[2015-01-13]]] = TypeParser.parse_rows(%{"COL_NAME" => :date}, ['COL_NAME'], [{"2015-01-13"}])
     end
 
+    test "parses null DATE column" do
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :date}, ['COL_NAME'], [{:null}])
+    end
+
     test "parses TIME column" do
       assert [[~T[13:00:07]]] = TypeParser.parse_rows(%{"COL_NAME" => :time}, ['COL_NAME'], [{"13:00:07"}])
+    end
+
+    test "parses null TIME column" do
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :time}, ['COL_NAME'], [{:null}])
     end
 
     test "parses DATETIME column" do
@@ -74,14 +82,26 @@ defmodule Snowpack.TypeParserTest do
                TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{{{2015, 1, 13}, {13, 0, 7}}}])
     end
 
+    test "parses null DATETIME column" do
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
+    end
+
     test "parses DATETIME as string column" do
       assert [[~N[2022-05-07 00:24:26.263]]] =
                TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{"2022-05-07T00:24:26.263"}])
     end
 
+    test "parses null DATETIME as string column" do
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
+    end
+
     test "parses TIMESTAMP column" do
       assert [[~N[2015-01-13 13:00:07]]] =
                TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{{{2015, 1, 13}, {13, 0, 7}}}])
+    end
+
+    test "parses null TIMESTAMP column" do
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
     end
 
     test "parses TIMESTAMP_LTZ column" do
