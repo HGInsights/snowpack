@@ -1,3 +1,10 @@
+## [0.7.1](https://github.com/HGInsights/snowpack/compare/v0.7.0...v0.7.1) (2022-05-27)
+
+
+### Bug Fixes
+
+* parsing null time, date and datetime values (#36) ([721a48e](https://github.com/HGInsights/snowpack/commit/721a48ef1eb2cfe44f421a04bc0771a49fe4831f)), closes [#36](https://github.com/HGInsights/snowpack/issues/36)
+
 # [0.7.0](https://github.com/HGInsights/snowpack/compare/v0.6.4...v0.7.0) (2022-05-27)
 
 
