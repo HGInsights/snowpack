@@ -83,8 +83,7 @@ defmodule Snowpack.TypeParserTest do
     end
 
     test "parses null DATETIME column" do
-      assert [[:null]] =
-               TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
     end
 
     test "parses DATETIME as string column" do
@@ -93,8 +92,7 @@ defmodule Snowpack.TypeParserTest do
     end
 
     test "parses null DATETIME as string column" do
-      assert [[:null]] =
-               TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
     end
 
     test "parses TIMESTAMP column" do
@@ -103,8 +101,7 @@ defmodule Snowpack.TypeParserTest do
     end
 
     test "parses null TIMESTAMP column" do
-      assert [[:null]] =
-               TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :datetime}, ['COL_NAME'], [{:null}])
     end
 
     test "parses TIMESTAMP_LTZ column" do
