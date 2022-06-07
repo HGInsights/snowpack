@@ -156,7 +156,7 @@ defmodule Snowpack.Type do
   end
 
   def decode(value, _) when is_binary(value) do
-    parse_funcs = [&Integer.parse/1, &DateTimeParser.parse/1]
+    parse_funcs = [&parse_to_int/1, &DateTimeParser.parse/1]
 
     Enum.find_value(parse_funcs, value, fn func ->
       case Kernel.apply(func, [value]) do
@@ -172,5 +172,13 @@ defmodule Snowpack.Type do
   defp calculate_decimal_scale(dec) do
     coef_size = dec.coef |> Integer.digits() |> Enum.count()
     coef_size + dec.exp - 1
+  end
+
+  defp parse_to_int(value) when is_binary(value) do
+    if String.starts_with?(value, "0") && String.length(value) > 1 do
+      :error
+    else
+      Integer.parse(value)
+    end
   end
 end
