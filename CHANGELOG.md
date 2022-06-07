@@ -1,3 +1,10 @@
+## [0.7.2](https://github.com/HGInsights/snowpack/compare/v0.7.1...v0.7.2) (2022-06-07)
+
+
+### Bug Fixes
+
+* do not try to be smart when decoding binaries without type info (#38) ([b819d43](https://github.com/HGInsights/snowpack/commit/b819d43f3fc076c717011d39f5bed45cc652c1bd)), closes [#38](https://github.com/HGInsights/snowpack/issues/38)
+
 ## [0.7.1](https://github.com/HGInsights/snowpack/compare/v0.7.0...v0.7.1) (2022-05-27)
 
 
