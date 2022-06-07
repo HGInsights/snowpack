@@ -81,6 +81,10 @@ defmodule Snowpack.TypeTest do
       assert Type.decode("543", []) == 543
     end
 
+    test "integer with leading zero decoded as string" do
+      assert Type.decode("0543", []) == "0543"
+    end
+
     test "float" do
       assert Type.decode(543.89875, []) == 543.89875
     end
