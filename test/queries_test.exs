@@ -32,11 +32,24 @@ defmodule QueriesTest do
     end
 
     test "long number param", context do
-      assert [[123_456_789_012_345_678_901]] = query("SELECT ?", [123_456_789_012_345_678_901])
+      assert [[123_456_789_012_345_678_901]] = query("SELECT ?::NUMBER", [123_456_789_012_345_678_901])
     end
 
     test "long string param", context do
       assert [["this_is_a_really_really_long_string"]] = query("SELECT ?", ["this_is_a_really_really_long_string"])
+    end
+
+    test "long number without type info parses as string", context do
+      assert [["123456789012345678901"]] = query("SELECT ?", [123_456_789_012_345_678_901])
+    end
+
+    test "short number (integer) without type info parses as integer", context do
+      assert [[123_456_789]] = query("SELECT ?", [123_456_789])
+    end
+
+    test "date without type info parses as string", context do
+      date = ~D[2020-05-28]
+      assert [["2020-05-28"]] = query("SELECT ?", [date])
     end
 
     test "with params and rows", context do

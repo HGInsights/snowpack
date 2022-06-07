@@ -78,23 +78,19 @@ defmodule Snowpack.TypeTest do
 
     test "integer" do
       assert Type.decode(543, []) == 543
-      assert Type.decode("543", []) == 543
+    end
+
+    test "binary" do
+      assert Type.decode("543", []) == "543"
     end
 
     test "float" do
       assert Type.decode(543.89875, []) == 543.89875
     end
 
-    test "date, time, datetime" do
+    test "erl datetime" do
       assert Type.decode({{2015, 1, 13}, {13, 0, 7}}, []) == ~N[2015-01-13 13:00:07]
       assert Type.decode({{2015, 1, 54}, {13, 0, 7}}, []) == {{2015, 1, 54}, {13, 0, 7}}
-
-      assert Type.decode("2015-01-13T13:00:07", []) == ~N[2015-01-13 13:00:07]
-      assert Type.decode("2022-05-07T21:46:44.146219Z", []) == ~U[2022-05-07 21:46:44.146219Z]
-
-      assert Type.decode("2022-05-07", []) == ~D[2022-05-07]
-
-      assert Type.decode("21:46:44.146219Z", []) == ~T[21:46:44.146219]
     end
 
     test "failure to decode erl datetime passed original value through" do
