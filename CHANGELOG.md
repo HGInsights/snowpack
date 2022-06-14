@@ -1,3 +1,10 @@
+## [0.7.3](https://github.com/HGInsights/snowpack/compare/v0.7.2...v0.7.3) (2022-06-14)
+
+
+### Bug Fixes
+
+* :bug: change logging of unsupported type parsing to be debug log level (#39) ([6162d2f](https://github.com/HGInsights/snowpack/commit/6162d2fba6be7539f9968fa178ef0feaf0f808df)), closes [#39](https://github.com/HGInsights/snowpack/issues/39)
+
 ## [0.7.2](https://github.com/HGInsights/snowpack/compare/v0.7.1...v0.7.2) (2022-06-07)
 
 
