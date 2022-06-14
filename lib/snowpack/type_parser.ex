@@ -78,7 +78,7 @@ defmodule Snowpack.TypeParser do
   defp parse({:default, data}), do: data
 
   defp parse({type, data}) do
-    Logger.warn("TypeParser.parse/1: unsupported type '#{type}', data: #{inspect(data)}")
+    Logger.debug("TypeParser.parse/1: unsupported type '#{type}', data: #{inspect(data)}")
     data
   end
 
