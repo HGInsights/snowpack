@@ -1,0 +1,5 @@
+# Default owners for everything in the repo.
+* @forest @aschreifels
+
+# Owners for dependency changes (e.g. dependabot)
+mix.lock @forest
