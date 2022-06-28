@@ -35,8 +35,16 @@ defmodule Snowpack.TypeParserTest do
       assert [[123]] = TypeParser.parse_rows(%{"COL_NAME" => :integer}, ['COL_NAME'], [{"123"}])
     end
 
+    test "parses null NUMBER column" do
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :integer}, ['COL_NAME'], [{:null}])
+    end
+
     test "parses FLOAT column" do
       assert [[12.33]] = TypeParser.parse_rows(%{"COL_NAME" => :float}, ['COL_NAME'], [{12.33}])
+    end
+
+    test "parses null FLOAT column" do
+      assert [[:null]] = TypeParser.parse_rows(%{"COL_NAME" => :float}, ['COL_NAME'], [{:null}])
     end
 
     test "parses DECIMAL column" do
@@ -52,6 +60,11 @@ defmodule Snowpack.TypeParserTest do
     test "parses BOOLEAN column" do
       assert [[true, false]] =
                TypeParser.parse_rows(%{"COL_1" => :boolean, "COL_2" => :boolean}, ['COL_1', 'COL_2'], [{true, false}])
+    end
+
+    test "parses null BOOLEAN column" do
+      assert [[:null]] =
+               TypeParser.parse_rows(%{"COL_1" => :boolean, "COL_2" => :boolean}, ['COL_1', 'COL_2'], [{:null}])
     end
 
     test "parses BOOLEAN as string column" do
