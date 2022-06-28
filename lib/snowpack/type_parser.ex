@@ -45,6 +45,7 @@ defmodule Snowpack.TypeParser do
   defp parse({:datetime, :null}), do: :null
   defp parse({:datetime, data}), do: DateTimeParser.parse_datetime!(data)
 
+  defp parse({:float, :null}), do: :null
   defp parse({:float, data}) when is_float(data), do: data
 
   defp parse({:float, data}) when is_binary(data) do
@@ -54,9 +55,11 @@ defmodule Snowpack.TypeParser do
     end
   end
 
+  defp parse({:integer, :null}), do: :null
   defp parse({:integer, data}) when is_integer(data), do: data
   defp parse({:integer, data}) when is_binary(data), do: String.to_integer(data)
 
+  defp parse({:boolean, :null}), do: :null
   defp parse({:boolean, data}) when is_boolean(data), do: data
   defp parse({:boolean, data}) when is_binary(data), do: "true" == data
 
