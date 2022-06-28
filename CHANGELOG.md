@@ -1,3 +1,15 @@
+## [0.7.4](https://github.com/HGInsights/snowpack/compare/v0.7.3...v0.7.4) (2022-06-28)
+
+
+### Bug Fixes
+
+* parse null float, integer, and boolean values (#40) ([78fc64c](https://github.com/HGInsights/snowpack/commit/78fc64cb1dc7b9f55d4d9fe1d2dfe384d4045172)), closes [#40](https://github.com/HGInsights/snowpack/issues/40)
+
+
+### Chores
+
+* added CODEOWERS file ([5454e60](https://github.com/HGInsights/snowpack/commit/5454e6071c4b83e516b8dd6641402afc482d2bca))
+
 ## [0.7.3](https://github.com/HGInsights/snowpack/compare/v0.7.2...v0.7.3) (2022-06-14)
 
 
