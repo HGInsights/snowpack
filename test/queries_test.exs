@@ -127,6 +127,28 @@ defmodule QueriesTest do
 
       assert {:ok, _result} = Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
     end
+
+    test "can delete", %{pid: pid} do
+      assert {:ok, _result} =
+               Snowpack.query(
+                 pid,
+                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)",
+                 [],
+                 parse_results: false
+               )
+
+      assert {:ok, %Snowpack.Result{num_rows: 1}} =
+               Snowpack.query(pid, "INSERT INTO SNOWPACK.PUBLIC.TEST_TABLE (amount) VALUES(?)", [333],
+                 parse_results: false
+               )
+
+      assert {:ok, %Snowpack.Result{num_rows: 1}} =
+               Snowpack.query(pid, "DELETE FROM SNOWPACK.PUBLIC.TEST_TABLE WHERE amount = ?", [333],
+                 parse_results: false
+               )
+
+      assert {:ok, _result} = Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
+    end
   end
 
   defp connect(_context) do
