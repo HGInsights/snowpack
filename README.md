@@ -120,6 +120,41 @@ documentation locally with
 MIX_ENV=docs mix docs
 ```
 
+## Erlang ODBC on Apple M1
+
+Install Dependencies via Homebrew
+
+```
+brew install asdf openssl@1.1 libiodbc wxwidgets
+```
+
+NOTE: you may need to unlink `unixodbc` to install and use `libiodbc`, or replace `libiodbc` with `unixodbc` below.
+
+Configure your shell for [asdf](https://asdf-vm.com/).
+
+Install asdf plugins.
+
+```
+asdf plugin add erlang
+asdf plugin add elixir
+```
+
+Configure the KERL compiler used by asdf.
+
+```
+export CFLAGS="-O2 -g -fno-stack-check"
+export KERL_CONFIGURE_OPTIONS="--with-ssl=$(brew --prefix openssl@1.1)/ --with-wx-config=$(brew --prefix wxwidgets)/bin/wx-config --with-odbc=$(brew --prefix libiodbc)"
+export CPPFLAGS="-I$(brew --prefix libiodbc)/include"
+export LDFLAGS="-L$(brew --prefix libiodbc)/lib"
+```
+
+Install Erlang and Elixir
+
+```
+asdf install erlang 25.0.3
+asdf install elixir 1.13.4-otp-25
+```
+
 ## Contributing
 
 Issues and PRs are welcome! See our organization [CONTRIBUTING.md](https://github.com/HGInsights/.github/blob/main/CONTRIBUTING.md) for more information about best-practices and passing CI.
