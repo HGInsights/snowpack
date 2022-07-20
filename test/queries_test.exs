@@ -36,20 +36,21 @@ defmodule QueriesTest do
     end
 
     test "long string param", context do
-      assert [["this_is_a_really_really_long_string"]] = query("SELECT ?", ["this_is_a_really_really_long_string"])
+      assert [["this_is_a_really_really_long_string"]] =
+               query("SELECT ?", ["this_is_a_really_really_long_string"], parse_results: false)
     end
 
     test "long number without type info parses as string", context do
-      assert [["123456789012345678901"]] = query("SELECT ?", [123_456_789_012_345_678_901])
+      assert [["123456789012345678901"]] = query("SELECT ?", [123_456_789_012_345_678_901], parse_results: false)
     end
 
     test "short number (integer) without type info parses as integer", context do
-      assert [[123_456_789]] = query("SELECT ?", [123_456_789])
+      assert [[123_456_789]] = query("SELECT ?", [123_456_789], parse_results: false)
     end
 
     test "date without type info parses as string", context do
       date = ~D[2020-05-28]
-      assert [["2020-05-28"]] = query("SELECT ?", [date])
+      assert [["2020-05-28"]] = query("SELECT ?", [date], parse_results: false)
     end
 
     test "with params and rows", context do
@@ -124,6 +125,48 @@ defmodule QueriesTest do
                Snowpack.query(pid, "INSERT INTO SNOWPACK.PUBLIC.TEST_TABLE (amount) VALUES(?)", [333],
                  parse_results: false
                )
+
+      assert {:ok, _result} = Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
+    end
+
+    test "can delete", %{pid: pid} do
+      assert {:ok, _result} =
+               Snowpack.query(
+                 pid,
+                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)",
+                 [],
+                 parse_results: false
+               )
+
+      assert {:ok, %Snowpack.Result{num_rows: 1}} =
+               Snowpack.query(pid, "INSERT INTO SNOWPACK.PUBLIC.TEST_TABLE (amount) VALUES(?)", [333],
+                 parse_results: false
+               )
+
+      assert {:ok, %Snowpack.Result{num_rows: 1}} =
+               Snowpack.query(pid, "DELETE FROM SNOWPACK.PUBLIC.TEST_TABLE WHERE amount = ?", [333],
+                 parse_results: false
+               )
+
+      assert {:ok, _result} = Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
+    end
+
+    test "DML queries with no results", %{pid: pid} do
+      assert {:ok, _result} =
+               Snowpack.query(
+                 pid,
+                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)",
+                 [],
+                 parse_results: false
+               )
+
+      assert {:ok, %Snowpack.Result{num_rows: 0}} =
+               Snowpack.query(pid, "DELETE FROM SNOWPACK.PUBLIC.TEST_TABLE WHERE amount = ?", [123],
+                 parse_results: false
+               )
+
+      assert {:ok, %Snowpack.Result{num_rows: 0}} =
+               Snowpack.query(pid, "DELETE FROM SNOWPACK.PUBLIC.TEST_TABLE WHERE amount = ?", [123], parse_results: true)
 
       assert {:ok, _result} = Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
     end
