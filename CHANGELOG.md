@@ -1,3 +1,10 @@
+## [0.7.5](https://github.com/HGInsights/snowpack/compare/v0.7.4...v0.7.5) (2022-07-20)
+
+
+### Bug Fixes
+
+* :bug: special handling for invalid errors returned for DML statements with no results (#42) ([37fcf36](https://github.com/HGInsights/snowpack/commit/37fcf363f71c9b5b10caed54bf072f2323f03f62)), closes [#42](https://github.com/HGInsights/snowpack/issues/42) [#41](https://github.com/HGInsights/snowpack/issues/41)
+
 ## [0.7.4](https://github.com/HGInsights/snowpack/compare/v0.7.3...v0.7.4) (2022-06-28)
 
 
