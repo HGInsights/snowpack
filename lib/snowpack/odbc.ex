@@ -151,9 +151,14 @@ defmodule Snowpack.ODBC do
     case :odbc.param_query(pid, :binary.bin_to_list(statement), params, timeout) do
       {:error, reason} ->
         error = Error.exception(reason)
-        Logger.warn("Unable to execute query: #{error.message}")
 
-        {:reply, {:error, error}, state}
+        if is_erlang_odbc_no_data_found_bug?(error, statement) do
+          {:reply, {:updated, :undefined}, state}
+        else
+          Logger.warn("Unable to execute query: #{error.message}")
+
+          {:reply, {:error, error}, state}
+        end
 
       result ->
         {:reply, result, state}
@@ -170,11 +175,16 @@ defmodule Snowpack.ODBC do
     case :odbc.param_query(pid, :binary.bin_to_list(statement), params, timeout) do
       {:error, reason} ->
         error = Error.exception(reason)
-        Logger.warn("Unable to execute query: #{error.message}")
 
-        :odbc.sql_query(pid, @close_transaction)
+        if is_erlang_odbc_no_data_found_bug?(error, statement) do
+          {:reply, {:updated, :undefined}, state}
+        else
+          Logger.warn("Unable to execute query: #{error.message}")
 
-        {:reply, {:error, error}, state}
+          :odbc.sql_query(pid, @close_transaction)
+
+          {:reply, {:error, error}, state}
+        end
 
       result ->
         {:selected, _, query_id} = :odbc.sql_query(pid, @last_query_id)
@@ -268,5 +278,12 @@ defmodule Snowpack.ODBC do
       end)
 
     {name, type}
+  end
+
+  defp is_erlang_odbc_no_data_found_bug?(%Error{message: message}, statement) do
+    is_dml = statement =~ ~r/^(INSERT|UPDATE|DELETE)/i
+    is_msg = message =~ "No SQL-driver information available."
+
+    is_dml and is_msg
   end
 end

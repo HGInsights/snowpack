@@ -150,6 +150,26 @@ defmodule QueriesTest do
 
       assert {:ok, _result} = Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
     end
+
+    test "DML queries with no results", %{pid: pid} do
+      assert {:ok, _result} =
+               Snowpack.query(
+                 pid,
+                 "CREATE OR REPLACE TABLE SNOWPACK.PUBLIC.TEST_TABLE (amount number)",
+                 [],
+                 parse_results: false
+               )
+
+      assert {:ok, %Snowpack.Result{num_rows: 0}} =
+               Snowpack.query(pid, "DELETE FROM SNOWPACK.PUBLIC.TEST_TABLE WHERE amount = ?", [123],
+                 parse_results: false
+               )
+
+      assert {:ok, %Snowpack.Result{num_rows: 0}} =
+               Snowpack.query(pid, "DELETE FROM SNOWPACK.PUBLIC.TEST_TABLE WHERE amount = ?", [123], parse_results: true)
+
+      assert {:ok, _result} = Snowpack.query(pid, "DROP TABLE SNOWPACK.PUBLIC.TEST_TABLE", [], parse_results: false)
+    end
   end
 
   defp connect(_context) do
