@@ -187,11 +187,21 @@ defmodule Snowpack.ODBC do
         end
 
       result ->
-        {:selected, _, query_id} = :odbc.sql_query(pid, @last_query_id)
+        case :odbc.sql_query(pid, @last_query_id) do
+          {:selected, _, query_id} ->
+            :odbc.sql_query(pid, @close_transaction)
 
-        :odbc.sql_query(pid, @close_transaction)
+            {:reply, Tuple.append(result, query_id), state}
 
-        {:reply, Tuple.append(result, query_id), state}
+          {:error, reason} ->
+            error = Error.exception(reason)
+            Logger.warn("Unable to execute query: #{error.message}")
+            Logger.warn("Last query result: #{inspect(result)}")
+
+            :odbc.sql_query(pid, @close_transaction)
+
+            {:reply, {:error, error}, state}
+        end
     end
   end
 
