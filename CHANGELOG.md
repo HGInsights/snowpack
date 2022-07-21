@@ -1,3 +1,10 @@
+## [0.7.6](https://github.com/HGInsights/snowpack/compare/v0.7.5...v0.7.6) (2022-07-21)
+
+
+### Bug Fixes
+
+* handle error response from LAST_QUERY_ID sql_query (#43) ([6d6de72](https://github.com/HGInsights/snowpack/commit/6d6de72e49a21e5d72cde49b9f7e3956eb3797e2)), closes [#43](https://github.com/HGInsights/snowpack/issues/43)
+
 ## [0.7.5](https://github.com/HGInsights/snowpack/compare/v0.7.4...v0.7.5) (2022-07-20)
 
 
