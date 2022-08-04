@@ -1,3 +1,10 @@
+## [0.7.7](https://github.com/HGInsights/snowpack/compare/v0.7.6...v0.7.7) (2022-08-04)
+
+
+### Bug Fixes
+
+* signal connection to disconnect when a connection_closed error is received from ODBC (#44) ([6ba9266](https://github.com/HGInsights/snowpack/commit/6ba9266104152b50048aa2ddd7098f790b762ea2)), closes [#44](https://github.com/HGInsights/snowpack/issues/44)
+
 ## [0.7.6](https://github.com/HGInsights/snowpack/compare/v0.7.5...v0.7.6) (2022-07-21)
 
 
