@@ -13,7 +13,7 @@ defmodule Snowpack.Protocol do
 
   alias Snowpack.{ODBC, Result, Telemetry, TypeCache, TypeParser}
 
-  defstruct pid: nil, snowflake: :idle, conn_opts: []
+  defstruct pid: nil, status: :idle, conn_opts: []
 
   @typedoc """
   Process state.
@@ -21,12 +21,12 @@ defmodule Snowpack.Protocol do
   Includes:
 
   * `:pid`: the pid of the ODBC process
-  * `:snowflake`: the transaction state. Can be `:idle` (not in a transaction).
+  * `:status`: the transaction state. Can be `:idle` (not in a transaction).
   * `:conn_opts`: the options used to set up the connection.
   """
   @type state :: %__MODULE__{
           pid: pid(),
-          snowflake: :idle,
+          status: :idle,
           conn_opts: Keyword.t()
         }
 
@@ -75,16 +75,14 @@ defmodule Snowpack.Protocol do
      %__MODULE__{
        pid: pid,
        conn_opts: opts,
-       snowflake: :idle
+       status: :idle
      }}
   end
 
   # TODO: figure out how to test this correctly
   # coveralls-ignore-start
   @spec disconnect(err :: String.t() | Exception.t(), state) :: :ok
-  def disconnect(_err, %{pid: pid} = _state) do
-    :ok = ODBC.disconnect(pid)
-  end
+  def disconnect(_err, %{pid: pid} = _state), do: ODBC.disconnect(pid)
 
   # coveralls-ignore-stop
 
@@ -135,7 +133,7 @@ defmodule Snowpack.Protocol do
   # coveralls-ignore-stop
 
   @spec handle_status(opts, state) :: {DBConnection.status(), state}
-  def handle_status(_, %{snowflake: status} = s), do: {status, s}
+  def handle_status(_, %{status: status} = state), do: {status, state}
 
   # NOT IMPLEMENTED YET
   # coveralls-ignore-start
@@ -214,6 +212,12 @@ defmodule Snowpack.Protocol do
   end
 
   defp _handle_query_result({:error, %Snowpack.Error{odbc_code: :connection_exception} = error}, metadata, state) do
+    metadata = Map.put(metadata, :error, error)
+    {{:disconnect, error, state}, metadata}
+  end
+
+  # special handling for {:error, :connection_closed} from :odbc. tell the db_connection to disconnect.
+  defp _handle_query_result({:error, %Snowpack.Error{message: "connection_closed"} = error}, metadata, state) do
     metadata = Map.put(metadata, :error, error)
     {{:disconnect, error, state}, metadata}
   end
