@@ -116,22 +116,21 @@ defmodule Snowpack.ODBC do
   `pid` is the `:odbc` process id
   """
   # TODO: figure out how to test this correctly
-  # coveralls-ignore-start
   @spec disconnect(pid()) :: :ok
   def disconnect(pid) do
     GenServer.stop(pid, :normal)
   end
 
-  # coveralls-ignore-stop
-
   ## GenServer callbacks
 
+  @impl GenServer
   @spec init(keyword) :: {:ok, any}
   def init(opts) do
     send(self(), {:start, opts})
     {:ok, %{backoff: :backoff.init(2, 60), state: :not_connected}}
   end
 
+  @impl GenServer
   @spec handle_call(request :: term(), term(), state :: term()) ::
           {:noreply, term()}
           | {:noreply, term(), :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
@@ -229,6 +228,7 @@ defmodule Snowpack.ODBC do
     end
   end
 
+  @impl GenServer
   @spec handle_info(msg :: :timeout | term(), state :: term()) ::
           {:noreply, term()}
           | {:noreply, term(), :hibernate | :infinity | non_neg_integer() | {:continue, term()}}
@@ -266,6 +266,7 @@ defmodule Snowpack.ODBC do
 
   # TODO: figure out how to test this correctly
   # coveralls-ignore-start
+  @impl GenServer
   @spec terminate(term(), state :: term()) :: term()
   def terminate(_reason, %{state: :not_connected} = _state), do: :ok
   def terminate(_reason, %{pid: pid} = _state), do: :odbc.disconnect(pid)

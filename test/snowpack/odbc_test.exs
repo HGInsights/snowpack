@@ -5,11 +5,11 @@ defmodule Snowpack.ODBCTest do
 
   import Snowpack.TestHelper
 
+  setup :set_mimic_global
+
   @tag :capture_log
   test "handle_call/2 query when not_connected" do
-    Mimic.set_mimic_global()
-
-    expect(:odbc, :connect, fn _, _ -> {:error, "try again!"} end)
+    expect :odbc, :connect, fn _, _ -> {:error, "try again!"} end
 
     {:ok, pid} = start_supervised({Snowpack, key_pair_opts()})
 
@@ -18,9 +18,7 @@ defmodule Snowpack.ODBCTest do
 
   @tag :capture_log
   test "handle_call/2 query when with_query_id: false and error" do
-    Mimic.set_mimic_global()
-
-    expect(:odbc, :param_query, fn _, _, _, _ -> {:error, "bad things!"} end)
+    expect :odbc, :param_query, fn _, _, _, _ -> {:error, "bad things!"} end
 
     {:ok, pid} = start_supervised({Snowpack, key_pair_opts()})
 
@@ -29,10 +27,8 @@ defmodule Snowpack.ODBCTest do
 
   @tag :capture_log
   test "handle_call/2 query when last_query_id returns error" do
-    Mimic.set_mimic_global()
-
-    expect(:odbc, :sql_query, fn _, 'begin transaction;' -> :ok end)
-    expect(:odbc, :sql_query, fn _, 'SELECT LAST_QUERY_ID() as query_id;' -> {:error, :very_bad_things} end)
+    expect :odbc, :sql_query, fn _, 'begin transaction;' -> :ok end
+    expect :odbc, :sql_query, fn _, 'SELECT LAST_QUERY_ID() as query_id;' -> {:error, :very_bad_things} end
 
     {:ok, pid} = start_supervised({Snowpack, key_pair_opts()})
 
