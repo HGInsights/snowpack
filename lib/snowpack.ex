@@ -6,6 +6,8 @@ defmodule Snowpack do
              |> String.split("<!-- MDOC !-->")
              |> Enum.fetch!(1)
 
+  use Retry
+
   # The amount of time in milliseconds between heartbeats
   # that will be sent to the server (default: 5 min)
   @default_session_keepalive :timer.minutes(5)
@@ -150,9 +152,20 @@ defmodule Snowpack do
   @spec query(conn, iodata, list, [query_option()]) ::
           {:ok, Snowpack.Result.t()} | {:error, Exception.t()}
   def query(conn, statement, params \\ [], options \\ []) when is_iodata(statement) do
-    case prepare_execute(conn, "", statement, params, options) do
+    # retry after 50 ms only once and do not rescue exceptions
+    retry with: [50], rescue_only: [] do
+      case prepare_execute(conn, "", statement, params, options) do
+        # retry only for connection_closed errors
+        {:error, %Snowpack.Error{message: "connection_closed"} = error} -> {:error, error}
+        # let other errors go through without a retry
+        {:error, error} -> {:ok, {:error, error}}
+        result -> result
+      end
+    after
       {:ok, _query, result} -> {:ok, result}
-      {:error, error} -> {:error, error}
+      {:ok, {:error, error}} -> {:error, error}
+    else
+      error -> error
     end
   end
 

@@ -14,7 +14,33 @@ defmodule Snowpack.ProtocolTest do
         {:error, Snowpack.Error.exception({"08123", "123", "bad"})}
       end
 
-      assert {:error, %Snowpack.Error{odbc_code: :connection_exception}} = Snowpack.query(pid, "select 1;")
+      assert {:error, %Snowpack.Error{odbc_code: :connection_exception}} = Snowpack.query(pid, "select 11;")
+    end
+
+    @tag :capture_log
+    test "with connection_closed error query is retried", %{pid: pid} do
+      expect Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        {:error, Snowpack.Error.exception(:connection_closed)}
+      end
+
+      expect Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        {:selected, ["10"], [{10}]}
+      end
+
+      assert {:ok, %Snowpack.Result{columns: ["10"], num_rows: 1, rows: [[10]]}} = Snowpack.query(pid, "select 10;")
+    end
+
+    @tag :capture_log
+    test "with connection_closed error query is retried ONLY once", %{pid: pid} do
+      expect Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        {:error, Snowpack.Error.exception(:connection_closed)}
+      end
+
+      expect Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        {:error, Snowpack.Error.exception(:connection_closed)}
+      end
+
+      assert {:error, %Snowpack.Error{message: "connection_closed"}} = Snowpack.query(pid, "select 1;")
     end
 
     @tag :capture_log
@@ -25,7 +51,7 @@ defmodule Snowpack.ProtocolTest do
 
       expect :odbc, :disconnect, fn _pid -> :ok end
 
-      assert {:error, %Snowpack.Error{message: "connection_closed"}} = Snowpack.query(pid, "select 1;")
+      assert {:ok, %Snowpack.Result{columns: ["1"], num_rows: 1, rows: [[1]]}} = Snowpack.query(pid, "select 1;")
 
       # HACK: wait for DBConnection to process the disconnect
       Process.sleep(500)
