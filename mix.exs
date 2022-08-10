@@ -72,7 +72,7 @@ defmodule Snowpack.MixProject do
       {:mentat, "~> 0.7.1"},
       {:telemetry, "~> 0.4 or ~> 1.0"},
       {:jason, "~> 1.2"},
-      {:bless, "~> 1.2", only: [:dev, :test]},
+      {:retry, "~> 0.16"},
       {:excoveralls, "~> 0.14.5", only: [:dev, :test]},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test, :docs], runtime: false},
