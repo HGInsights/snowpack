@@ -165,7 +165,7 @@ defmodule Snowpack do
       {:ok, _query, result} -> {:ok, result}
       {:ok, {:error, error}} -> {:error, error}
     else
-      {:error, error} -> {:error, error}
+      error -> error
     end
   end
 
