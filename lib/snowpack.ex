@@ -152,8 +152,8 @@ defmodule Snowpack do
   @spec query(conn, iodata, list, [query_option()]) ::
           {:ok, Snowpack.Result.t()} | {:error, Exception.t()}
   def query(conn, statement, params \\ [], options \\ []) when is_iodata(statement) do
-    # retry after 250 ms only once and do not rescue exceptions
-    retry with: Stream.take([250], 1), rescue_only: [] do
+    # retry after 50 ms only once and do not rescue exceptions
+    retry with: [50], rescue_only: [] do
       case prepare_execute(conn, "", statement, params, options) do
         # retry only for connection_closed errors
         {:error, %Snowpack.Error{message: "connection_closed"} = error} -> {:error, error}
