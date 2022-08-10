@@ -1,3 +1,10 @@
+## [0.7.8](https://github.com/HGInsights/snowpack/compare/v0.7.7...v0.7.8) (2022-08-10)
+
+
+### Bug Fixes
+
+* auto retry query for connection_closed error (#45) ([209475c](https://github.com/HGInsights/snowpack/commit/209475c61a1ff0cabe2de18397e1778dd628a575)), closes [#45](https://github.com/HGInsights/snowpack/issues/45)
+
 ## [0.7.7](https://github.com/HGInsights/snowpack/compare/v0.7.6...v0.7.7) (2022-08-04)
 
 
