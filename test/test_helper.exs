@@ -10,6 +10,8 @@ Mimic.copy(:odbc)
 
 ExUnit.start(exclude: [skip: true])
 
+Logger.configure(level: :warn)
+
 defmodule Snowpack.TestHelper do
   defmacro query(stat, params, opts \\ []) do
     quote do

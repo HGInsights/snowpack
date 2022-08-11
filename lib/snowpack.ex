@@ -8,6 +8,8 @@ defmodule Snowpack do
 
   use Retry
 
+  require Logger
+
   # The amount of time in milliseconds between heartbeats
   # that will be sent to the server (default: 5 min)
   @default_session_keepalive :timer.minutes(5)
@@ -152,8 +154,10 @@ defmodule Snowpack do
   @spec query(conn, iodata, list, [query_option()]) ::
           {:ok, Snowpack.Result.t()} | {:error, Exception.t()}
   def query(conn, statement, params \\ [], options \\ []) when is_iodata(statement) do
-    # retry after 50 ms only once and do not rescue exceptions
-    retry with: [50], rescue_only: [] do
+    # retry after 50 ms 3 times
+    retry with: [50] |> Stream.cycle() |> Stream.take(3) do
+      Logger.debug("#{inspect(__MODULE__)} (#{inspect(conn)}) query: #{inspect(statement)}")
+
       case prepare_execute(conn, "", statement, params, options) do
         # retry only for connection_closed errors
         {:error, %Snowpack.Error{message: "connection_closed"} = error} -> {:error, error}
