@@ -1,3 +1,10 @@
+## [0.7.9](https://github.com/HGInsights/snowpack/compare/v0.7.8...v0.7.9) (2022-08-11)
+
+
+### Bug Fixes
+
+* more aggressive retry for connection_closed and debug logging (#46) ([bc5ba3a](https://github.com/HGInsights/snowpack/commit/bc5ba3a151b5fb8cd0b28e479812178f0545306f)), closes [#46](https://github.com/HGInsights/snowpack/issues/46)
+
 ## [0.7.8](https://github.com/HGInsights/snowpack/compare/v0.7.7...v0.7.8) (2022-08-10)
 
 
