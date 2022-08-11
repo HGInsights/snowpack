@@ -106,6 +106,7 @@ defmodule Snowpack.TelemetryTest do
       :telemetry.detach(to_string(test_name))
     end
 
+    @tag :capture_log
     test "reports query exceptions", context do
       {test_name, _arity} = __ENV__.function
 
@@ -116,7 +117,7 @@ defmodule Snowpack.TelemetryTest do
         case event do
           [:snowpack, :query, :exception] ->
             assert is_integer(measurements.duration)
-            assert meta.query == "SELECT ?;"
+            assert meta.query == "SELECT 13;"
             assert is_list(meta.params)
             assert :error = meta.kind
             assert %RuntimeError{} = meta.error
@@ -141,9 +142,11 @@ defmodule Snowpack.TelemetryTest do
         raise("failed!")
       end)
 
-      assert_raise RuntimeError, fn ->
-        _rows = query("SELECT ?;", [3])
+      expect Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        {:selected, ["13"], [{13}]}
       end
+
+      assert [[13]] = query("SELECT 13;", [])
 
       assert_receive {^ref, :exception}, 1_000
 

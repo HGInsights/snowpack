@@ -31,7 +31,15 @@ defmodule Snowpack.ProtocolTest do
     end
 
     @tag :capture_log
-    test "with connection_closed error query is retried ONLY once", %{pid: pid} do
+    test "with connection_closed error query is retried 3 times", %{pid: pid} do
+      expect Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        {:error, Snowpack.Error.exception(:connection_closed)}
+      end
+
+      expect Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
+        {:error, Snowpack.Error.exception(:connection_closed)}
+      end
+
       expect Snowpack.ODBC, :query, fn _pid, _statement, _params, _opts, _with_query_id ->
         {:error, Snowpack.Error.exception(:connection_closed)}
       end
