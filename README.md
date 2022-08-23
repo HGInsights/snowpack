@@ -155,6 +155,29 @@ asdf install erlang 25.0.3
 asdf install elixir 1.13.4-otp-25
 ```
 
+## Running tests locally
+
+Copy over the contents from `.env.test` to `.env.test.local`:
+```bash
+cp .env.test .env.test.local
+```
+
+Generate an `rsa_key` for your Snowflake instance and replace the following env
+vars in `.env.test.local` (they have `replace_me` default values). It will look
+something like this:
+```
+SNOWPACK_DRIVER=/path/to/driver/libSnowflake.dylib
+SNOWPACK_SERVER=something_like_this.snowflakecomputing.com
+SNOWPACK_PRIV_KEY_FILE=/path/for/the/rsa_key.p8>
+```
+
+Notes:
+- `/opt/snowflake/snowflakeodbc/lib/libSnowflake.dylib` is the default on Macs.
+- You can learn more about them
+  [here](https://docs.snowflake.com/en/user-guide/key-pair-auth.html)
+- There is no need to load this to your `env` since we are using `Vapor` to
+  handle config.
+
 ## Contributing
 
 Issues and PRs are welcome! See our organization [CONTRIBUTING.md](https://github.com/HGInsights/.github/blob/main/CONTRIBUTING.md) for more information about best-practices and passing CI.
