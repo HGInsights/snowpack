@@ -58,7 +58,8 @@ defmodule Snowpack.ODBC do
   """
   @spec start_link(Keyword.t()) :: {:ok, pid()}
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, opts)
+    Logger.info("SHEEP: #{__MODULE__}, start_link/1, booting up. binding: #{inspect(binding())}")
+    GenServer.start_link(__MODULE__, Keyword.merge(opts, [name: :sheep]))
   end
 
   @doc """
@@ -126,6 +127,7 @@ defmodule Snowpack.ODBC do
   @impl GenServer
   @spec init(keyword) :: {:ok, any}
   def init(opts) do
+    Logger.info("SHEEP #{__MODULE__}, in init/1, line 130")
     send(self(), {:start, opts})
     {:ok, %{backoff: :backoff.init(2, 60), state: :not_connected}}
   end
@@ -147,14 +149,21 @@ defmodule Snowpack.ODBC do
         _from,
         %{pid: pid} = state
       ) do
-    case :odbc.param_query(pid, :binary.bin_to_list(statement), params, timeout) do
+
+    Logger.info("SHEEP: #{__MODULE__}, about to call binding: #{inspect(binding())}")
+
+    result = :odbc.param_query(pid, :binary.bin_to_list(statement), params, timeout)
+
+    Logger.info("SHEEP: #{__MODULE__}, after call: binding: #{inspect(binding())} #{inspect(result)}")
+
+    case result do
       {:error, reason} ->
         error = Error.exception(reason)
 
         if is_erlang_odbc_no_data_found_bug?(error, statement) do
           {:reply, {:updated, :undefined}, state}
         else
-          Logger.warn("Unable to execute query: #{error.message}")
+          Logger.warn("SHEEP #{__MODULE__} Unable to execute query: #{error.message}")
 
           {:reply, {:error, error}, state}
         end
@@ -242,6 +251,7 @@ defmodule Snowpack.ODBC do
       |> Keyword.put_new(:tuple_row, :on)
       |> Keyword.put_new(:extended_errors, :on)
 
+    Logger.info("SHEEP #{__MODULE__} this is where we connect #{inspect(binding())}")
     case :odbc.connect(opts[:conn_str], connect_opts) do
       {:ok, pid} ->
         {:noreply, %{pid: pid, backoff: :backoff.succeed(backoff), state: :connected}}

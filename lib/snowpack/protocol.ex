@@ -11,6 +11,8 @@ defmodule Snowpack.Protocol do
 
   use DBConnection
 
+  require Logger
+
   alias Snowpack.{ODBC, Result, Telemetry, TypeCache, TypeParser}
 
   defstruct pid: nil, status: :idle, conn_opts: []
@@ -62,6 +64,8 @@ defmodule Snowpack.Protocol do
 
   @spec connect(opts) :: {:ok, state} | {:error, Exception.t()}
   def connect(opts) do
+    Logger.info("SHEEP #{__MODULE__}.connect/1, binding: #{inspect(binding())}")
+
     conn_opts = Keyword.fetch!(opts, :connection)
 
     conn_str =
@@ -207,32 +211,40 @@ defmodule Snowpack.Protocol do
       kind, error ->
         Telemetry.exception(:query, start_time, kind, error, __STACKTRACE__, metadata)
 
+        Logger.info("SHEEP #{__MODULE__}._query/4, catch the error: kind: #{inspect(kind)}, error: #{inspect(error)}")
+
+        # Return {:error, error} here
         :erlang.raise(kind, error, __STACKTRACE__)
     end
   end
 
   defp _handle_query_result({:error, %Snowpack.Error{odbc_code: :connection_exception} = error}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 :connection_exception, #{inspect(binding())}")
     metadata = Map.put(metadata, :error, error)
     {{:disconnect, error, state}, metadata}
   end
 
   # special handling for {:error, :connection_closed} from :odbc. tell the db_connection to disconnect.
   defp _handle_query_result({:error, %Snowpack.Error{message: "connection_closed"} = error}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 connection_closed, #{inspect(binding())}")
     metadata = Map.put(metadata, :error, error)
     {{:disconnect, error, state}, metadata}
   end
 
   defp _handle_query_result({:error, error, _column_types}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 some tuple, line 235, #{inspect(binding())}")
     metadata = Map.put(metadata, :error, error)
     {{:error, error, state}, metadata}
   end
 
   defp _handle_query_result({:error, error}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 some tuple, line 241, #{inspect(binding())}")
     metadata = Map.put(metadata, :error, error)
     {{:error, error, state}, metadata}
   end
 
   defp _handle_query_result({:selected, columns, rows}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 :selected, line 247, #{inspect(binding())}")
     result_cols = Enum.map(columns, &to_string/1)
     result_rows = Enum.map(rows, &Tuple.to_list/1)
     num_rows = Enum.count(result_rows)
@@ -242,6 +254,7 @@ defmodule Snowpack.Protocol do
   end
 
   defp _handle_query_result({:selected, columns, rows, %{column_types: column_types}}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 :selected, line 257, #{inspect(binding())}")
     result_cols = Enum.map(columns, &to_string/1)
     result_rows = TypeParser.parse_rows(column_types, columns, rows)
     num_rows = Enum.count(result_rows)
@@ -251,21 +264,25 @@ defmodule Snowpack.Protocol do
   end
 
   defp _handle_query_result({:updated, :undefined, _query_id}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 :updated : undefined, line 267, #{inspect(binding())}")
     metadata = Map.merge(metadata, %{result: :updated, num_rows: 0})
     {{:ok, %Result{num_rows: 0}, state}, metadata}
   end
 
   defp _handle_query_result({:updated, :undefined}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 :updated : undefined, line 273, #{inspect(binding())}")
     metadata = Map.merge(metadata, %{result: :updated, num_rows: 0})
     {{:ok, %Result{num_rows: 0}, state}, metadata}
   end
 
   defp _handle_query_result({:updated, num_rows, _query_id}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 :updated : num_rows, line 279, #{inspect(binding())}")
     metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
     {{:ok, %Result{num_rows: num_rows}, state}, metadata}
   end
 
   defp _handle_query_result({:updated, num_rows}, metadata, state) do
+    Logger.info("SHEEP #{__MODULE__}._handle_query_result/3 :updated : num_rows, line 285, #{inspect(binding())}")
     metadata = Map.merge(metadata, %{result: :updated, num_rows: num_rows})
     {{:ok, %Result{num_rows: num_rows}, state}, metadata}
   end
