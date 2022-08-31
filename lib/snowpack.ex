@@ -55,6 +55,27 @@ defmodule Snowpack do
     DBConnection.child_spec(Snowpack.Protocol, opts)
   end
 
+  defmodule DBConnectionListener do
+    require Logger
+
+    use GenServer
+
+    def init(stack) when is_list(stack) do
+      {:ok, stack}
+    end
+
+    def start_link() do
+      Logger.info("Booting up")
+      GenServer.start_link(__MODULE__, [], name: {:global, "db_connection_listener"})
+    end
+
+    def handle_info(msg, state) do
+      Logger.info("Handling the info!, here is the msg: #{inspect(msg)} and here is the state: #{inspect(state)}")
+
+      {:noreply, [msg | state]}
+    end
+  end
+
   @doc """
   Starts the connection process and connects to Snowflake.
 
@@ -125,6 +146,8 @@ defmodule Snowpack do
   @spec start_link([start_option()]) :: {:ok, pid()} | {:error, Snowpack.Error.t()}
   def start_link(opts) do
     opts = Keyword.put_new(opts, :idle_interval, @default_session_keepalive)
+    db_connection_listener = DBConnectionListener.start_link()
+    opts = Keyword.merge(opts, [connection_listeners: db_connection_listener])
 
     DBConnection.start_link(Snowpack.Protocol, opts)
   end
