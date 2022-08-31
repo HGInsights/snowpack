@@ -146,7 +146,7 @@ defmodule Snowpack do
   @spec start_link([start_option()]) :: {:ok, pid()} | {:error, Snowpack.Error.t()}
   def start_link(opts) do
     opts = Keyword.put_new(opts, :idle_interval, @default_session_keepalive)
-    db_connection_listener = DBConnectionListener.start_link()
+    {:ok, db_connection_listener} = DBConnectionListener.start_link()
     opts = Keyword.merge(opts, [connection_listeners: db_connection_listener])
 
     DBConnection.start_link(Snowpack.Protocol, opts)
