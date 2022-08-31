@@ -69,13 +69,13 @@ defmodule Snowpack do
       GenServer.start_link(__MODULE__, [], name: {:global, "db_connection_listener"})
     end
 
-    def handle_info({:read, _msg}, state) do
-      Logger.info("Handling the info! READ, here is the msg: here is the state: #{inspect(state)}")
+    def handle_call(:read_state, _from, state) do
+      Logger.info("Handling call: here is the state: #{inspect(state)}")
 
-      {:noreply, state}
+      {:reply, state, state}
     end
 
-    def handle_info({:update, msg}, state) do
+    def handle_info(msg, state) do
       Logger.info("Handling the info! UPDATE, here is the msg: #{inspect(msg)} and here is the state: #{inspect(state)}")
 
       {:noreply, [msg | state]}
