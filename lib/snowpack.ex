@@ -66,7 +66,7 @@ defmodule Snowpack do
 
     def start_link() do
       Logger.info("Booting up")
-      GenServer.start_link(__MODULE__, [], name: {:global, "db_connection_listener"})
+      GenServer.start_link(__MODULE__, [], name: {:global, "db_connection_listener_snowpack"})
     end
 
     def handle_call(:read_state, _from, state) do
