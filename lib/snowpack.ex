@@ -159,7 +159,7 @@ defmodule Snowpack do
 
     opts = Keyword.merge(opts, [connection_listeners: [db_connection_listener]])
 
-    DBConnection.start_link(Snowpack.Protocol, opts)
+    DBConnection.start_link(Snowpack.Protocol, opts) |> IO.inspect(label: "SHEEP")
   end
 
   @doc """
