@@ -292,7 +292,7 @@ defmodule Snowpack.ODBC do
   end
 
   defp is_erlang_odbc_no_data_found_bug?(%Error{message: message}, statement) do
-    is_dml = statement =~ ~r/^(INSERT|UPDATE|DELETE)/i
+    is_dml = statement =~ ~r/^(INSERT|UPDATE|DELETE|MERGE)/i
     is_msg = message =~ "No SQL-driver information available."
 
     is_dml and is_msg
