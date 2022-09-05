@@ -1,3 +1,13 @@
+## [0.7.10](https://github.com/HGInsights/snowpack/compare/v0.7.9...v0.7.10) (2022-09-05)
+
+
+### Bug Fixes
+
+* add MERGE operation to odbc no result bug list (#48) ([6385824](https://github.com/HGInsights/snowpack/commit/63858247c8461daf623134c66368337e38364778)), closes [#48](https://github.com/HGInsights/snowpack/issues/48)
+
+
+* Add section on how to run tests locally (#47) ([3d95037](https://github.com/HGInsights/snowpack/commit/3d95037048009ece42d2df5d0c7af101022735f8)), closes [#47](https://github.com/HGInsights/snowpack/issues/47)
+
 ## [0.7.9](https://github.com/HGInsights/snowpack/compare/v0.7.8...v0.7.9) (2022-08-11)
 
 
