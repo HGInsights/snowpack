@@ -1,3 +1,10 @@
+## [0.7.11](https://github.com/HGInsights/snowpack/compare/v0.7.10...v0.7.11) (2022-11-07)
+
+
+### Bug Fixes
+
+* add parting notes (#49) ([930da1b](https://github.com/HGInsights/snowpack/commit/930da1b52ee64f80cce0c7f03df342602e9316f4)), closes [#49](https://github.com/HGInsights/snowpack/issues/49)
+
 ## [0.7.10](https://github.com/HGInsights/snowpack/compare/v0.7.9...v0.7.10) (2022-09-05)
 
 
