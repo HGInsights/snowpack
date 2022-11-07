@@ -10,15 +10,17 @@
 
 Snowflake driver for Elixir.
 
+## ⚠️ Important ⚠️ - Not in active development
+
+This project is no longer under active development. Please consider these alternatives:
+- [Avalanche](https://github.com/HGInsights/avalanche): uses Snowflake's V2 REST API (For projects that do not need the ODBC driver)
+- [Snowflex](https://github.com/pepsico-ecommerce/snowflex): uses the ODBC driver (like Snowpack)
+
 ## Features
 
 - Automatic decoding and encoding of Elixir values to and from Snowflake's ODBC driver formats
 - Supports transactions, prepared queries, pooling and more via [DBConnection](https://github.com/elixir-ecto/db_connection)
 - Supports Snowflake ODBC Drivers 2.24.7+
-
-## TODO
-
-- Support streaming via [DBConnection](https://github.com/elixir-ecto/db_connection)
 
 ## Usage
 
